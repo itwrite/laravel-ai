@@ -85,3 +85,4 @@ class User extends Authenticatable
 5. ❌ 在控制器写验证规则堆/在模型写业务逻辑堆（分层见 [ARCHITECTURE.md](ARCHITECTURE.md) §3）。
 6. ❌ 前端手写 URL、绕过 Wayfinder。
 7. ❌ 自建文档文件（除非用户明确要求）。
+8. ❌ 手动编辑 `AGENTS.md` 中 `<laravel-boost-guidelines>` 标记**内**的内容（`composer update` 时 `boost:update` 会整体重写该区域）；自定义信息一律写在标记外（文件顶部导航头区域）。
