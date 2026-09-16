@@ -1,0 +1,641 @@
+{
+    "exams": [
+        {
+            "title": "小学二年级下学期期中考试模拟试卷",
+            "grade": 2,
+            "semester": 2,
+            "subject": "语文",
+            "total_score": 100,
+            "duration_minutes": 60,
+            "exam_type": "期中",
+            "year": 2026,
+            "sections": [
+                {
+                    "section_no": 1,
+                    "title": "一、看拼音写词语",
+                    "score": 10,
+                    "questions": [
+                        {
+                            "question_no": "1",
+                            "question_type": "pinyin_write",
+                            "content": "měi lì",
+                            "score": 1,
+                            "answer": "美丽"
+                        },
+                        {
+                            "question_no": "2",
+                            "question_type": "pinyin_write",
+                            "content": "gāo xìng",
+                            "score": 1,
+                            "answer": "高兴"
+                        },
+                        {
+                            "question_no": "3",
+                            "question_type": "pinyin_write",
+                            "content": "péng you",
+                            "score": 1,
+                            "answer": "朋友"
+                        },
+                        {
+                            "question_no": "4",
+                            "question_type": "pinyin_write",
+                            "content": "xué xí",
+                            "score": 1,
+                            "answer": "学习"
+                        },
+                        {
+                            "question_no": "5",
+                            "question_type": "pinyin_write",
+                            "content": "rèn zhēn",
+                            "score": 1,
+                            "answer": "认真"
+                        },
+                        {
+                            "question_no": "6",
+                            "question_type": "pinyin_write",
+                            "content": "gān jìng",
+                            "score": 1,
+                            "answer": "干净"
+                        },
+                        {
+                            "question_no": "7",
+                            "question_type": "pinyin_write",
+                            "content": "kě ài",
+                            "score": 1,
+                            "answer": "可爱"
+                        },
+                        {
+                            "question_no": "8",
+                            "question_type": "pinyin_write",
+                            "content": "chūn tiān",
+                            "score": 1,
+                            "answer": "春天"
+                        },
+                        {
+                            "question_no": "9",
+                            "question_type": "pinyin_write",
+                            "content": "míng liàng",
+                            "score": 1,
+                            "answer": "明亮"
+                        },
+                        {
+                            "question_no": "10",
+                            "question_type": "pinyin_write",
+                            "content": "nǔ lì",
+                            "score": 1,
+                            "answer": "努力"
+                        }
+                    ]
+                },
+                {
+                    "section_no": 2,
+                    "title": "二、比一比，再组词",
+                    "score": 12,
+                    "questions": [
+                        {
+                            "question_no": "1",
+                            "question_type": "compare_word",
+                            "content": "清（　　）　　请（　　）　　情（　　）",
+                            "score": 3,
+                            "answer": "清水/请假/事情（示例答案，可调整）"
+                        },
+                        {
+                            "question_no": "2",
+                            "question_type": "compare_word",
+                            "content": "坐（　　）　　座（　　）　　做（　　）",
+                            "score": 3,
+                            "answer": "坐下/座位/做事"
+                        },
+                        {
+                            "question_no": "3",
+                            "question_type": "compare_word",
+                            "content": "园（　　）　　圆（　　）　　元（　　）",
+                            "score": 3,
+                            "answer": "公园/圆形/元旦"
+                        },
+                        {
+                            "question_no": "4",
+                            "question_type": "compare_word",
+                            "content": "住（　　）　　注（　　）　　柱（　　）",
+                            "score": 3,
+                            "answer": "居住/注意/柱子"
+                        }
+                    ]
+                },
+                {
+                    "section_no": 3,
+                    "title": "三、选字填空",
+                    "score": 10,
+                    "questions": [
+                        {
+                            "question_no": "1",
+                            "question_type": "fill_blank",
+                            "content": "我（　）欢打篮球。",
+                            "score": 1,
+                            "answer": "喜"
+                        },
+                        {
+                            "question_no": "2",
+                            "question_type": "fill_blank",
+                            "content": "小明（　）真地写作业。",
+                            "score": 1,
+                            "answer": "认"
+                        },
+                        {
+                            "question_no": "3",
+                            "question_type": "fill_blank",
+                            "content": "花儿开（　）了。",
+                            "score": 1,
+                            "answer": "满"
+                        },
+                        {
+                            "question_no": "4",
+                            "question_type": "fill_blank",
+                            "content": "老师（　）我们要好好学习。",
+                            "score": 1,
+                            "answer": "教"
+                        },
+                        {
+                            "question_no": "5",
+                            "question_type": "fill_blank",
+                            "content": "这是一本有（　）的书。",
+                            "score": 1,
+                            "answer": "趣"
+                        },
+                        {
+                            "question_no": "6",
+                            "question_type": "fill_blank",
+                            "content": "他跑得真（　）。",
+                            "score": 1,
+                            "answer": "快"
+                        },
+                        {
+                            "question_no": "7",
+                            "question_type": "fill_blank",
+                            "content": "妈妈做的饭真（　）吃。",
+                            "score": 1,
+                            "answer": "好"
+                        },
+                        {
+                            "question_no": "8",
+                            "question_type": "fill_blank",
+                            "content": "我们要爱护公（　）。",
+                            "score": 1,
+                            "answer": "物"
+                        },
+                        {
+                            "question_no": "9",
+                            "question_type": "fill_blank",
+                            "content": "今天天气真（　）。",
+                            "score": 1,
+                            "answer": "晴"
+                        },
+                        {
+                            "question_no": "10",
+                            "question_type": "fill_blank",
+                            "content": "我有一个好（　）友。",
+                            "score": 1,
+                            "answer": "朋"
+                        }
+                    ]
+                },
+                {
+                    "section_no": 4,
+                    "title": "四、把下列词语补充完整",
+                    "score": 10,
+                    "questions": [
+                        {"question_no": "1", "question_type": "complete_word", "content": "春暖花（　）", "score": 1, "answer": "开"},
+                        {"question_no": "2", "question_type": "complete_word", "content": "鸟语花（　）", "score": 1, "answer": "香"},
+                        {"question_no": "3", "question_type": "complete_word", "content": "欢天喜（　）", "score": 1, "answer": "地"},
+                        {"question_no": "4", "question_type": "complete_word", "content": "兴高采（　）", "score": 1, "answer": "烈"},
+                        {"question_no": "5", "question_type": "complete_word", "content": "一心一（　）", "score": 1, "answer": "意"},
+                        {"question_no": "6", "question_type": "complete_word", "content": "三心二（　）", "score": 1, "answer": "意"},
+                        {"question_no": "7", "question_type": "complete_word", "content": "四通八（　）", "score": 1, "answer": "达"},
+                        {"question_no": "8", "question_type": "complete_word", "content": "五颜六（　）", "score": 1, "answer": "色"},
+                        {"question_no": "9", "question_type": "complete_word", "content": "七上八（　）", "score": 1, "answer": "下"},
+                        {"question_no": "10", "question_type": "complete_word", "content": "十全十（　）", "score": 1, "answer": "美"}
+                    ]
+                },
+                {
+                    "section_no": 5,
+                    "title": "五、照样子写句子",
+                    "score": 10,
+                    "questions": [
+                        {
+                            "question_no": "1",
+                            "question_type": "sentence_expand",
+                            "content": "小朋友在公园里玩耍。 →",
+                            "score": 2,
+                            "answer": null
+                        },
+                        {
+                            "question_no": "2",
+                            "question_type": "sentence_expand",
+                            "content": "太阳从东方升起。 →",
+                            "score": 2,
+                            "answer": null
+                        },
+                        {
+                            "question_no": "3",
+                            "question_type": "sentence_expand",
+                            "content": "小鱼在水里游来游去。 →",
+                            "score": 2,
+                            "answer": null
+                        },
+                        {
+                            "question_no": "4",
+                            "question_type": "sentence_expand",
+                            "content": "同学们认真听讲。 →",
+                            "score": 2,
+                            "answer": null
+                        },
+                        {
+                            "question_no": "5",
+                            "question_type": "sentence_expand",
+                            "content": "春风吹过大地。 →",
+                            "score": 2,
+                            "answer": null
+                        }
+                    ]
+                },
+                {
+                    "section_no": 6,
+                    "title": "六、按要求写句子",
+                    "score": 8,
+                    "questions": [
+                        {
+                            "question_no": "1",
+                            "question_type": "sentence_complete",
+                            "content": "把句子写完整：春天来了，____________________。",
+                            "score": 2,
+                            "answer": null
+                        },
+                        {
+                            "question_no": "2",
+                            "question_type": "sentence_transform",
+                            "content": "改写成“把”字句：小明打开了窗户。",
+                            "score": 2,
+                            "answer": "小明把窗户打开了。"
+                        },
+                        {
+                            "question_no": "3",
+                            "question_type": "sentence_expand",
+                            "content": "扩写句子：花开了。",
+                            "score": 2,
+                            "answer": null
+                        },
+                        {
+                            "question_no": "4",
+                            "question_type": "sentence_make",
+                            "content": "用“一边……一边……”写一句话。",
+                            "score": 2,
+                            "answer": null
+                        }
+                    ]
+                },
+                {
+                    "section_no": 7,
+                    "title": "七、阅读短文，回答问题",
+                    "score": 20,
+                    "questions": [
+                        {
+                            "question_no": "reading_passage",
+                            "question_type": "reading_passage",
+                            "content": "春天来了\n春天来了，春风轻轻地吹着。小草从土里钻出来，绿绿的，像给大地铺上了一层绿地毯。柳树长出了嫩绿的新芽，在风中轻轻摇摆，好像在向我们招手。公园里，桃花开了，粉红粉红的，美极了。蜜蜂和蝴蝶飞来飞去，忙着采蜜。小朋友们在草地上放风筝，有的风筝飞得很高很高，像一只只美丽的小鸟。春天真美啊！我喜欢春天。",
+                            "score": 0,
+                            "answer": null
+                        },
+                        {
+                            "question_no": "1",
+                            "question_type": "reading_question",
+                            "content": "短文写了哪些景物？（写出至少三个）",
+                            "score": 4,
+                            "answer": "小草、柳树、桃花、蜜蜂、蝴蝶、风筝等"
+                        },
+                        {
+                            "question_no": "2",
+                            "question_type": "reading_question",
+                            "content": "小草像什么？",
+                            "score": 2,
+                            "answer": "像给大地铺上了一层绿地毯"
+                        },
+                        {
+                            "question_no": "3",
+                            "question_type": "reading_question",
+                            "content": "小朋友们在干什么？",
+                            "score": 2,
+                            "answer": "在草地上放风筝"
+                        },
+                        {
+                            "question_no": "4",
+                            "question_type": "reading_question",
+                            "content": "用“～～”画出你喜欢的一句话，并说说为什么喜欢。",
+                            "score": 4,
+                            "answer": null
+                        },
+                        {
+                            "question_no": "5",
+                            "question_type": "reading_question",
+                            "content": "你喜欢春天吗？为什么？（写几句话）",
+                            "score": 8,
+                            "answer": null
+                        }
+                    ]
+                },
+                {
+                    "section_no": 8,
+                    "title": "八、写话",
+                    "score": 20,
+                    "questions": [
+                        {
+                            "question_no": "1",
+                            "question_type": "writing",
+                            "content": "题目：我喜欢的季节\n要求：写清楚喜欢哪个季节及原因，语句通顺，不少于50字。",
+                            "score": 20,
+                            "answer": null
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "title": "小学二年级下学期期中考试模拟试卷",
+            "grade": 2,
+            "semester": 2,
+            "subject": "数学",
+            "total_score": 100,
+            "duration_minutes": 60,
+            "exam_type": "期中",
+            "year": 2026,
+            "sections": [
+                {
+                    "section_no": 1,
+                    "title": "一、直接写得数",
+                    "score": 20,
+                    "questions": [
+                        {"question_no": "1", "question_type": "calculation", "content": "36＋28＝", "score": 1, "answer": "64"},
+                        {"question_no": "2", "question_type": "calculation", "content": "72－45＝", "score": 1, "answer": "27"},
+                        {"question_no": "3", "question_type": "calculation", "content": "9×6＝", "score": 1, "answer": "54"},
+                        {"question_no": "4", "question_type": "calculation", "content": "56÷7＝", "score": 1, "answer": "8"},
+                        {"question_no": "5", "question_type": "calculation", "content": "48＋37＝", "score": 1, "answer": "85"},
+                        {"question_no": "6", "question_type": "calculation", "content": "90－56＝", "score": 1, "answer": "34"},
+                        {"question_no": "7", "question_type": "calculation", "content": "8×7＝", "score": 1, "answer": "56"},
+                        {"question_no": "8", "question_type": "calculation", "content": "63÷9＝", "score": 1, "answer": "7"},
+                        {"question_no": "9", "question_type": "calculation", "content": "25＋48＝", "score": 1, "answer": "73"},
+                        {"question_no": "10", "question_type": "calculation", "content": "81－39＝", "score": 1, "answer": "42"},
+                        {"question_no": "11", "question_type": "calculation", "content": "6×8＝", "score": 1, "answer": "48"},
+                        {"question_no": "12", "question_type": "calculation", "content": "42÷6＝", "score": 1, "answer": "7"},
+                        {"question_no": "13", "question_type": "calculation", "content": "67＋28＝", "score": 1, "answer": "95"},
+                        {"question_no": "14", "question_type": "calculation", "content": "100－46＝", "score": 1, "answer": "54"},
+                        {"question_no": "15", "question_type": "calculation", "content": "9×5＝", "score": 1, "answer": "45"},
+                        {"question_no": "16", "question_type": "calculation", "content": "72÷8＝", "score": 1, "answer": "9"},
+                        {"question_no": "17", "question_type": "calculation", "content": "39＋45＝", "score": 1, "answer": "84"},
+                        {"question_no": "18", "question_type": "calculation", "content": "80－37＝", "score": 1, "answer": "43"},
+                        {"question_no": "19", "question_type": "calculation", "content": "7×9＝", "score": 1, "answer": "63"},
+                        {"question_no": "20", "question_type": "calculation", "content": "54÷9＝", "score": 1, "answer": "6"}
+                    ]
+                },
+                {
+                    "section_no": 2,
+                    "title": "二、填空题",
+                    "score": 20,
+                    "questions": [
+                        {
+                            "question_no": "1",
+                            "question_type": "fill_blank",
+                            "content": "最大的两位数是______，最小的三位数是______。",
+                            "score": 2,
+                            "answer": "99；100"
+                        },
+                        {
+                            "question_no": "2",
+                            "question_type": "fill_blank",
+                            "content": "一个数加上25等于80，这个数是______。",
+                            "score": 2,
+                            "answer": "55"
+                        },
+                        {
+                            "question_no": "3",
+                            "question_type": "fill_blank",
+                            "content": "小明有36本故事书，借给同学8本后，还剩______本。",
+                            "score": 2,
+                            "answer": "28"
+                        },
+                        {
+                            "question_no": "4",
+                            "question_type": "fill_blank",
+                            "content": "5个9相加的和是______，写作______ × ______。",
+                            "score": 2,
+                            "answer": "45；5；9"
+                        },
+                        {
+                            "question_no": "5",
+                            "question_type": "fill_blank",
+                            "content": "时钟上，分针从12走到3，经过了______分钟。",
+                            "score": 2,
+                            "answer": "15"
+                        },
+                        {
+                            "question_no": "6",
+                            "question_type": "fill_blank",
+                            "content": "48里面有______个8，也有______个6。",
+                            "score": 2,
+                            "answer": "6；8"
+                        },
+                        {
+                            "question_no": "7",
+                            "question_type": "fill_blank",
+                            "content": "比45大10的数是______，比70小15的数是______。",
+                            "score": 2,
+                            "answer": "55；55"
+                        },
+                        {
+                            "question_no": "8",
+                            "question_type": "fill_blank",
+                            "content": "一个长方形的长是8厘米，宽是5厘米，周长是______厘米。",
+                            "score": 2,
+                            "answer": "26"
+                        },
+                        {
+                            "question_no": "9",
+                            "question_type": "fill_blank",
+                            "content": "3×7 = 7×______ = ______。",
+                            "score": 2,
+                            "answer": "3；21"
+                        },
+                        {
+                            "question_no": "10",
+                            "question_type": "fill_blank",
+                            "content": "把56平均分成7份，每份是______。",
+                            "score": 2,
+                            "answer": "8"
+                        }
+                    ]
+                },
+                {
+                    "section_no": 3,
+                    "title": "三、选择题",
+                    "score": 10,
+                    "questions": [
+                        {
+                            "question_no": "1",
+                            "question_type": "choice",
+                            "content": "下列算式中，得数最大的是（　　）",
+                            "score": 2,
+                            "answer": "C",
+                            "options": [
+                                {"label": "A", "content": "8×6", "is_correct": false},
+                                {"label": "B", "content": "9×5", "is_correct": false},
+                                {"label": "C", "content": "7×7", "is_correct": true},
+                                {"label": "D", "content": "6×9", "is_correct": false}
+                            ]
+                        },
+                        {
+                            "question_no": "2",
+                            "question_type": "choice",
+                            "content": "一个数除以8，商是6，这个数是（　　）",
+                            "score": 2,
+                            "answer": "B",
+                            "options": [
+                                {"label": "A", "content": "14", "is_correct": false},
+                                {"label": "B", "content": "48", "is_correct": true},
+                                {"label": "C", "content": "2", "is_correct": false},
+                                {"label": "D", "content": "56", "is_correct": false}
+                            ]
+                        },
+                        {
+                            "question_no": "3",
+                            "question_type": "choice",
+                            "content": "下面哪个是正确的？（　　）",
+                            "score": 2,
+                            "answer": "B",
+                            "options": [
+                                {"label": "A", "content": "45＋28＝63", "is_correct": false},
+                                {"label": "B", "content": "72－39＝33", "is_correct": true},
+                                {"label": "C", "content": "6×8＝46", "is_correct": false},
+                                {"label": "D", "content": "54÷9＝7", "is_correct": false}
+                            ]
+                        },
+                        {
+                            "question_no": "4",
+                            "question_type": "choice",
+                            "content": "小红有24支铅笔，平均分给3个同学，每人分到（　　）支。",
+                            "score": 2,
+                            "answer": "B",
+                            "options": [
+                                {"label": "A", "content": "6", "is_correct": false},
+                                {"label": "B", "content": "8", "is_correct": true},
+                                {"label": "C", "content": "7", "is_correct": false},
+                                {"label": "D", "content": "9", "is_correct": false}
+                            ]
+                        },
+                        {
+                            "question_no": "5",
+                            "question_type": "choice",
+                            "content": "图案：○□△○□△○□△…… 从左边数，第8个是（　　）",
+                            "score": 2,
+                            "answer": "B",
+                            "options": [
+                                {"label": "A", "content": "○", "is_correct": false},
+                                {"label": "B", "content": "□", "is_correct": true},
+                                {"label": "C", "content": "△", "is_correct": false},
+                                {"label": "D", "content": "无法确定", "is_correct": false}
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "section_no": 4,
+                    "title": "四、计算题",
+                    "score": 20,
+                    "questions": [
+                        {
+                            "question_no": "1",
+                            "question_type": "vertical_calc",
+                            "content": "47＋36（竖式）",
+                            "score": 3,
+                            "answer": "83"
+                        },
+                        {
+                            "question_no": "2",
+                            "question_type": "vertical_calc",
+                            "content": "85－29（竖式）",
+                            "score": 3,
+                            "answer": "56"
+                        },
+                        {
+                            "question_no": "3",
+                            "question_type": "vertical_calc",
+                            "content": "6×8（竖式）",
+                            "score": 3,
+                            "answer": "48"
+                        },
+                        {
+                            "question_no": "4",
+                            "question_type": "vertical_calc",
+                            "content": "56÷7（竖式）",
+                            "score": 3,
+                            "answer": "8"
+                        },
+                        {
+                            "question_no": "5",
+                            "question_type": "step_calc",
+                            "content": "25＋36－18",
+                            "score": 4,
+                            "answer": "43"
+                        },
+                        {
+                            "question_no": "6",
+                            "question_type": "step_calc",
+                            "content": "6×7＋15",
+                            "score": 4,
+                            "answer": "57"
+                        }
+                    ]
+                },
+                {
+                    "section_no": 5,
+                    "title": "五、应用题",
+                    "score": 30,
+                    "questions": [
+                        {
+                            "question_no": "1",
+                            "question_type": "application",
+                            "content": "二年级有学生45人，又转来8人，现在一共有多少人？",
+                            "score": 6,
+                            "answer": "45＋8＝53（人）"
+                        },
+                        {
+                            "question_no": "2",
+                            "question_type": "application",
+                            "content": "小明有36颗糖，吃了9颗，还剩多少颗？",
+                            "score": 6,
+                            "answer": "36－9＝27（颗）"
+                        },
+                        {
+                            "question_no": "3",
+                            "question_type": "application",
+                            "content": "每盒铅笔有8支，买了6盒，一共有多少支铅笔？",
+                            "score": 6,
+                            "answer": "8×6＝48（支）"
+                        },
+                        {
+                            "question_no": "4",
+                            "question_type": "application",
+                            "content": "有42个苹果，平均分给6个小朋友，每个小朋友分到几个？",
+                            "score": 6,
+                            "answer": "42÷6＝7（个）"
+                        },
+                        {
+                            "question_no": "5",
+                            "question_type": "application",
+                            "content": "一块长方形草地，长9米，宽4米。它的周长是多少米？",
+                            "score": 6,
+                            "answer": "（9＋4）×2＝26（米）"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
