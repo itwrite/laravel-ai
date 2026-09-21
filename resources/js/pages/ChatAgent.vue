@@ -184,6 +184,12 @@ async function send(text?: string): Promise<void> {
     abortController.value = controller;
     isStreaming.value = true;
 
+    // The answer is revealed in a single render when the stream finishes;
+    // deltas are collected here silently so markdown (code fences, formulas)
+    // never paints half-generated. Stopped or failed streams still reveal
+    // whatever partial answer arrived.
+    let answerBuffer = '';
+
     try {
         await streamChat({
             agent: selectedAgentKey.value,
@@ -193,12 +199,7 @@ async function send(text?: string): Promise<void> {
             history,
             signal: controller.signal,
             onDelta: (delta: string) => {
-                const lastMessage =
-                    messages.value[messages.value.length - 1] ?? null;
-
-                if (lastMessage) {
-                    lastMessage.content += delta;
-                }
+                answerBuffer += delta;
             },
             onReasoning: (delta: string) => {
                 const lastMessage =
@@ -235,6 +236,7 @@ async function send(text?: string): Promise<void> {
         isStreaming.value = false;
         abortController.value = null;
         finalizeReasoning();
+        commitAnswer(answerBuffer);
         dropEmptyAssistantMessage();
         focusInput();
     }
@@ -406,6 +408,19 @@ function finalizeReasoning(): void {
             lastMessage.reasoningStartedAt ?? performance.now();
         lastMessage.reasoningDone = true;
         lastMessage.reasoningExpanded = false;
+    }
+}
+
+/**
+ * Reveal the buffered answer in a single render: stream deltas were collected
+ * silently, so the markdown (code blocks, formulas, tables) only paints once,
+ * complete — the thinking preview above keeps its own live streaming.
+ */
+function commitAnswer(buffer: string): void {
+    const lastMessage = messages.value[messages.value.length - 1] ?? null;
+
+    if (lastMessage && lastMessage.role === 'assistant') {
+        lastMessage.content = buffer;
     }
 }
 
