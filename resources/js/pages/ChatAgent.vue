@@ -3,6 +3,7 @@ import { computed, nextTick, ref, useTemplateRef, watch } from 'vue';
 import { Head, router } from '@inertiajs/vue3';
 import {
     ArrowUp,
+    BrainCircuit,
     Check,
     ChevronDown,
     Copy,
@@ -87,6 +88,18 @@ const historyOpen = ref(false);
  */
 interface ChatDisplayMessage extends ChatMessage {
     id: number;
+    /**
+     * Chain-of-thought streamed before the answer (reasoning-capable models
+     * only). Display-only: it never becomes part of the message content.
+     */
+    reasoning?: string;
+    /** Whether the reasoning phase finished (live preview collapsed). */
+    reasoningDone?: boolean;
+    /** Whether the full reasoning transcript is expanded for reading. */
+    reasoningExpanded?: boolean;
+    /** performance.now() stamps used to show the thinking duration. */
+    reasoningStartedAt?: number;
+    reasoningEndedAt?: number;
 }
 
 interface PendingImage {
@@ -112,6 +125,9 @@ let messageSeq = 0;
 /** Whether the transcript is pinned to the bottom, for smart auto-scrolling. */
 const isAtBottom = ref(true);
 const NEAR_BOTTOM_THRESHOLD = 48;
+
+/** Characters of the reasoning tail shown while the model is thinking. */
+const REASONING_TAIL_LENGTH = 160;
 
 /** Id of the assistant message whose full text was copied just now. */
 const copiedMessageId = ref<number | null>(null);
@@ -184,6 +200,23 @@ async function send(text?: string): Promise<void> {
                     lastMessage.content += delta;
                 }
             },
+            onReasoning: (delta: string) => {
+                const lastMessage =
+                    messages.value[messages.value.length - 1] ?? null;
+
+                if (!lastMessage) {
+                    return;
+                }
+
+                if (lastMessage.reasoning === undefined) {
+                    lastMessage.reasoningStartedAt = performance.now();
+                }
+
+                lastMessage.reasoning = (lastMessage.reasoning ?? '') + delta;
+            },
+            onReasoningEnd: () => {
+                finalizeReasoning();
+            },
             onConversation: (id: string) => {
                 conversationId.value = id;
 
@@ -201,6 +234,7 @@ async function send(text?: string): Promise<void> {
     } finally {
         isStreaming.value = false;
         abortController.value = null;
+        finalizeReasoning();
         dropEmptyAssistantMessage();
         focusInput();
     }
@@ -340,6 +374,7 @@ function isAbortError(error: unknown): boolean {
 /**
  * Remove the assistant placeholder when nothing was generated (e.g. the
  * request failed or the user stopped the stream before the first token).
+ * A message with only a reasoning trace is kept — it still tells the story.
  */
 function dropEmptyAssistantMessage(): void {
     const lastMessage = messages.value[messages.value.length - 1] ?? null;
@@ -347,10 +382,82 @@ function dropEmptyAssistantMessage(): void {
     if (
         lastMessage &&
         lastMessage.role === 'assistant' &&
-        lastMessage.content.trim() === ''
+        lastMessage.content.trim() === '' &&
+        (lastMessage.reasoning ?? '').trim() === ''
     ) {
         messages.value = messages.value.slice(0, -1);
     }
+}
+
+/**
+ * Close the live reasoning preview of the last assistant message: the answer
+ * has started, the stream was aborted mid-thought, or the request failed.
+ * The thinking trace stays readable through the collapsed summary toggle.
+ */
+function finalizeReasoning(): void {
+    const lastMessage = messages.value[messages.value.length - 1] ?? null;
+
+    if (!lastMessage || lastMessage.role !== 'assistant') {
+        return;
+    }
+
+    if (lastMessage.reasoning !== undefined && !lastMessage.reasoningDone) {
+        lastMessage.reasoningEndedAt =
+            lastMessage.reasoningStartedAt ?? performance.now();
+        lastMessage.reasoningDone = true;
+        lastMessage.reasoningExpanded = false;
+    }
+}
+
+/** Whether the message's reasoning is still streaming in right now. */
+function isReasoningActive(
+    message: ChatDisplayMessage,
+    index: number,
+): boolean {
+    return (
+        isStreaming.value &&
+        index === messages.value.length - 1 &&
+        message.reasoningDone !== true
+    );
+}
+
+/** Live "tail window" of the reasoning: only its newest characters. */
+function reasoningTail(message: ChatDisplayMessage): string {
+    const text = message.reasoning ?? '';
+
+    return text.length > REASONING_TAIL_LENGTH
+        ? `…${text.slice(-REASONING_TAIL_LENGTH)}`
+        : text;
+}
+
+/** Collapsed summary label, e.g. "已深度思考 · 3 秒 · 128 字". */
+function reasoningSummaryLabel(message: ChatDisplayMessage): string {
+    const chars = (message.reasoning ?? '').length;
+
+    if (!message.reasoningDone) {
+        return `正在思考… · ${chars} 字`;
+    }
+
+    const seconds =
+        message.reasoningStartedAt !== undefined &&
+        message.reasoningEndedAt !== undefined
+            ? Math.max(
+                  1,
+                  Math.round(
+                      (message.reasoningEndedAt - message.reasoningStartedAt) /
+                          1000,
+                  ),
+              )
+            : null;
+
+    return seconds === null
+        ? `已深度思考 · ${chars} 字`
+        : `已深度思考 · ${seconds} 秒 · ${chars} 字`;
+}
+
+/** Expand/collapse the full reasoning transcript of a message. */
+function toggleReasoning(message: ChatDisplayMessage): void {
+    message.reasoningExpanded = !(message.reasoningExpanded ?? false);
 }
 
 function focusInput(): void {
@@ -703,9 +810,66 @@ function deleteConversation(id: string): void {
                                 {{ activeAgent?.name ?? 'AI 助手' }}
                             </div>
 
+                            <!-- Thinking process (reasoning-capable models):
+                                 streamed live as a compact "tail window", then
+                                 collapsed into a summary. Display-only — kept
+                                 fully separate from the answer content below. -->
+                            <div v-if="message.reasoning" class="mt-1.5">
+                                <button
+                                    type="button"
+                                    class="text-muted-foreground hover:text-foreground flex items-center gap-1.5 text-xs font-medium transition-colors"
+                                    @click="toggleReasoning(message)"
+                                >
+                                    <BrainCircuit
+                                        class="size-3.5"
+                                        :class="
+                                            isReasoningActive(message, index)
+                                                ? 'text-primary animate-pulse'
+                                                : ''
+                                        "
+                                    />
+                                    <span>
+                                        {{ reasoningSummaryLabel(message) }}
+                                    </span>
+                                    <ChevronDown
+                                        class="size-3.5 transition-transform"
+                                        :class="
+                                            message.reasoningExpanded
+                                                ? ''
+                                                : '-rotate-90'
+                                        "
+                                    />
+                                </button>
+
+                                <!-- Full transcript, shown when expanded -->
+                                <div
+                                    v-if="message.reasoningExpanded"
+                                    class="border-border/70 bg-muted/40 mt-1 max-h-48 overflow-y-auto rounded-lg border px-3 py-2"
+                                >
+                                    <p
+                                        class="text-muted-foreground text-xs leading-relaxed break-words whitespace-pre-wrap"
+                                    >
+                                        {{ message.reasoning }}
+                                    </p>
+                                </div>
+
+                                <!-- Live tail preview while the model thinks -->
+                                <p
+                                    v-else-if="
+                                        isReasoningActive(message, index)
+                                    "
+                                    class="text-muted-foreground/80 mt-1 line-clamp-2 text-xs leading-relaxed break-words whitespace-pre-wrap"
+                                >
+                                    {{ reasoningTail(message) }}
+                                </p>
+                            </div>
+
                             <div class="mt-1.5">
                                 <Spinner
-                                    v-if="message.content === ''"
+                                    v-if="
+                                        message.content === '' &&
+                                        !isReasoningActive(message, index)
+                                    "
                                     class="text-muted-foreground size-4"
                                 />
                                 <template v-else>

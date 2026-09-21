@@ -189,9 +189,15 @@ return [
         ],
 
         'zhipu' => [
-            'driver' => 'openai-compatible',
+            // Custom driver (App\Ai\Providers\ZhipuProvider, registered in
+            // AppServiceProvider): openai-compatible plus reasoning streaming.
+            'driver' => 'zhipu',
             'url' => env('ZHIPU_BASE_URL', 'https://open.bigmodel.cn/api/paas/v4'),
             'key' => env('ZHIPU_API_KEY'),
+            // Ask thinking-capable GLM models (glm-4.5 and later) to stream
+            // their chain-of-thought; set ZHIPU_THINKING=false to stream
+            // answers only (e.g. for non-thinking models like glm-4-flash).
+            'thinking' => env('ZHIPU_THINKING', true),
             'models' => [
                 'text' => [
                     'default' => env('ZHIPU_MODEL', 'glm-5.3'),

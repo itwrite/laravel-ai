@@ -2,12 +2,15 @@
 
 namespace App\Providers;
 
+use App\Ai\Providers\ZhipuProvider;
 use Carbon\CarbonImmutable;
+use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
+use Laravel\Ai\Ai;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -16,7 +19,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        // Zhipu uses a custom AI driver so its gateway can surface the GLM
+        // chain-of-thought (reasoning_content) as reasoning_* stream events,
+        // which the stock openai-compatible driver would discard.
+        Ai::extend('zhipu', fn ($app, array $config): ZhipuProvider => new ZhipuProvider(
+            $config,
+            $app->make(Dispatcher::class),
+        ));
     }
 
     /**

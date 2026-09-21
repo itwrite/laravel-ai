@@ -11,6 +11,10 @@ interface StreamChatOptions {
     conversation?: string;
     signal?: AbortSignal;
     onDelta: (delta: string) => void;
+    /** Fired for each chain-of-thought chunk (thinking models only). */
+    onReasoning?: (delta: string) => void;
+    /** Fired when the reasoning phase ends and the answer begins. */
+    onReasoningEnd?: () => void;
     /** Fired with the stored conversation id on remembered turns. */
     onConversation?: (id: string) => void;
 }
@@ -116,6 +120,8 @@ export async function streamChat(options: StreamChatOptions): Promise<void> {
             chunk,
             options.onDelta,
             options.onConversation,
+            options.onReasoning,
+            options.onReasoningEnd,
         );
 
         // Keep consuming later events — the conversation id event trails the
@@ -154,8 +160,9 @@ export async function streamChat(options: StreamChatOptions): Promise<void> {
 }
 
 /**
- * Extract text deltas from a single SSE chunk, ignoring comments, the
- * termination marker, and event types the chat UI does not care about.
+ * Extract text and reasoning deltas from a single SSE chunk, ignoring
+ * comments, the termination marker, and event types the chat UI does not
+ * care about.
  *
  * Failure events (`stream_error`, length-capped `stream_end`) are RETURNED
  * instead of thrown — the conversation id event arrives after them in the
@@ -166,6 +173,8 @@ function consumeServerSentEvent(
     chunk: string,
     onDelta: (delta: string) => void,
     onConversation?: (id: string) => void,
+    onReasoning?: (delta: string) => void,
+    onReasoningEnd?: () => void,
 ): Error | null {
     const payload = chunk
         .split('\n')
@@ -190,6 +199,20 @@ function consumeServerSentEvent(
 
     if (event.type === 'text_delta' && typeof event.delta === 'string') {
         onDelta(event.delta);
+
+        return null;
+    }
+
+    // Thinking models stream their chain-of-thought before the answer; it is
+    // display-only and must never be mixed into the final message content.
+    if (event.type === 'reasoning_delta' && typeof event.delta === 'string') {
+        onReasoning?.(event.delta);
+
+        return null;
+    }
+
+    if (event.type === 'reasoning_end') {
+        onReasoningEnd?.();
 
         return null;
     }

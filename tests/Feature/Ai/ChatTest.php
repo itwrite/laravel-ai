@@ -3,9 +3,11 @@
 use App\Ai\Agents\ChatAgent\ChatAgent;
 use App\Ai\Agents\PrintTemplateAgent\PrintTemplateAgent;
 use App\Ai\Agents\TeacherAgent\TeacherAgent;
+use App\Ai\Providers\ZhipuProvider;
 use App\Models\User;
+use Illuminate\Http\Client\Request;
+use Illuminate\Support\Facades\Http;
 use Laravel\Ai\AiManager;
-use Laravel\Ai\Providers\OpenAiCompatibleProvider;
 
 test('users can stream a chat response', function () {
     ChatAgent::fake(['Hello! I am Laravel AI.']);
@@ -115,15 +117,66 @@ test('logged-in users can open the homepage', function () {
     $this->get(route('home'))->assertOk();
 });
 
-test('zhipu provider resolves through the openai-compatible driver', function () {
+test('zhipu provider resolves through the custom reasoning driver', function () {
     config()->set('ai.default', 'zhipu');
     config()->set('ai.providers.zhipu.key', 'test-key');
 
     $provider = app(AiManager::class)->textProvider('zhipu');
 
-    expect($provider)->toBeInstanceOf(OpenAiCompatibleProvider::class)
+    expect($provider)->toBeInstanceOf(ZhipuProvider::class)
         ->and($provider->defaultTextModel())->toBeString()
         ->and(ChatAgent::configured())->toBeTrue();
+});
+
+test('chat streams the model reasoning as separate display-only events', function () {
+    Http::fake(fn () => Http::response(
+        implode("\n", [
+            'data: {"model":"glm-5.3","choices":[{"delta":{"reasoning_content":"The user greets me"}}]}',
+            '',
+            'data: {"choices":[{"delta":{"reasoning_content":" so I should greet back warmly"}}]}',
+            '',
+            'data: {"choices":[{"delta":{"content":"Hello there"}}]}',
+            '',
+            'data: {"choices":[{"delta":{"content":"!"},"finish_reason":"stop"}],"usage":{"prompt_tokens":1,"completion_tokens":2}}',
+            '',
+            'data: [DONE]',
+            '',
+        ]),
+        200,
+        ['Content-Type' => 'text/event-stream'],
+    ));
+
+    config()->set('ai.default', 'zhipu');
+    config()->set('ai.chat_providers', ['zhipu']);
+    config()->set('ai.providers.zhipu.key', 'test-key');
+    config()->set('ai.providers.zhipu.url', 'https://zhipu.test');
+
+    $response = $this->actingAs(User::factory()->create())->post('/chat', [
+        'agent' => 'general',
+        'message' => 'Hi!',
+    ]);
+
+    $response->assertOk();
+
+    $content = $response->streamedContent();
+
+    expect($content)
+        ->toContain('reasoning_start')
+        ->toContain('reasoning_delta')
+        ->toContain('The user greets me')
+        ->toContain('reasoning_end')
+        ->toContain('text_delta')
+        ->toContain('Hello there')
+        ->toContain('[DONE]');
+
+    // The thinking mode parameter was sent to the provider.
+    Http::assertSent(fn (Request $request): bool => ($request->data()['thinking'] ?? null) === ['type' => 'enabled']);
+
+    // The reasoning trace never leaks into the stored answer text.
+    $this->assertDatabaseHas('agent_conversation_messages', [
+        'role' => 'assistant',
+        'content' => 'Hello there!',
+    ]);
 });
 
 test('chat can be routed to the teacher agent', function () {
