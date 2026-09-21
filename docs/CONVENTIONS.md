@@ -7,6 +7,7 @@
 ## 1. PHP / Laravel 约定
 
 ### 1.1 风格（Pint preset: laravel，改后必须跑 `vendor/bin/pint --dirty --format agent`）
+
 - 控制结构一律花括号（含单行体）。
 - 显式参数类型 + 返回类型：`public function edit(Request $request): Response`。
 - PHP 8 构造器属性提升；不留空的零参 `__construct()`。
@@ -14,6 +15,7 @@
 - 私有配置方法模式：见 `FortifyServiceProvider`（`configureActions/configureViews/configureRateLimiting` 拆分 `boot()`）。
 
 ### 1.2 Model（Laravel 13 新式，参照 `app/Models/User.php`）
+
 ```php
 #[Fillable(['name', 'email', 'password'])]           // 替代 $fillable 数组属性
 #[Hidden(['password', 'two_factor_secret', ...])]    // 替代 $hidden
@@ -22,10 +24,12 @@ class User extends Authenticatable
     protected function casts(): array { ... }        // casts 是方法（Laravel 11+）
 }
 ```
+
 - 模型必须配套 Factory（`php artisan make:model --help` 查看选项），测试一律用 Factory。
 - 关系用 Laravel 13 属性写法时保持与 `User::passkeys()` 一致的常规方法式亦可。
 
 ### 1.3 控制器 / 验证 / 路由
+
 - 控制器按模块分子目录（`Controllers/Settings/`），FormRequest 镜像同结构（`Requests/Settings/`）。
 - 验证规则放 FormRequest 或 `app/Concerns/*ValidationRules.php` trait（密码/资料规则已有现成 trait，先复用）。
 - 简单无数据页面直接 `Route::inertia('uri', 'PageName')->name('x.y')`，不建空控制器。
@@ -34,6 +38,7 @@ class User extends Authenticatable
 - PHPDoc 数组形状：`@return array<string, mixed>`。
 
 ### 1.4 错误处理与用户反馈（统一模式）
+
 - 表单验证失败：FormRequest 自动回传 errors，前端无需处理。
 - 成功提示：**不要**用 session flash + Blade；统一 `Inertia::flash('toast', ['type' => 'success', 'message' => __('...')])`（前端 vue-sonner 自动弹）。
 - 消息文案用 `__()` 包裹（本地化预留）。type 取值：`success` / `error`（见 `types/ui.ts` 的 `FlashToast`）。
@@ -42,16 +47,19 @@ class User extends Authenticatable
 ## 2. Vue / TypeScript 约定
 
 ### 2.1 文件与命名
+
 - 页面：`pages/<模块>/PascalCase.vue`，**文件名即 Inertia 组件名**（`settings/Profile`）。
 - 业务组件：`components/PascalCase.vue`；基础件：`components/ui/<kebab-case>/`（shadcn 生成，勿手改）。
 - composables：`useXxx.ts`；纯函数工具：`lib/`；类型：`types/` 并经 `index.ts` re-export。
 - Vue SFC 单根元素（硬性要求）。
 
 ### 2.2 布局与导航
+
 - **不给页面手动挂 layout**——由 `app.ts` 按页面名前缀映射；新模块若需专属布局，改 `app.ts` 的 switch。
 - 跳转/提交**禁止手写 URL 字符串**：用 Wayfinder 产物 `@/actions/...`（控制器）或 `@/routes/...`（命名路由），支持 `formVariants`。
 
 ### 2.3 TS 风格（`vue-tsc --noEmit` + `vp check` typeAware+denyWarnings）
+
 - `strict: true`；导出加类型；props 用类型化 `defineProps<...>()`。
 - 格式化（vite-plus fmt）：printWidth 80、tabWidth 4、单引号、分号；Tailwind class 自动排序（clsx/cn/cva）。
 - 需要 UI 状态时优先 composable；**禁止引入 Pinia 等状态库**（当前无、也未经批准引入）。

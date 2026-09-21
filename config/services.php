@@ -35,4 +35,16 @@ return [
         ],
     ],
 
+    /*
+    |----------------------------------------------------------------------
+    | Outbound HTTP Proxy
+    |----------------------------------------------------------------------
+    |
+    | Proxy used by the HTTP client (and thus the AI SDK) for outbound
+    | requests. Set HTTP_PROXY to an empty string to disable proxying.
+    |
+    */
+
+    'http_proxy' => env('HTTP_PROXY', 'http://127.0.0.1:1080'),
+
 ];

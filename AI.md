@@ -5,14 +5,14 @@
 
 ## 📖 请先阅读以下文档（按需加载，不要一次性全读）
 
-| 文档 | 用途 | 什么时候读 |
-|---|---|---|
-| [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | 整体架构、分层、数据流、设计决策 | 修改架构 / 新增模块前 |
-| [docs/CODEMAP.md](docs/CODEMAP.md) | 目录结构 + 每个目录的职责 | 定位文件时 |
-| [docs/PROGRESS.md](docs/PROGRESS.md) | 已完成功能 / 进行中 / 技术债 | 开始任何任务前（了解现状） |
-| [docs/CONVENTIONS.md](docs/CONVENTIONS.md) | 命名、代码风格、错误处理约定 | 写任何代码前 |
-| [docs/MODULES.md](docs/MODULES.md) | 按功能模块拆分的入口文件与关键类 | 修改某个具体模块前 |
-| [AGENTS.md](AGENTS.md) | Laravel Boost 官方指南（含 Inertia v3 / Pest / Pint 规则） | 与 Laravel 生态 API 相关的修改 |
+| 文档                                         | 用途                                                       | 什么时候读                     |
+| -------------------------------------------- | ---------------------------------------------------------- | ------------------------------ |
+| [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | 整体架构、分层、数据流、设计决策                           | 修改架构 / 新增模块前          |
+| [docs/CODEMAP.md](docs/CODEMAP.md)           | 目录结构 + 每个目录的职责                                  | 定位文件时                     |
+| [docs/PROGRESS.md](docs/PROGRESS.md)         | 已完成功能 / 进行中 / 技术债                               | 开始任何任务前（了解现状）     |
+| [docs/CONVENTIONS.md](docs/CONVENTIONS.md)   | 命名、代码风格、错误处理约定                               | 写任何代码前                   |
+| [docs/MODULES.md](docs/MODULES.md)           | 按功能模块拆分的入口文件与关键类                           | 修改某个具体模块前             |
+| [AGENTS.md](AGENTS.md)                       | Laravel Boost 官方指南（含 Inertia v3 / Pest / Pint 规则） | 与 Laravel 生态 API 相关的修改 |
 
 ## 🎯 项目一句话概述
 
@@ -21,21 +21,21 @@
 
 ## 🧱 技术栈（已验证版本）
 
-| 层 | 技术 | 版本 |
-|---|---|---|
-| 后端框架 | Laravel | 13.32.0（PHP ^8.3，本机 8.5） |
-| AI SDK | laravel/ai | 0.11.2（**已安装、未使用**） |
-| 认证 | laravel/fortify | 1.39.0（登录/注册/2FA/Passkeys/邮箱验证） |
-| 前端桥接 | inertiajs/inertia-laravel + @inertiajs/vue3 | 3.3.4 / 3.x |
-| 前端框架 | Vue + TypeScript(strict) | 3.5.x |
-| 样式 | Tailwind CSS + shadcn-vue(new-york-v4, reka-ui, lucide) | 4.1.x |
-| 路由类型 | laravel/wayfinder + @laravel/vite-plugin-wayfinder | 0.1.21 |
-| 构建 | vite-plus（命令为 `vp`）/ Vite 8 | 0.3.0 |
-| 数据库 | SQLite（session/cache/queue 均为 database driver） | — |
-| 测试 | Pest | 5.2.0 |
-| 静态分析 | Larastan（phpstan level 7） | 3.12.1 |
-| 格式化 | Pint（laravel preset）/ vite-plus fmt | 1.32.1 |
-| AI 辅助 | Laravel Boost（MCP，见 `.ai/mcp/mcp.json`） | 2.9.0 |
+| 层       | 技术                                                    | 版本                                      |
+| -------- | ------------------------------------------------------- | ----------------------------------------- |
+| 后端框架 | Laravel                                                 | 13.32.0（PHP ^8.3，本机 8.5）             |
+| AI SDK   | laravel/ai                                              | 0.11.2（**已安装、未使用**）              |
+| 认证     | laravel/fortify                                         | 1.39.0（登录/注册/2FA/Passkeys/邮箱验证） |
+| 前端桥接 | inertiajs/inertia-laravel + @inertiajs/vue3             | 3.3.4 / 3.x                               |
+| 前端框架 | Vue + TypeScript(strict)                                | 3.5.x                                     |
+| 样式     | Tailwind CSS + shadcn-vue(new-york-v4, reka-ui, lucide) | 4.1.x                                     |
+| 路由类型 | laravel/wayfinder + @laravel/vite-plugin-wayfinder      | 0.1.21                                    |
+| 构建     | vite-plus（命令为 `vp`）/ Vite 8                        | 0.3.0                                     |
+| 数据库   | SQLite（session/cache/queue 均为 database driver）      | —                                         |
+| 测试     | Pest                                                    | 5.2.0                                     |
+| 静态分析 | Larastan（phpstan level 7）                             | 3.12.1                                    |
+| 格式化   | Pint（laravel preset）/ vite-plus fmt                   | 1.32.1                                    |
+| AI 辅助  | Laravel Boost（MCP，见 `.ai/mcp/mcp.json`）             | 2.9.0                                     |
 
 其他：`laravel/chisel`（脚手架清理工具，0.1.1）、`laravel/pao`（测试输出 AI 优化）、`laravel/sail`（Docker，未启用）。
 
@@ -103,16 +103,16 @@ php artisan route:list --except-vendor
 
 ## 📂 新增功能的推荐落点
 
-| 需求 | 落点 |
-|---|---|
-| 新页面 | `resources/js/pages/<模块>/Xxx.vue` + 路由（`Route::inertia()` 或控制器 `Inertia::render()`） |
-| 新控制器 | `app/Http/Controllers/<模块>/`，用 `php artisan make:controller` |
-| 表单验证 | `app/Http/Requests/<模块>/`，参考 `Settings/ProfileUpdateRequest.php` |
-| AI 功能 | 服务类放 `app/`（如 `app/Ai/`），调用 `Laravel\Ai\` SDK；先读 ai-sdk skill |
-| 共享数据 | `HandleInertiaRequests::share()` |
-| UI 组件 | `resources/js/components/`（业务）/ `components/ui/`（shadcn 生成，勿手改） |
-| 可复用逻辑 | `resources/js/composables/useXxx.ts` |
-| 类型 | `resources/js/types/`，经 `index.ts` re-export |
+| 需求       | 落点                                                                                          |
+| ---------- | --------------------------------------------------------------------------------------------- |
+| 新页面     | `resources/js/pages/<模块>/Xxx.vue` + 路由（`Route::inertia()` 或控制器 `Inertia::render()`） |
+| 新控制器   | `app/Http/Controllers/<模块>/`，用 `php artisan make:controller`                              |
+| 表单验证   | `app/Http/Requests/<模块>/`，参考 `Settings/ProfileUpdateRequest.php`                         |
+| AI 功能    | 服务类放 `app/`（如 `app/Ai/`），调用 `Laravel\Ai\` SDK；先读 ai-sdk skill                    |
+| 共享数据   | `HandleInertiaRequests::share()`                                                              |
+| UI 组件    | `resources/js/components/`（业务）/ `components/ui/`（shadcn 生成，勿手改）                   |
+| 可复用逻辑 | `resources/js/composables/useXxx.ts`                                                          |
+| 类型       | `resources/js/types/`，经 `index.ts` re-export                                                |
 
 ## 🔗 文档间导航
 

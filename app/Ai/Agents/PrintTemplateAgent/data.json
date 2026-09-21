@@ -1,0 +1,125 @@
+{
+    "schema_version": 2,
+    "cover": "data:image/png;base64,iVBORw0KGgo...",
+    "id": "board_1735689600000_0",
+    "name": "商品标价签",
+    "type": "container",
+    "visible": true, "locked": false,
+    "transform": { "x": 0, "y": 0, "width": 40, "height": 30, "rotation": 0, "scale_x": 1, "scale_y": 1 },
+    "style": { "fill": "#FFFFFFFF" },
+    "content": {},
+    "props": {
+        "dpi": 203, "unit": "mm", "bleed": 0, "color_space": "sRGB",
+        "orientation": "landscape",
+        "margins": { "top": 2, "right": 2, "bottom": 2, "left": 2 },
+        "grid": { "show": true, "size_mm": 5 },
+        "mirror": false
+    },
+    "behaviors": [],
+    "children": [
+        {
+            "id": "el_1735689600000_1", "name": "产品名称", "type": "text",
+            "visible": true, "locked": false,
+            "transform": { "x": 3, "y": 2, "width": 24, "height": 5, "rotation": 0, "scale_x": 1, "scale_y": 1 },
+            "style": {
+                "color": "#000000FF", "font_size": 13.33, "font_weight": 700, "font_style": "normal",
+                "text_decoration": "none", "font_family": "songti", "letter_spacing": 0,
+                "line_height": 1.2, "text_align": "center", "vertical_align": "middle",
+                "fill": "transparent", "opacity": 1
+            },
+            "content": { "text": "产品名称", "direction": "horizontal", "rich_text": null },
+            "props": { "editable": true, "auto_fit": false },
+            "behaviors": [], "children": []
+        },
+        {
+            "id": "el_1735689600001_2", "name": "时间", "type": "datetime",
+            "visible": true, "locked": false,
+            "transform": { "x": 3, "y": 8, "width": 20, "height": 4, "rotation": 0, "scale_x": 1, "scale_y": 1 },
+            "style": { "color": "#000000FF", "font_size": 10, "font_weight": 400, "font_style": "normal", "text_decoration": "none", "font_family": "default", "letter_spacing": 0, "line_height": 1.2, "text_align": "left", "vertical_align": "middle", "fill": "transparent", "opacity": 1 },
+            "content": { "prefix": "生产日期: ", "format": "YYYY年MM月DD日 HH:mm", "value": "生产日期: 2026-09-16 14:30", "timestamp": 1789526400000, "timezone": "UTC+8", "dynamic": true, "hour_24": true, "offset": { "month": 0, "day": 0, "minute": 0, "second": 0 } },
+            "props": {}, "behaviors": [], "children": []
+        },
+        {
+            "id": "el_1735689600002_3", "name": "条形码", "type": "barcode",
+            "visible": true, "locked": false,
+            "transform": { "x": 3, "y": 25, "width": 18, "height": 4, "rotation": 0, "scale_x": 1, "scale_y": 1 },
+            "style": { "color": "#000000FF", "fill": "#FFFFFFFF", "font_family": "default", "font_size": 14 },
+            "content": { "code_type": "EAN13", "value": "6901234567892", "margin": 1 },
+            "props": { "source": "manual", "imported_file_name": "", "text_position": "bottom" },
+            "behaviors": [], "children": []
+        },
+        {
+            "id": "el_1735689600003_4", "name": "二维码", "type": "qrcode",
+            "visible": true, "locked": false,
+            "transform": { "x": 28, "y": 2, "width": 9, "height": 9, "rotation": 0, "scale_x": 1, "scale_y": 1 },
+            "style": { "color": "#000000FF", "fill": "#FFFFFFFF" },
+            "content": { "code_type": "QRCODE", "value": "https://example.com", "error_correction": "M", "icon_url": null },
+            "props": { "source": "manual", "imported_file_name": "" },
+            "behaviors": [], "children": []
+        },
+        {
+            "id": "el_1735689600004_5", "name": "价格胶囊", "type": "shape",
+            "visible": true, "locked": false,
+            "transform": { "x": 3, "y": 14, "width": 12, "height": 3.5, "rotation": 0, "scale_x": 1, "scale_y": 1 },
+            "style": { "stroke": "transparent", "stroke_width": 0.5, "stroke_dash_array": null, "fill": "#EF4444FF", "opacity": 1 },
+            "content": { "shape_type": "round_rect" },
+            "props": {}, "behaviors": [], "children": []
+        },
+        {
+            "id": "el_1735689600005_6", "name": "图片", "type": "image",
+            "visible": true, "locked": false,
+            "transform": { "x": 14, "y": 14, "width": 8, "height": 6, "rotation": 0, "scale_x": 1, "scale_y": 1 },
+            "style": { "radius": 1, "opacity": 1, "stroke": "transparent", "fill": "transparent" },
+            "content": { "asset_id": "", "url": "_doc/label_editor/img_001.jpg", "fit": "cover", "clip_path": null },
+            "props": { "ratio": 1.333, "mirror_h": false, "mirror_v": false, "effects": { "grayscale": 0, "sharpness": 0, "contrast": 0, "saturation": 0, "brightness": 0, "threshold": 0 } },
+            "behaviors": [], "children": []
+        },
+        {
+            "id": "el_1735689600005_7", "name": "边框", "type": "border",
+            "visible": true, "locked": false,
+            "transform": { "x": 0.5, "y": 0.5, "width": 39, "height": 29, "rotation": 0, "scale_x": 1, "scale_y": 1 },
+            "style": { "color": "#26313DFF", "fill": "transparent" },
+            "content": { "url": "rounded", "fit": "fill" },
+            "props": { "material_id": "bd_rounded", "material_name": "圆角", "format": "svg", "colorable": true, "ratio": 1.6 },
+            "behaviors": [], "children": []
+        },
+        {
+            "id": "el_1735689600006_8", "name": "贴纸", "type": "sticker",
+            "visible": true, "locked": false,
+            "transform": { "x": 32, "y": 22, "width": 6, "height": 6, "rotation": 15, "scale_x": 1, "scale_y": 1 },
+            "style": { "color": "#FF6B6BFF", "stroke": "transparent", "fill": "transparent" },
+            "content": { "url": "heart", "fit": "contain" },
+            "props": { "material_id": "st_节日_heart_4", "material_name": "爱心", "glyph": "heart", "vip": false, "format": "svg", "colorable": true, "asset": "", "ratio": 1 },
+            "behaviors": [], "children": []
+        },
+        {
+            "id": "el_1735689600007_9", "name": "表格", "type": "table",
+            "visible": true, "locked": false,
+            "transform": { "x": 3, "y": 14, "width": 20, "height": 9, "rotation": 0, "scale_x": 1, "scale_y": 1 },
+            "style": { "stroke": "#26313DFF", "stroke_width": 1, "fill": "transparent" },
+            "content": {
+                "cells": [
+                    { "text": "品名", "font_size": 13.33, "font_weight": 700, "font_style": "normal", "text_decoration": "none", "invert": true, "direction": "horizontal", "letter_spacing": 0, "line_height": 1.2, "color": "#FFFFFFFF", "text_border_color": "transparent", "text_fill_color": "transparent", "fill": "#26313DFF", "border_color": "transparent", "align": "center" },
+                    { "text": "数量", "font_size": 13.33, "font_weight": 700, "font_style": "normal", "text_decoration": "none", "invert": true, "direction": "horizontal", "letter_spacing": 0, "line_height": 1.2, "color": "#FFFFFFFF", "text_border_color": "transparent", "text_fill_color": "transparent", "fill": "#26313DFF", "border_color": "transparent", "align": "center" },
+                    { "text": "蓝牙标签打印机", "font_size": 13.33, "font_weight": 400, "font_style": "normal", "text_decoration": "none", "invert": false, "direction": "horizontal", "letter_spacing": 0, "line_height": 1.2, "color": "#17212BFF", "text_border_color": "transparent", "text_fill_color": "transparent", "fill": "transparent", "border_color": "transparent", "align": "left" },
+                    { "text": "1 台", "font_size": 13.33, "font_weight": 400, "font_style": "normal", "text_decoration": "none", "invert": false, "direction": "horizontal", "letter_spacing": 0, "line_height": 1.2, "color": "#17212BFF", "text_border_color": "transparent", "text_fill_color": "transparent", "fill": "transparent", "border_color": "transparent", "align": "center" }
+                ]
+            },
+            "props": { "rows": 2, "cols": 2, "row_height": 4.5, "col_width": 10, "line_mode": "all", "font_family": "default" },
+            "behaviors": [], "children": []
+        },
+        {
+            "id": "el_1735689600006_7", "name": "画笔", "type": "pen",
+            "visible": true, "locked": false,
+            "transform": { "x": 10, "y": 20, "width": 8.5, "height": 6.2, "rotation": 0, "scale_x": 1, "scale_y": 1 },
+            "style": { "stroke": "#26313DFF" },
+            "content": {
+                "paths": [
+                    { "points": [ { "x": 0.5, "y": 1.2, "pressure": 0.41 }, { "x": 2.1, "y": 2.8, "pressure": 0.68 }, { "x": 4.4, "y": 3.5, "pressure": 0.52 } ], "closed": false, "width": 4, "pen_type": "fountain", "color": "#26313DFF" }
+                ]
+            },
+            "props": { "pen_type": "fountain", "width": 4, "eraser_width": 24 },
+            "behaviors": [], "children": []
+        }
+    ]
+}

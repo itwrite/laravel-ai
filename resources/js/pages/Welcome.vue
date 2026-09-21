@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3';
-import { dashboard, login } from '@/routes';
-import { register } from '@/routes';
+import { chat, dashboard, login, register } from '@/routes';
 </script>
 
 <template>
@@ -16,6 +15,12 @@ import { register } from '@/routes';
             class="mb-6 w-full max-w-[335px] text-sm not-has-[nav]:hidden lg:max-w-4xl"
         >
             <nav class="flex items-center justify-end gap-4">
+                <Link
+                    :href="chat()"
+                    class="inline-block rounded-sm border border-[#19140035] bg-[#1b1b18] px-5 py-1.5 text-sm leading-normal text-white hover:bg-[#19140035] dark:border-[#3E3E3A] dark:bg-[#EDEDEC] dark:text-[#0a0a0a] dark:hover:bg-[#62605b]"
+                >
+                    AI Chat
+                </Link>
                 <Link
                     v-if="$page.props.auth.user"
                     :href="dashboard()"
@@ -56,6 +61,30 @@ import { register } from '@/routes';
                     <ul class="mb-4 flex flex-col lg:mb-6">
                         <li
                             class="relative flex items-center gap-4 py-2 before:absolute before:top-1/2 before:bottom-0 before:left-[0.4rem] before:border-l before:border-[#e3e3e0] dark:before:border-[#3E3E3A]"
+                        >
+                            <span
+                                class="relative bg-white py-1 dark:bg-[#161615]"
+                            >
+                                <span
+                                    class="flex h-3.5 w-3.5 items-center justify-center rounded-full border border-[#e3e3e0] bg-[#FDFDFC] shadow-[0px_0px_1px_0px_rgba(0,0,0,0.03),0px_1px_2px_0px_rgba(0,0,0,0.06)] dark:border-[#3E3E3A] dark:bg-[#161615]"
+                                >
+                                    <span
+                                        class="h-1.5 w-1.5 rounded-full bg-[#dbdbd7] dark:bg-[#3E3E3A]"
+                                    />
+                                </span>
+                            </span>
+                            <span>
+                                Chat with the
+                                <Link
+                                    :href="chat()"
+                                    class="ml-1 inline-flex items-center space-x-1 font-medium text-[#f53003] underline underline-offset-4 dark:text-[#FF4433]"
+                                >
+                                    <span>Built-in AI Assistant</span>
+                                </Link>
+                            </span>
+                        </li>
+                        <li
+                            class="relative flex items-center gap-4 py-2 before:absolute before:top-0 before:bottom-1/2 before:left-[0.4rem] before:border-l before:border-[#e3e3e0] dark:before:border-[#3E3E3A]"
                         >
                             <span
                                 class="relative bg-white py-1 dark:bg-[#161615]"

@@ -2,6 +2,8 @@
 
 @import 'tw-animate-css';
 
+@import 'katex/dist/katex.min.css';
+
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
 
@@ -168,5 +170,176 @@
     }
     body {
         @apply bg-background text-foreground;
+    }
+}
+
+@layer components {
+    /* Markdown rendering for chat assistant messages (see lib/markdown.ts). */
+    .chat-markdown {
+        @apply text-sm leading-relaxed;
+    }
+    .chat-markdown > :first-child {
+        @apply mt-0;
+    }
+    .chat-markdown > :last-child {
+        @apply mb-0;
+    }
+    .chat-markdown p {
+        @apply my-2;
+    }
+    .chat-markdown h1,
+    .chat-markdown h2,
+    .chat-markdown h3,
+    .chat-markdown h4,
+    .chat-markdown h5,
+    .chat-markdown h6 {
+        @apply mt-4 mb-2 font-semibold;
+    }
+    .chat-markdown h1 {
+        @apply text-lg;
+    }
+    .chat-markdown h2 {
+        @apply text-base;
+    }
+    .chat-markdown ul {
+        @apply my-2 list-disc pl-5;
+    }
+    .chat-markdown ol {
+        @apply my-2 list-decimal pl-5;
+    }
+    .chat-markdown li {
+        @apply my-0.5;
+    }
+    .chat-markdown a {
+        @apply text-primary underline underline-offset-2;
+    }
+    .chat-markdown blockquote {
+        @apply border-border text-muted-foreground my-2 border-l-2 pl-3 italic;
+    }
+    .chat-markdown code {
+        @apply bg-muted rounded px-1.5 py-0.5 font-mono text-[13px];
+    }
+    .chat-markdown pre {
+        @apply bg-muted my-2 overflow-auto rounded-lg p-4 font-mono text-[13px] leading-relaxed;
+        /* Long code scrolls internally instead of stretching the page. */
+        max-height: 32rem;
+        scrollbar-width: thin;
+    }
+    .chat-markdown pre code {
+        @apply bg-transparent p-0;
+    }
+    /* Code block card: header (language label + copy) above the code. */
+    .chat-markdown .chat-code-block {
+        @apply border-border my-3 overflow-hidden rounded-xl border;
+    }
+    .chat-markdown .chat-code-block pre {
+        @apply my-0 rounded-none;
+    }
+    .chat-markdown .chat-code-header {
+        @apply border-border/70 bg-muted/60 flex items-center justify-between gap-2 border-b px-4 py-1.5;
+    }
+    .chat-markdown .chat-code-lang {
+        @apply text-muted-foreground font-mono text-[11px] font-medium tracking-wider select-none;
+    }
+    .chat-markdown .chat-code-copy {
+        @apply text-muted-foreground hover:text-foreground cursor-pointer rounded-md px-2 py-0.5 text-xs transition-colors select-none;
+    }
+    .chat-markdown .chat-code-copy:focus-visible {
+        @apply text-foreground ring-ring/50 rounded-md ring-2 outline-none;
+    }
+    /* Slim scrollbars for scrollable code blocks. */
+    .chat-markdown pre::-webkit-scrollbar {
+        height: 8px;
+        width: 8px;
+    }
+    .chat-markdown pre::-webkit-scrollbar-track {
+        background: transparent;
+    }
+    .chat-markdown pre::-webkit-scrollbar-thumb {
+        @apply border-border bg-border rounded-full;
+    }
+    /* Inline images emitted by the model in Markdown output. */
+    .chat-markdown img {
+        @apply my-2 max-w-full rounded-lg;
+    }
+    .chat-markdown table {
+        @apply my-2 w-full border-collapse text-left;
+    }
+    .chat-markdown th,
+    .chat-markdown td {
+        @apply border px-2 py-1;
+    }
+    .chat-markdown th {
+        @apply bg-muted font-semibold;
+    }
+    .chat-markdown hr {
+        @apply border-border my-4;
+    }
+
+    /* Code syntax highlighting (highlight.js token classes). */
+    .chat-markdown pre code.hljs {
+        @apply bg-transparent p-0;
+    }
+    /* JSON braces, commas and other punctuation stay neutral. */
+    .chat-markdown .hljs-punctuation {
+        @apply text-foreground/70;
+    }
+    .chat-markdown .hljs-comment,
+    .chat-markdown .hljs-quote {
+        @apply text-muted-foreground italic;
+    }
+    .chat-markdown .hljs-keyword,
+    .chat-markdown .hljs-selector-tag,
+    .chat-markdown .hljs-built_in,
+    .chat-markdown .hljs-name,
+    .chat-markdown .hljs-tag {
+        @apply text-purple-700 dark:text-purple-400;
+    }
+    .chat-markdown .hljs-string,
+    .chat-markdown .hljs-regexp,
+    .chat-markdown .hljs-addition,
+    .chat-markdown .hljs-selector-attr,
+    .chat-markdown .hljs-selector-pseudo {
+        @apply text-green-700 dark:text-green-400;
+    }
+    .chat-markdown .hljs-number,
+    .chat-markdown .hljs-literal,
+    .chat-markdown .hljs-symbol,
+    .chat-markdown .hljs-bullet {
+        @apply text-amber-700 dark:text-amber-400;
+    }
+    .chat-markdown .hljs-title,
+    .chat-markdown .hljs-section,
+    .chat-markdown .hljs-title.function_,
+    .chat-markdown .hljs-selector-id {
+        @apply text-sky-700 dark:text-sky-400;
+    }
+    .chat-markdown .hljs-attr,
+    .chat-markdown .hljs-attribute,
+    .chat-markdown .hljs-variable,
+    .chat-markdown .hljs-template-variable,
+    .chat-markdown .hljs-type,
+    .chat-markdown .hljs-class .hljs-title,
+    .chat-markdown .hljs-title.class_ {
+        @apply text-teal-700 dark:text-teal-300;
+    }
+    .chat-markdown .hljs-meta,
+    .chat-markdown .hljs-doctag,
+    .chat-markdown .hljs-params {
+        @apply text-foreground;
+    }
+    .chat-markdown .hljs-deletion {
+        @apply text-red-700 dark:text-red-400;
+    }
+    .chat-markdown .hljs-emphasis {
+        @apply italic;
+    }
+    .chat-markdown .hljs-strong {
+        @apply font-semibold;
+    }
+
+    /* KaTeX formulas inside chat bubbles. */
+    .chat-markdown .katex-display {
+        @apply my-3 overflow-x-auto overflow-y-hidden py-1;
     }
 }

@@ -5,54 +5,80 @@
 
 ## 📊 当前状态总览
 
-**脚手架初始阶段**。git 历史仅 1 次提交（`b15c752 first commit`），工作区干净，无未提交改动。
-项目名 `laravel-ai` 表明目标是构建 AI 应用；`laravel/ai` SDK 已通过 composer 安装，但**业务开发尚未启动**。
-
-判断依据（可复核）：`config/` 无 `ai.php`；`.env` 无任何 `AI_*` / 供应商密钥；`app/` 与 `resources/js/` 内无 `Laravel\Ai` 引用；无自定义 Artisan 命令、无 Job/Event/Notification、无 API 路由。
+**脚手架阶段 → AI 功能起步**。git 历史仅 1 次提交（`b15c752 first commit`）。
+首页已改造为 **Laravel AI 聊天界面**（流式 SSE），SDK 基础链路全部打通，**待配置真实供应商密钥后即可对话**。
 
 ## ✅ 已完成（Starter Kit 自带，开箱即用）
 
-| 功能 | 状态 | 入口 | 测试 |
-|---|---|---|---|
-| 首页 Welcome | ✅ | `routes/web.php` → `pages/Welcome.vue` | ExampleTest |
-| Dashboard（需登录+验证邮箱） | ✅ | `routes/web.php` → `pages/Dashboard.vue` | DashboardTest |
-| 登录/登出 | ✅ | Fortify → `pages/auth/Login.vue` | AuthenticationTest |
-| 注册 | ✅ | `Actions/Fortify/CreateNewUser.php` → `pages/auth/Register.vue` | RegistrationTest |
-| 忘记/重置密码 | ✅ | `Actions/Fortify/ResetUserPassword.php` → `pages/auth/{Forgot,Reset}Password.vue` | PasswordResetTest |
-| 邮箱验证 | ✅ | Fortify → `pages/auth/VerifyEmail.vue` | EmailVerificationTest、VerificationNotificationTest |
-| 密码确认 | ✅ | Fortify → `pages/auth/ConfirmPassword.vue` | PasswordConfirmationTest |
-| 双因素认证 2FA（TOTP+恢复码+确认流） | ✅ | `Settings\SecurityController` + `ManageTwoFactor*` 组件 + `useTwoFactorAuth` | TwoFactorChallengeTest、SecurityTest |
-| Passkeys（WebAuthn 注册/验证/管理） | ✅ | `ManagePasskeys*` 组件 + `passkeys` 表 + `.well-known/passkey-endpoints` | SecurityTest |
-| 资料（查看/更新/删除账号） | ✅ | `Settings\ProfileController` → `pages/settings/Profile.vue` | ProfileUpdateTest |
-| 改密码（throttle:6,1） | ✅ | `Settings\SecurityController@update` → `pages/settings/Security.vue` | SecurityTest |
-| 外观设置（明/暗/system，cookie 持久化） | ✅ | `pages/settings/Appearance.vue` + `HandleAppearance` | — |
-| 布局体系（App 壳/认证三式/设置壳） | ✅ | `app.ts` + `layouts/**` | — |
-| 主题/布局基础设施（shadcn-vue 24 组 UI 件） | ✅ | `components/ui/**` [生成] | — |
-| 工具链（Pint/Larastan lv7/vue-tsc/vite-plus lint/fmt、CI workflow） | ✅ | 各配置文件 | `composer run test` |
+| 功能                                                                | 状态 | 入口                                                                               | 测试                                                |
+|---------------------------------------------------------------------|------|------------------------------------------------------------------------------------|-----------------------------------------------------|
+| AI 聊天独立页（流式 SSE；首页已还原营销页并加入口）                 | ✅   | `GET /chat`（`ChatAgent.vue`，无布局）+ `POST /chat`（`Ai\ChatController@stream`） | ChatTest（13 个）、ExampleTest                      |
+| Dashboard（需登录+验证邮箱）                                        | ✅   | `routes/web.php` → `pages/Dashboard.vue`                                           | DashboardTest                                       |
+| 登录/登出                                                           | ✅   | Fortify → `pages/auth/Login.vue`                                                   | AuthenticationTest                                  |
+| 注册                                                                | ✅   | `Actions/Fortify/CreateNewUser.php` → `pages/auth/Register.vue`                    | RegistrationTest                                    |
+| 忘记/重置密码                                                       | ✅   | `Actions/Fortify/ResetUserPassword.php` → `pages/auth/{Forgot,Reset}Password.vue`  | PasswordResetTest                                   |
+| 邮箱验证                                                            | ✅   | Fortify → `pages/auth/VerifyEmail.vue`                                             | EmailVerificationTest、VerificationNotificationTest |
+| 密码确认                                                            | ✅   | Fortify → `pages/auth/ConfirmPassword.vue`                                         | PasswordConfirmationTest                            |
+| 双因素认证 2FA（TOTP+恢复码+确认流）                                | ✅   | `Settings\SecurityController` + `ManageTwoFactor*` 组件 + `useTwoFactorAuth`       | TwoFactorChallengeTest、SecurityTest                |
+| Passkeys（WebAuthn 注册/验证/管理）                                 | ✅   | `ManagePasskeys*` 组件 + `passkeys` 表 + `.well-known/passkey-endpoints`           | SecurityTest                                        |
+| 资料（查看/更新/删除账号）                                          | ✅   | `Settings\ProfileController` → `pages/settings/Profile.vue`                        | ProfileUpdateTest                                   |
+| 改密码（throttle:6,1）                                              | ✅   | `Settings\SecurityController@update` → `pages/settings/Security.vue`               | SecurityTest                                        |
+| 外观设置（明/暗/system，cookie 持久化）                             | ✅   | `pages/settings/Appearance.vue` + `HandleAppearance`                               | —                                                   |
+| 布局体系（App 壳/认证三式/设置壳）                                  | ✅   | `app.ts` + `layouts/**`                                                            | —                                                   |
+| 主题/布局基础设施（shadcn-vue 24 组 UI 件）                         | ✅   | `components/ui/**` [生成]                                                          | —                                                   |
+| 工具链（Pint/Larastan lv7/vue-tsc/vite-plus lint/fmt、CI workflow） | ✅   | 各配置文件                                                                         | `composer run test`                                 |
 
-测试基线：**12 个测试文件**（Feature 11 + Unit 1），实测 **39 passed / 136 assertions**（2026-09-16，`php artisan test --compact`）。
+测试基线：**13 个测试文件**（Feature 12 + Unit 1），实测 **44 passed / 148 assertions**（2026-09-16，`php artisan test --compact`）。
 
 ## 🚧 进行中 / 待启动
 
-| 任务 | 状态 | 说明 |
-|---|---|---|
-| **laravel/ai 接入**（项目核心目标） | ⬜ 未开始 | 已安装 v0.11.2，需要：① 发布配置（`config/ai.php`）② `.env` 配置供应商密钥（OpenAI/Anthropic/Gemini/Ollama 等任选）③ 编写首个调用（命名空间 `Laravel\Ai\`，`ai()` 门面）。开发前必读 `.github/skills/ai-sdk-development/SKILL.md` |
-| 首个 AI 业务功能 | ⬜ 未开始 | 功能形态待用户定义（对话/Agent/嵌入/结构化输出等）。建议服务类落位 `app/Ai/`（新目录需用户批准） |
-| README.md | ⬜ 缺失 | 项目根目录无 README（如需补，须用户明确要求） |
+| 任务                                       | 状态      | 说明                                                                                                                                                                                                                                                                                                                                           |
+| ------------------------------------------ | --------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **laravel/ai 接入**（项目核心目标）        | ✅ 已通   | 已完成并**真实调用验证通过**：`config/ai.php`（含智谱 `zhipu` provider，openai-compatible 驱动）；`.env` 已配真实 Key（`AI_DEFAULT_PROVIDER=zhipu`，模型 `glm-4-flash` 实测可用；`glm-4.6` 对当前 Key 429 限流）；`ChatAgent` + `POST /chat` SSE + 首页聊天 UI；Pest 6 个。环境修复：php.ini 的 cafile 改绝对路径（原相对路径导致 HTTPS 失败） |
+| 扩展 AI 能力（工具/结构化输出/会话持久化） | ⬜ 未开始 | SDK 已支持 `HasTools`、`HasStructuredOutput`、`RemembersConversations`（`agent_conversations` 迁移文件已在 `database/migrations/`）；开发前读 ai-sdk skill                                                                                                                                                                                     |
+| README.md                                  | ⬜ 缺失   | 项目根目录无 README（如需补，须用户明确要求）                                                                                                                                                                                                                                                                                                  |
 
 ## ⚠️ 已知问题 / 技术债
 
-| # | 问题 | 影响 | 建议 |
-|---|---|---|---|
-| 1 | `laravel/ai` 为 0.x 版本（0.11.2），API 尚未稳定 | 升级可能有 breaking changes | 锁定版本使用；升级前读 changelog + ai-sdk skill |
-| 2 | `tests/Console` 无测试，`routes/console.php` 仅有示例 `inspire` 命令 | 无 | 示例命令属脚手架，可忽略 |
-| 3 | Starter Kit 脚手架残留：Welcome 页营销内容、`PlaceholderPattern`、未使用的 `laravel/sail` 依赖 | 体积/噪音 | 如需清理，用 `laravel/chisel`（已安装，专为移除脚手架设计）；删依赖需用户批准 |
-| 4 | `DatabaseSeeder` 仅造 1 个测试用户 | 本地开发数据少 | 按需扩展；测试一律走 `UserFactory` |
-| 5 | 无 README（新协作者/AI 冷启动靠本套 docs） | 低 | 本记忆系统已覆盖；README 待用户要求再建 |
-| 6 | User 模型未实现 `MustVerifyEmail`（接口 import 被注释） | 邮箱验证流程依赖 Fortify 特性开关仍可用 | 保持现状（Starter Kit 默认） |
+| #   | 问题                                                                                                         | 影响                                     | 建议                                                                                        |
+| --- | ------------------------------------------------------------------------------------------------------------ | ---------------------------------------- | ------------------------------------------------------------------------------------------- |
+| 1   | `laravel/ai` 为 0.x 版本（0.11.2），API 尚未稳定                                                             | 升级可能有 breaking changes              | 锁定版本使用；升级前读 changelog + ai-sdk skill                                             |
+| 2   | `tests/Console` 无测试，`routes/console.php` 仅有示例 `inspire` 命令                                         | 无                                       | 示例命令属脚手架，可忽略                                                                    |
+| 3   | Starter Kit 脚手架残留：`PlaceholderPattern`、未使用的 `laravel/sail` 依赖（Welcome 营销页已被 AI 界面替换） | 体积/噪音                                | 如需清理，用 `laravel/chisel`（已安装，专为移除脚手架设计）；删依赖需用户批准               |
+| 7   | `npm run build` 失败：`laravel-vite-plugin` 字体优化需要可选依赖 `fontaine`（未安装）                        | 仅影响 build 产物；dev/测试/类型检查正常 | 二选一：装 `fontaine`（需批准）或在 `vite.config.ts` 字体配置加 `optimizedFallbacks: false` |
+| 4   | `DatabaseSeeder` 仅造 1 个测试用户                                                                           | 本地开发数据少                           | 按需扩展；测试一律走 `UserFactory`                                                          |
+| 5   | 无 README（新协作者/AI 冷启动靠本套 docs）                                                                   | 低                                       | 本记忆系统已覆盖；README 待用户要求再建                                                     |
+| 6   | User 模型未实现 `MustVerifyEmail`（接口 import 被注释）                                                      | 邮箱验证流程依赖 Fortify 特性开关仍可用  | 保持现状（Starter Kit 默认）                                                                |
 
 ## 📝 变更记录
 
+- 2026-09-18（八）：修复**"聊天记录不会更新"**——根因：SSE 事件顺序为 `text_delta… → stream_end(reason) → conversation(id) → [DONE]`，当回复达到模型输出上限（智谱 glm-4v-flash 的 1024 token 硬上限，打印模板大 JSON 高频触发）时，前端 `streamChat.ts` 在 `stream_end reason=length` 处**循环中途 throw**，排在后面的 `conversation` 事件永远收不到 → `conversationId` 不设置、历史列表不 reload（实时不更新），且下一条消息碎片化为新会话；而服务端持久化正常（刷新页面能看到记录）。修复：`consumeServerSentEvent` 由"抛异常"改为**返回 Error**，读取循环记录首个错误并**继续消费后续事件**（含 conversation），全部事件处理完后统一抛出（toast 照常显示，截断的部分回复保留）。验证：Node 实测 3 场景（截断流 conversationId 捕获✓+延迟报错✓、正常流✓、stream_error✓，临时脚本已删）+ vue-tsc/vp check ✓。
+- 2026-09-18（七）：**AI 聊天迁入用户中心（仅登录可用 + 侧边菜单入口）**——① 路由：`GET/POST /chat` 与 `chat.conversations.destroy` 统一移入 `auth` 中间件组（游客 → 重定向登录页）；② 布局：`app.ts` 布局映射移除 ChatAgent 的无布局特例 → 默认套 `AppLayout`（侧边栏+顶栏+Toaster）；`ChatAgent.vue` 移除独立页头部（返回首页/Dashboard/登录注册链接、自挂 Toaster），Agent 切换下拉/新对话/聊天历史按钮改为内容区顶部**工具栏**，根容器 `h-dvh`→`h-full`（适配布局内高度），新增 `defineOptions` 面包屑 "AI Chat"；③ 侧边菜单：`AppSidebar.vue` 主导航新增 "AI Chat"（Sparkles 图标，Dashboard 之后）；④ Welcome 页 CTA 保持指向 /chat（游客自动跳登录）。测试同步：验证类用例全部加 `actingAs`（13 处），"guests can stream"→"users can stream"，访客用例改为断言 302 跳登录 + 零落库，新增 "guests are redirected to the login page"（ChatTest 现 26 个）。验证：Pint ✓ / phpstan 0 错误 ✓ / ChatTest 26 passed ✓ / vue-tsc+vp check ✓。
+- 2026-09-18（六）：**打印模板助手设为默认 Agent**——`ChatAgents` 枚举 case 顺序调整为 PrintTemplate/General/Teacher（`catalog()` 顺序随之变化：下拉首项与前端预选 = 打印模板助手），新增 `defaultAgent(): self` 显式声明默认；`ChatRequest::agentKey()` 无 `agent` 参数时的回退由 `ChatAgents::General` 改为 `ChatAgents::defaultAgent()`（前后端默认一致）。测试同步：原依赖 General 默认的 13 处 POST 显式传 `agent: 'general'`（保持原测试意图不变），新增 "chat defaults to the print template agent" 用例（ChatTest 现 25 个）。验证：Pint ✓ / phpstan lv7 0 错误 ✓ / ChatTest 25 passed ✓（前端零改动：预选逻辑本就取 catalog 首项）。
+- 2026-09-18（五）：修复**打印模板助手 JSON 显示仍丑**——根因不是 AI 返回错误：该 Agent 提示词明确要求"只输出纯 JSON、禁止 Markdown 代码块包裹"（供模板编辑器直接 `JSON.parse`），裸 JSON 不走围栏代码块路径 → 渲染成纯文本墙（无卡片/高亮/美化/复制）。修复（仅显示层，不改 Agent 契约）：`markdown.ts` 在 markdown 解析**前**新增 `fenceUnfencedJson()`——先把文本按既有围栏块（\`\`\`/~~~，含未闭合的流式中间态）切段，非围栏段内用**字符串感知的括号配对扫描**（正确处理 `"}"`、`\"` 转义）提取候选 JSON，`JSON.parse` 成功且 ≥8 字符才包上 \`\`\`json 围栏（每条消息最多 10 个），随后复用既有代码卡片管线（标签/高亮/压缩自动美化/复制按钮）。安全边界：非法 JSON、正文小片段（如 `{"a":1}` 7 字符）、已围栏内容均不动。验证：Node 实测 8 用例（裸压缩 JSON→卡片+美化✓ 裸 JSON+前后文✓ 裸多行 JSON 保持原格式✓ 已围栏不重复处理✓ PHP 围栏+正文花括号✓ 非法 JSON✓ 小片段✓，临时脚本已删）+ vue-tsc/vp check/build ✓。
+- 2026-09-18（四）：优化聊天窗**代码/JSON 显示**——① 代码块卡片化：新增头部栏（左侧**语言标签**如 JSON/PHP/JavaScript（20 个常见语言映射+大写回退），右侧**复制按钮移入头部**，不再悬浮遮挡代码；复制的事件委托选择器不变）；② **压缩 JSON 自动美化**：单行 JSON 在高亮前 `JSON.parse`+2 空格缩进重排（多行 JSON 保留模型原格式、解析失败原样不动，复制得到的是美化后同样合法的 JSON）；③ **无语言标注 JSON 启发式识别**（剥离 hljs span 后按 `{`/`[` 开头判定）→ 按 JSON 高亮+打标签；④ CSS：代码块 `rounded-xl border` 卡片 + header 分隔线双色、内边距 p-3→p-4 + `leading-relaxed`、**超高代码内部滚动**（`max-height:32rem`，不再拉伸页面）、横竖**细滚动条**（thin/8px webkit）、JSON 标点 `.hljs-punctuation` 中性色。改动仅 `lib/markdown.ts` + `app.css`（`withCodeBlocks` 重写）。验证：Node 脚本实测 4 类用例（标注压缩 JSON✓ 无标注 JSON✓ PHP✓ 非法 JSON 不动✓，临时脚本已删）+ vue-tsc/vp check/build ✓。
+- 2026-09-18（三）：**AI 聊天记忆/历史回查**（仅登录用户，游客保持临时会话）——基于 SDK 内置会话存储（`agent_conversations`/`agent_conversation_messages` 表，迁移早已就绪）：① 三个 Agent 挂 `RemembersConversations` trait（`messages as rememberedMessages` 别名 + `messages()` 覆盖：绑定时优先取存储上下文，否则回退构造器注入的客户端 history——游客路径完全兼容）；② `ChatAgents` 枚举加 `agentClass()`/`fromAgentClass()`（历史会话→前端 agent key 反查）+ `newAgent` 返回具体联合类型；③ `ChatController` 重构：`index()`（从路由闭包迁入，带 `conversations`/`activeConversation` props，`?conversation=` 回查含归属校验 404）、`stream()` 登录用户 `forUser()/continue()` 自动持久化，流尾新增 `{"type":"conversation","id"}` SSE 事件；`ChatRequest` 加 `conversation` uuid；新建 `ChatConversationController::destroy`（`DELETE /chat/conversations/{id}`，auth 中间件+归属校验+flash toast）；`config/ai.php` 设 `conversations.generate_title=false`（标题=首条消息截断，省一次模型调用）；④ 前端：`ChatAgent.vue` 左侧 Sheet 历史抽屉（列表/相对时间/agent 名/悬停删除/当前高亮，点击经 Inertia partial reload 回查并**可继续对话**）、流后 `router.reload` 刷新列表、切 Agent/新对话自动弃用当前会话；`streamChat.ts` 加 `conversation` 参数与 `onConversation` 回调。**注意**：续聊时后端用存储上下文、忽略客户端 history；图片附件不持久化（体积）。验证：Pint ✓ / phpstan lv7 0 错误 ✓ / vue-tsc+vp check ✓ / ChatTest **24 passed**（新增 8 个：持久化、续聊同会话、游客不落库、越权续聊/回查/删除 404、列表、删除）。
+- 2026-09-18（二）：AI 聊天窗口**整页重构**（用户反馈显示不友好）——视口锁定 `h-dvh` 三段式（顶栏固定/消息区内部滚动/**输入框常驻底部**，修复长对话整页滚动痛点）；紧凑毛玻璃顶栏（返回+Agent 下拉移入+新对话+Dashboard/登录注册）；助手消息**去气泡化**（AI 头像+名称+全宽文档式 markdown，悬停"复制全文"）；用户消息主色圆角气泡（尾角小圆角）；**智能滚动**（位于底部才跟随流式输出，翻阅历史显示"回到底部"悬浮按钮）；现代化 Composer（圆角容器内嵌图片按钮+自增长输入框+圆形发送/停止，聚焦高亮）；空状态 Hero+建议卡片。配套 `app.css`：`.chat-markdown` 的 code/pre/th 背景改 `bg-muted`（助手消息无气泡后代码块需自带背景）。验证：vue-tsc/vp check 0 错误。
+- 2026-09-18（一）：AI 窗口主显示区域加宽（`max-w-3xl`→`max-w-7xl`，对齐全局标准宽）+ markdown 满宽（助手气泡 `max-w-[85%]`→`w-full`）。
+- 2026-09-17（十二）：三项稳定性修复——① **智谱直连**（09:38 曾报 `HTTPS proxies are not supported by the stream handler`）：`services.http_proxy` 默认 `http://127.0.0.1:1080` 且 `AppServiceProvider` 全局 `Http::globalOptions(proxy=...)`，导致**所有** AI 请求（含国内智谱）被强制走本地代理；改为数组形式 `['http'=>proxy,'https'=>proxy,'no'=>['open.bigmodel.cn','localhost','127.0.0.1']]`——智谱/本机直连、gemini 等照常走代理，数组形式为最终决定（Guzzle 不再回退读 `HTTPS_PROXY` 环境变量，实测 ProxyOptions::resolve：zhipu disabled ✓ / gemini proxied ✓）。② **PHP 180s fatal 杀流**（10:11 `Maximum execution time of 180 seconds exceeded`，"输出断"新真凶）：`ChatController` 流回调开头 `set_time_limit(0)`。③ 三个 Agent `#[Timeout]` 180→300（长生成 HTTP 超时余量）。事故与恢复：PowerShell `Set-Content` 改 Timeout 时把两个含中文的 Agent 文件写成 GBK 双重编码（parse error），已用编辑器重建恢复（教训：**改中文文件禁用 PowerShell 重写，只用编辑器**）。验证：Pint/phpstan/ChatTest 16 passed ✓。
+- 2026-09-17（十一）：按用户要求**全面切换智谱为主**（团队付费套餐）——`.env`：`AI_DEFAULT_PROVIDER=zhipu` + `ZHIPU_MODEL=glm-5.3`；`config/ai.php` 的 `chat_providers` 用户已改为 `['zhipu']`（纯智谱，无兜底）。**待办**：当前 `.env` 的 key 实测调用 glm-5.3 返回 1113"余额不足"——个人账号 key 与团队组织余额不通用，需用户到智谱控制台**团队组织下**创建 API Key 替换 `ZHIPU_API_KEY` 后即可用（配置已就绪，无需再改代码）。换 key 后 glm-5.3 的高输出上限也将解除 1024 截断问题。
+- 2026-09-17（十）：用户自行改 `.env` 为 `ZHIPU_MODEL=glm-5.3` 后对话全 429——实测智谱返回 code 1113 `"余额不足或无可用资源包,请充值"`（glm-5.3 与 glm-4v-plus 同为收费模型，免费 key 仅限 flash 系列）；SDK 将一切 429 包装为 `RateLimitedException`（文案 "rate limited"，**误导**，真实欠费原因在其 `previous` 链的 `RequestException` 响应体里）。处理：① 回滚 `.env` 至 `glm-4v-flash` 并端到端验证 200 ✓；② `ChatController::streamErrorMessage` 沿 previous 链提取 `RequestException` 响应体的 `error.message` 追加到 toast——今后欠费/限流/参数错误都能看到智谱原始原因。充值后想用 glm-5.3：改 `.env` 一行 `ZHIPU_MODEL=glm-5.3` 即可。
+- 2026-09-17（九）：用户选择换 `glm-4v-plus` 突破 1024 截断——**实测不可行**：智谱返回 429 code 1113 `"余额不足或无可用资源包,请充值"`（免费 key 仅限 flash 系列免费模型），已回滚 `.env` 至 `glm-4v-flash` 并端到端验证链路正常（200 流式 ✓）。剩余路径：① 智谱账户充值后改一行 `ZHIPU_MODEL=glm-4v-plus` 即可；② 稳定代理让首选 gemini 承担（输出上限 8192）。
+- 2026-09-17（八）：修复"输出到一半断了"——根因：**智谱 `glm-4v-flash` 的 max_tokens 硬上限为 1024**（实测设 4096 直接 400 "限制数值范围[1,1024]"），长输出（如打印模板大 JSON）在此截断、`finish_reason=length`，流"正常"结束**无任何报错**；前端此前忽略 `stream_end` 事件 → 静默中断。已排除：PHP 侧无超时（`max_execution_time=0`/CLI SAPI）、日志无新错误。修复：`streamChat.ts` 处理 `stream_end` 事件，`reason==="length"` 时抛出明确提示（"回复因达到模型单次输出上限被截断…"）→ toast。端到端复现实测：强制 3000 词长文 → `completion_tokens:1024, reason:"length"` ✓。**局限**：1024 上限是智谱免费视觉模型的硬限制，无法代码突破；缓解选项：① 要求 AI 精简输出；② `.env` 换 `glm-4v-plus`（上限更高，收费）；③ 修好代理让首选 gemini 承担（输出上限 8192）。
+- 2026-09-17（七）：修复"发图片+文字无响应被中断"——根因双重：① `.env` 的 `ZHIPU_MODEL=glm-4-flash` 为纯文本模型，收到 `image_url` 即 400（日志 06:27:21 证实；gemini 首选因网络静默失败后回落 zhipu）；② `stream_error` 事件已送达前端，但 **ChatAgent 页未挂 `<Toaster />`（仅 App 布局有），toast 无处渲染 → 错误被静默吞掉**。修复：① ChatAgent.vue 挂载 `<Toaster />`；② `ChatController` 的 `stream_error` 消息增强（`RequestException` 附上 provider 响应体 `error.message` 细节，截断 300 字符）；③ `.env` 改 `ZHIPU_MODEL=glm-4v-flash`（智谱免费视觉模型，纯文本兼容）。端到端实测：1×1 PNG + 文字 → 200，`stream_start(provider:zhipu, model:glm-4v-flash)` → `text_delta` 正常流出。
+- 2026-09-17（六）：AI 窗口两项增强——**① 图片支持**：前端（`ChatAgent.vue`）图片按钮选图 + textarea 粘贴图片 + 预览/移除（限 3 张、单张 dataUrl ≤200 万字符 ≈1.4MB，与后端契约同步）、用户气泡显示缩略图、支持纯图发送；`streamChat.ts`/`types/ai.ts` 增加 `images`（data URL 数组）；后端 `ChatRequest` 新增 `images` 验证（regex 强制 `data:image/(png|jpe?g|gif|webp);base64,`）+ `images()` 解析为 SDK `Base64Image`，`message` 改 `required_without:images`；`ChatController` 经 `Promptable::stream($message, $attachments, ...)` 传入（openai-compatible 网关映射为 `image_url` content part）。注意：多轮 history 不回传图片（体积考虑）；**需视觉模型**（如 `glm-4v-flash`/gemini，当前 `.env` 的 `glm-4-flash` 可能不支持图片）。**② 代码块一键复制**：`markdown.ts` 在 DOMPurify 之后把 `<pre><code class="hljs...">` 包进 `.chat-code-block` + `.chat-code-copy` span（span 因 DOMPurify FORBID button；事件委托在消息容器 click 处理，clipboard.writeText + "已复制"反馈）；`app.css` 补按钮/图片样式；`.chat-markdown img` 支持模型输出的内联图片。新增 3 个测试（ChatTest 现 16 个）。
+- 2026-09-17（五）：Agent 目录结构重构为**文件夹式**——`Agents/<Name>/<Name>.php`（命名空间 `App\Ai\Agents\<Name>`，PSR-4 对应），`instructions.md`/`data.json` 与类同目录经 `__DIR__` 加载；`app/Ai/rules/` 目录移除。用户自行完成 TeacherAgent/ChatAgents/ChatTest/routes 的引用迁移与 TeacherAgent/ChatAgent 类迁移；本次补齐：重建 `PrintTemplateAgent/PrintTemplateAgent.php`（`__DIR__.'/instructions.md'` 加载器，对齐 TeacherAgent 模式；挂载用户新写的 JSON schema 版提示词——面向模板编辑器直出画布 JSON）；`composer dump-autoload`。验证：Pint/phpstan lv7 0 错误/ChatTest 13 passed（fake 测试真实触发 instructions.md 加载）。
+- 2026-09-17（四）：新增**打印模板 AI 助手**——`app/Ai/Agents/PrintTemplateAgent.php`（人设：标签/姓名贴/价签/证书/请柬/海报等可打印模板排版专家；默认输出自包含 HTML+CSS（`@page` + mm/cm 精确尺寸）+ 打印说明，微调时输出完整模板；指令采用 ChatAgent 同款内联 heredoc，避免外部规则文件缺失即崩溃）；`ChatAgents` 枚举注册 `print-template`（名称/描述/建议问题/类映射），前端下拉自动出现，**无需改前端**。新增 agent 路由测试（ChatTest 现 13 个）。顺带修复 phpstan level 7 的 4 个既有错误（三个 Agent 的 suggestions 返回类型标注、TeacherAgent `file_get_contents` false 分支）。
+- 2026-09-17（三）：排查"从 /chat 返回首页报 `Uncaught TypeError: Cannot read properties of undefined (reading 'startTime')`（VM 脚本）"——**结论：非本项目代码**。已排除：服务端（游客+登录态+Inertia 头均 200，无新增日志）、Vite 模块转换、routes 生成物、Inertia 3.7.1 内部（layout/head/exposeInterceptors）、全部浏览器端依赖（vue-sonner/reka-ui/@vueuse/wayfinder runtime 均 grep 无 `.startTime`）。`VM` 前缀表明报错来自 **eval/浏览器扩展注入的脚本**（最可能 Vue DevTools 扩展在 SPA 导航时读 timeline 事件的已知 bug）；验证法：无痕窗口（禁扩展）重试。顺带新增回归测试"logged-in users can open the homepage"（ChatTest 现 12 个）。
+- 2026-09-17（二）：聊天界面拆为独立页——用户已把聊天 UI 移至 `pages/ChatAgent.vue`、`Welcome.vue` 还原为原营销页；本次补齐链路：新增 `GET /chat` 页面路由（props `aiConfigured`/`agents`，与 `POST /chat` 同 URI 不同方法）；`app.ts` 布局映射让 `ChatAgent` 与 `Welcome` 一样不套布局；首页入口（导航 "AI Chat" 按钮 + "Let's get started" 列表首项链接）；聊天页 header 加返回首页链接、`Head` 标题改 "AI Chat"；Wayfinder 需以 `php artisan wayfinder:generate --with-form` 重新生成（与 vite 插件 `formVariants: true` 对齐，缺 `--with-form` 会导致路由函数缺 `.form`、vue-tsc 大面积报错）；新增 ChatTest 页面渲染测试（现 11 个）。
+- 2026-09-17（一）：修复"第二轮起 302 无内容"——根因：第二轮请求携带上轮助手回复作为 history，超过 `ChatRequest` 的 `history.*.content max:4000` 验证失败；且 fetch `Accept: text/event-stream` 非 JSON，Laravel 验证失败对非 JSON 请求返回 **302 重定向回首页**（fetch 自动跟随拿到 HTML，SSE 解析无 `data:` 行 → 静默无内容无报错）。修复：① 后端 history 内容上限提至 10000（用户输入仍 4000）；② `streamChat.ts` 发送前规范化 history（过滤空消息、只取最近 20 条、单条截断）；③ Accept 改为 `application/json, text/event-stream`，验证失败变 422 JSON + toast；④ 新增 `response.redirected` 防御抛错。新增 2 个回归测试。
+- 2026-09-16（八）：修复"仅第一次成功"——根因 Gemini 免费层限流（复现：第 2/3 次请求 429）。新增 `config/ai.php` 的 `chat_providers` 失败链（`['gemini','zhipu']`），限流/连接失败自动回落智谱（实测三连发全成功）；错误提示依赖上一版的 `stream_error` 事件（需浏览器强刷获取新 JS）。
+- 2026-09-16（七）：修复流中断无提示——`ChatController` 改为手动驱动 SSE（provider 连接失败/超时/限流时发 `stream_error` 事件而非静默断连），前端 toast 显示错误信息；Agent 超时提至 180s（`#[Timeout(180)]`）；根因：用户切到 gemini 后代理波动导致 `ProviderConnectionException`。
+- 2026-09-16（六）：优化 Markdown 显示——新增 `katex` + `marked-katex-extension` + `highlight.js` + `marked-highlight` 依赖；数学公式（`$...$`/`$$...$$`/`\(...\)`）KaTeX 渲染、代码块语法高亮（自定义明暗双配色）；DOMPurify 放开内联 style（KaTeX 排版需要，CSS 值仍会被净化）。
+- 2026-09-16（五）：多专属 Agent 切换——新增 `app/Ai/ChatAgents` enum（注册表：key/名称/描述/建议问题/类映射）+ `TeacherAgent`（出试卷/练习题册人设，真实出题验证通过）；`ChatRequest` 加 `agent` 枚举验证；首页 DropdownMenu 切换（切换即清空对话、建议问题随人设变化）。顺带：用户手加的 HTTP 代理配置按 Laravel 惯例迁移到 `config/services.php`（`http_proxy`），消除 phpstan 报错与死代码。
+- 2026-09-16（四）：聊天消息支持 Markdown 渲染——新增 `marked` + `dompurify` 依赖（用户要求的功能所必需）、`lib/markdown.ts`（渲染+净化）、`.chat-markdown` 样式；助手气泡 v-html 渲染，用户气泡保持纯文本。
+- 2026-09-16（三）：接入智谱 GLM——`zhipu` provider（openai-compatible 驱动）+ 真实调用验证通过（SSE 流式回复正常）；修复本机 php.ini cafile 相对路径问题；新增 provider 解析回归测试。
+- 2026-09-16（二）：首页改造为 Laravel AI 聊天界面——`ChatAgent` + `POST /chat` SSE + `Welcome.vue` 重写 + `streamChat.ts`；新增 ChatTest；发布 `config/ai.php`。
 - 2026-09-16：初始创建本记忆系统（基于 `first commit` 后的代码全量勘察）。
 
 ---

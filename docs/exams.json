@@ -204,16 +204,76 @@
                     "title": "四、把下列词语补充完整",
                     "score": 10,
                     "questions": [
-                        {"question_no": "1", "question_type": "complete_word", "content": "春暖花（　）", "score": 1, "answer": "开"},
-                        {"question_no": "2", "question_type": "complete_word", "content": "鸟语花（　）", "score": 1, "answer": "香"},
-                        {"question_no": "3", "question_type": "complete_word", "content": "欢天喜（　）", "score": 1, "answer": "地"},
-                        {"question_no": "4", "question_type": "complete_word", "content": "兴高采（　）", "score": 1, "answer": "烈"},
-                        {"question_no": "5", "question_type": "complete_word", "content": "一心一（　）", "score": 1, "answer": "意"},
-                        {"question_no": "6", "question_type": "complete_word", "content": "三心二（　）", "score": 1, "answer": "意"},
-                        {"question_no": "7", "question_type": "complete_word", "content": "四通八（　）", "score": 1, "answer": "达"},
-                        {"question_no": "8", "question_type": "complete_word", "content": "五颜六（　）", "score": 1, "answer": "色"},
-                        {"question_no": "9", "question_type": "complete_word", "content": "七上八（　）", "score": 1, "answer": "下"},
-                        {"question_no": "10", "question_type": "complete_word", "content": "十全十（　）", "score": 1, "answer": "美"}
+                        {
+                            "question_no": "1",
+                            "question_type": "complete_word",
+                            "content": "春暖花（　）",
+                            "score": 1,
+                            "answer": "开"
+                        },
+                        {
+                            "question_no": "2",
+                            "question_type": "complete_word",
+                            "content": "鸟语花（　）",
+                            "score": 1,
+                            "answer": "香"
+                        },
+                        {
+                            "question_no": "3",
+                            "question_type": "complete_word",
+                            "content": "欢天喜（　）",
+                            "score": 1,
+                            "answer": "地"
+                        },
+                        {
+                            "question_no": "4",
+                            "question_type": "complete_word",
+                            "content": "兴高采（　）",
+                            "score": 1,
+                            "answer": "烈"
+                        },
+                        {
+                            "question_no": "5",
+                            "question_type": "complete_word",
+                            "content": "一心一（　）",
+                            "score": 1,
+                            "answer": "意"
+                        },
+                        {
+                            "question_no": "6",
+                            "question_type": "complete_word",
+                            "content": "三心二（　）",
+                            "score": 1,
+                            "answer": "意"
+                        },
+                        {
+                            "question_no": "7",
+                            "question_type": "complete_word",
+                            "content": "四通八（　）",
+                            "score": 1,
+                            "answer": "达"
+                        },
+                        {
+                            "question_no": "8",
+                            "question_type": "complete_word",
+                            "content": "五颜六（　）",
+                            "score": 1,
+                            "answer": "色"
+                        },
+                        {
+                            "question_no": "9",
+                            "question_type": "complete_word",
+                            "content": "七上八（　）",
+                            "score": 1,
+                            "answer": "下"
+                        },
+                        {
+                            "question_no": "10",
+                            "question_type": "complete_word",
+                            "content": "十全十（　）",
+                            "score": 1,
+                            "answer": "美"
+                        }
                     ]
                 },
                 {
@@ -373,26 +433,146 @@
                     "title": "一、直接写得数",
                     "score": 20,
                     "questions": [
-                        {"question_no": "1", "question_type": "calculation", "content": "36＋28＝", "score": 1, "answer": "64"},
-                        {"question_no": "2", "question_type": "calculation", "content": "72－45＝", "score": 1, "answer": "27"},
-                        {"question_no": "3", "question_type": "calculation", "content": "9×6＝", "score": 1, "answer": "54"},
-                        {"question_no": "4", "question_type": "calculation", "content": "56÷7＝", "score": 1, "answer": "8"},
-                        {"question_no": "5", "question_type": "calculation", "content": "48＋37＝", "score": 1, "answer": "85"},
-                        {"question_no": "6", "question_type": "calculation", "content": "90－56＝", "score": 1, "answer": "34"},
-                        {"question_no": "7", "question_type": "calculation", "content": "8×7＝", "score": 1, "answer": "56"},
-                        {"question_no": "8", "question_type": "calculation", "content": "63÷9＝", "score": 1, "answer": "7"},
-                        {"question_no": "9", "question_type": "calculation", "content": "25＋48＝", "score": 1, "answer": "73"},
-                        {"question_no": "10", "question_type": "calculation", "content": "81－39＝", "score": 1, "answer": "42"},
-                        {"question_no": "11", "question_type": "calculation", "content": "6×8＝", "score": 1, "answer": "48"},
-                        {"question_no": "12", "question_type": "calculation", "content": "42÷6＝", "score": 1, "answer": "7"},
-                        {"question_no": "13", "question_type": "calculation", "content": "67＋28＝", "score": 1, "answer": "95"},
-                        {"question_no": "14", "question_type": "calculation", "content": "100－46＝", "score": 1, "answer": "54"},
-                        {"question_no": "15", "question_type": "calculation", "content": "9×5＝", "score": 1, "answer": "45"},
-                        {"question_no": "16", "question_type": "calculation", "content": "72÷8＝", "score": 1, "answer": "9"},
-                        {"question_no": "17", "question_type": "calculation", "content": "39＋45＝", "score": 1, "answer": "84"},
-                        {"question_no": "18", "question_type": "calculation", "content": "80－37＝", "score": 1, "answer": "43"},
-                        {"question_no": "19", "question_type": "calculation", "content": "7×9＝", "score": 1, "answer": "63"},
-                        {"question_no": "20", "question_type": "calculation", "content": "54÷9＝", "score": 1, "answer": "6"}
+                        {
+                            "question_no": "1",
+                            "question_type": "calculation",
+                            "content": "36＋28＝",
+                            "score": 1,
+                            "answer": "64"
+                        },
+                        {
+                            "question_no": "2",
+                            "question_type": "calculation",
+                            "content": "72－45＝",
+                            "score": 1,
+                            "answer": "27"
+                        },
+                        {
+                            "question_no": "3",
+                            "question_type": "calculation",
+                            "content": "9×6＝",
+                            "score": 1,
+                            "answer": "54"
+                        },
+                        {
+                            "question_no": "4",
+                            "question_type": "calculation",
+                            "content": "56÷7＝",
+                            "score": 1,
+                            "answer": "8"
+                        },
+                        {
+                            "question_no": "5",
+                            "question_type": "calculation",
+                            "content": "48＋37＝",
+                            "score": 1,
+                            "answer": "85"
+                        },
+                        {
+                            "question_no": "6",
+                            "question_type": "calculation",
+                            "content": "90－56＝",
+                            "score": 1,
+                            "answer": "34"
+                        },
+                        {
+                            "question_no": "7",
+                            "question_type": "calculation",
+                            "content": "8×7＝",
+                            "score": 1,
+                            "answer": "56"
+                        },
+                        {
+                            "question_no": "8",
+                            "question_type": "calculation",
+                            "content": "63÷9＝",
+                            "score": 1,
+                            "answer": "7"
+                        },
+                        {
+                            "question_no": "9",
+                            "question_type": "calculation",
+                            "content": "25＋48＝",
+                            "score": 1,
+                            "answer": "73"
+                        },
+                        {
+                            "question_no": "10",
+                            "question_type": "calculation",
+                            "content": "81－39＝",
+                            "score": 1,
+                            "answer": "42"
+                        },
+                        {
+                            "question_no": "11",
+                            "question_type": "calculation",
+                            "content": "6×8＝",
+                            "score": 1,
+                            "answer": "48"
+                        },
+                        {
+                            "question_no": "12",
+                            "question_type": "calculation",
+                            "content": "42÷6＝",
+                            "score": 1,
+                            "answer": "7"
+                        },
+                        {
+                            "question_no": "13",
+                            "question_type": "calculation",
+                            "content": "67＋28＝",
+                            "score": 1,
+                            "answer": "95"
+                        },
+                        {
+                            "question_no": "14",
+                            "question_type": "calculation",
+                            "content": "100－46＝",
+                            "score": 1,
+                            "answer": "54"
+                        },
+                        {
+                            "question_no": "15",
+                            "question_type": "calculation",
+                            "content": "9×5＝",
+                            "score": 1,
+                            "answer": "45"
+                        },
+                        {
+                            "question_no": "16",
+                            "question_type": "calculation",
+                            "content": "72÷8＝",
+                            "score": 1,
+                            "answer": "9"
+                        },
+                        {
+                            "question_no": "17",
+                            "question_type": "calculation",
+                            "content": "39＋45＝",
+                            "score": 1,
+                            "answer": "84"
+                        },
+                        {
+                            "question_no": "18",
+                            "question_type": "calculation",
+                            "content": "80－37＝",
+                            "score": 1,
+                            "answer": "43"
+                        },
+                        {
+                            "question_no": "19",
+                            "question_type": "calculation",
+                            "content": "7×9＝",
+                            "score": 1,
+                            "answer": "63"
+                        },
+                        {
+                            "question_no": "20",
+                            "question_type": "calculation",
+                            "content": "54÷9＝",
+                            "score": 1,
+                            "answer": "6"
+                        }
                     ]
                 },
                 {
@@ -484,10 +664,26 @@
                             "score": 2,
                             "answer": "C",
                             "options": [
-                                {"label": "A", "content": "8×6", "is_correct": false},
-                                {"label": "B", "content": "9×5", "is_correct": false},
-                                {"label": "C", "content": "7×7", "is_correct": true},
-                                {"label": "D", "content": "6×9", "is_correct": false}
+                                {
+                                    "label": "A",
+                                    "content": "8×6",
+                                    "is_correct": false
+                                },
+                                {
+                                    "label": "B",
+                                    "content": "9×5",
+                                    "is_correct": false
+                                },
+                                {
+                                    "label": "C",
+                                    "content": "7×7",
+                                    "is_correct": true
+                                },
+                                {
+                                    "label": "D",
+                                    "content": "6×9",
+                                    "is_correct": false
+                                }
                             ]
                         },
                         {
@@ -497,10 +693,26 @@
                             "score": 2,
                             "answer": "B",
                             "options": [
-                                {"label": "A", "content": "14", "is_correct": false},
-                                {"label": "B", "content": "48", "is_correct": true},
-                                {"label": "C", "content": "2", "is_correct": false},
-                                {"label": "D", "content": "56", "is_correct": false}
+                                {
+                                    "label": "A",
+                                    "content": "14",
+                                    "is_correct": false
+                                },
+                                {
+                                    "label": "B",
+                                    "content": "48",
+                                    "is_correct": true
+                                },
+                                {
+                                    "label": "C",
+                                    "content": "2",
+                                    "is_correct": false
+                                },
+                                {
+                                    "label": "D",
+                                    "content": "56",
+                                    "is_correct": false
+                                }
                             ]
                         },
                         {
@@ -510,10 +722,26 @@
                             "score": 2,
                             "answer": "B",
                             "options": [
-                                {"label": "A", "content": "45＋28＝63", "is_correct": false},
-                                {"label": "B", "content": "72－39＝33", "is_correct": true},
-                                {"label": "C", "content": "6×8＝46", "is_correct": false},
-                                {"label": "D", "content": "54÷9＝7", "is_correct": false}
+                                {
+                                    "label": "A",
+                                    "content": "45＋28＝63",
+                                    "is_correct": false
+                                },
+                                {
+                                    "label": "B",
+                                    "content": "72－39＝33",
+                                    "is_correct": true
+                                },
+                                {
+                                    "label": "C",
+                                    "content": "6×8＝46",
+                                    "is_correct": false
+                                },
+                                {
+                                    "label": "D",
+                                    "content": "54÷9＝7",
+                                    "is_correct": false
+                                }
                             ]
                         },
                         {
@@ -523,10 +751,26 @@
                             "score": 2,
                             "answer": "B",
                             "options": [
-                                {"label": "A", "content": "6", "is_correct": false},
-                                {"label": "B", "content": "8", "is_correct": true},
-                                {"label": "C", "content": "7", "is_correct": false},
-                                {"label": "D", "content": "9", "is_correct": false}
+                                {
+                                    "label": "A",
+                                    "content": "6",
+                                    "is_correct": false
+                                },
+                                {
+                                    "label": "B",
+                                    "content": "8",
+                                    "is_correct": true
+                                },
+                                {
+                                    "label": "C",
+                                    "content": "7",
+                                    "is_correct": false
+                                },
+                                {
+                                    "label": "D",
+                                    "content": "9",
+                                    "is_correct": false
+                                }
                             ]
                         },
                         {
@@ -536,10 +780,26 @@
                             "score": 2,
                             "answer": "B",
                             "options": [
-                                {"label": "A", "content": "○", "is_correct": false},
-                                {"label": "B", "content": "□", "is_correct": true},
-                                {"label": "C", "content": "△", "is_correct": false},
-                                {"label": "D", "content": "无法确定", "is_correct": false}
+                                {
+                                    "label": "A",
+                                    "content": "○",
+                                    "is_correct": false
+                                },
+                                {
+                                    "label": "B",
+                                    "content": "□",
+                                    "is_correct": true
+                                },
+                                {
+                                    "label": "C",
+                                    "content": "△",
+                                    "is_correct": false
+                                },
+                                {
+                                    "label": "D",
+                                    "content": "无法确定",
+                                    "is_correct": false
+                                }
                             ]
                         }
                     ]

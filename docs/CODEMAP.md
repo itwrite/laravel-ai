@@ -57,11 +57,11 @@ app/
 
 ## routes/
 
-| 文件 | 内容 |
-|---|---|
-| `web.php` | `/`（Welcome）、`/dashboard`（auth+verified）、引入 settings.php |
+| 文件           | 内容                                                                                                                            |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| `web.php`      | `/`（Welcome）、`/dashboard`（auth+verified）、引入 settings.php                                                                |
 | `settings.php` | `/settings` 重定向、profile 三条路由、security 两条、password 一条（throttle:6,1）、appearance、`.well-known/passkey-endpoints` |
-| `console.php` | 仅 `inspire` 示例命令 |
+| `console.php`  | 仅 `inspire` 示例命令                                                                                                           |
 
 ## database/
 
@@ -118,13 +118,13 @@ resources/js/
 
 ## 其他目录
 
-| 目录 | 说明 |
-|---|---|
-| `resources/views/app.blade.php` | 唯一 Blade（Inertia 根模板） |
-| `resources/css/app.css` | Tailwind 4 入口（CSS-first 配置、主题变量、bunny 字体 Instrument Sans） |
-| `config/` | 标准 Laravel 配置 + fortify.php / inertia.php；**无 ai.php**（laravel/ai 未发布配置） |
-| `tests/` | Pest；`Pest.php` 绑定 TestCase+RefreshDatabase→Feature/；详见 [PROGRESS.md](PROGRESS.md) |
-| `.github/skills/` | 8 个 AI 领域技能文档（ai-sdk / fortify / inertia-vue / infer-conventions / laravel-best-practices / tailwindcss / testing-best-practices / wayfinder） |
-| `.github/workflows/tests.yml` | CI 测试工作流 |
-| `bootstrap/` | `app.php`（中间件/异常配置）；`ssr/` [生成] |
-| `public/` | 入口 index.php；`build/` [生成] |
+| 目录                            | 说明                                                                                                                                                   |
+| ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `resources/views/app.blade.php` | 唯一 Blade（Inertia 根模板）                                                                                                                           |
+| `resources/css/app.css`         | Tailwind 4 入口（CSS-first 配置、主题变量、bunny 字体 Instrument Sans）                                                                                |
+| `config/`                       | 标准 Laravel 配置 + fortify.php / inertia.php；**无 ai.php**（laravel/ai 未发布配置）                                                                  |
+| `tests/`                        | Pest；`Pest.php` 绑定 TestCase+RefreshDatabase→Feature/；详见 [PROGRESS.md](PROGRESS.md)                                                               |
+| `.github/skills/`               | 8 个 AI 领域技能文档（ai-sdk / fortify / inertia-vue / infer-conventions / laravel-best-practices / tailwindcss / testing-best-practices / wayfinder） |
+| `.github/workflows/tests.yml`   | CI 测试工作流                                                                                                                                          |
+| `bootstrap/`                    | `app.php`（中间件/异常配置）；`ssr/` [生成]                                                                                                            |
+| `public/`                       | 入口 index.php；`build/` [生成]                                                                                                                        |
