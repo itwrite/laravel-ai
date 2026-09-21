@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>50×30mm 竖版标签</title>
+    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <style>
+        body { background:#f3f4f6; display:flex; justify-content:center; padding:20px; }
+        .label {
+            width: 30mm; height: 50mm;               /* 50×30mm 竖版 */
+            box-sizing: border-box;
+            border: 0.4mm solid #333;
+            border-radius: 2.5mm;                    /* 圆角边框 */
+            padding: 1.5mm;
+            background: #fff;
+            display: flex; flex-direction: column; align-items: center;
+            font-family: "PingFang SC","Microsoft YaHei",sans-serif;
+        }
+        .title { font-size: 3.6mm; font-weight: 700; margin-top: 0.6mm; }   /* 加粗标题 */
+        .price {                                   /* 中间价格：红底白字 */
+            margin: 3.5mm 0 auto;
+            background: #e02020; color: #fff;
+            font-size: 5mm; font-weight: 700;
+            padding: 1mm 3mm; border-radius: 1mm;
+        }
+        .bottom { width: 100%; display: flex; align-items: flex-end; justify-content: space-between; }
+        #barcode { width: 19.5mm; height: auto; }              /* EAN13 */
+        #qr { width: 6.2mm; height: 6.2mm; }                   /* 右下角二维码 */
+        #qr img, #qr canvas { width: 100% !important; height: 100% !important; }
+        @media print {
+            body { background:#fff; padding:0; display:block; }
+            .label { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+        }
+    </style>
+</head>
+<body>
+<div class="label">
+    <div class="title">有机草莓</div>
+    <div class="price">¥12.8</div>
+    <div class="bottom">
+        <svg id="barcode"></svg>
+        <div id="qr"></div>
+    </div>
+</div>
+
+<script>
+    // EAN13 条码（6901234567892 校验位已验证正确）
+    JsBarcode("#barcode", "6901234567892", {
+        format: "EAN13", width: 2, height: 44,
+        fontSize: 12, margin: 0, displayValue: true
+    });
+
+    // 右下角二维码 → https://example.com
+    new QRCode(document.getElementById("qr"), {
+        text: "https://example.com",
+        width: 120, height: 120,   // 高分辨率生成，再由 CSS 缩放到实际尺寸
+        correctLevel: QRCode.CorrectLevel.M
+    });
+</script>
+</body>
+</html>

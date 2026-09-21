@@ -1,0 +1,451 @@
+{
+    "schema_version": 2,
+    "cover": "",
+    "id": "board_1767388800000_0",
+    "name": "国庆促销标签",
+    "type": "board",
+    "visible": true,
+    "locked": false,
+    "transform": {
+        "x": 0,
+        "y": 0,
+        "width": 40,
+        "height": 30,
+        "rotation": 0,
+        "scale_x": 1,
+        "scale_y": 1
+    },
+    "style": {
+        "fill": "#FFFFFFFF"
+    },
+    "content": {},
+    "props": {
+        "dpi": 203,
+        "unit": "mm",
+        "bleed": 0,
+        "color_space": "sRGB",
+        "orientation": "landscape",
+        "margins": {
+            "top": 2,
+            "right": 2,
+            "bottom": 2,
+            "left": 2
+        },
+        "grid": {
+            "show": true,
+            "size_mm": 5
+        },
+        "mirror": false
+    },
+    "behaviors": [],
+    "children": [
+        {
+            "id": "el_1767388800000_1",
+            "name": "红色顶幅背块",
+            "type": "container",
+            "visible": true,
+            "locked": false,
+            "transform": {
+                "x": 0,
+                "y": 0,
+                "width": 40,
+                "height": 10,
+                "rotation": 0,
+                "scale_x": 1,
+                "scale_y": 1
+            },
+            "style": {
+                "stroke": "transparent",
+                "stroke_width": 0,
+                "stroke_dash_array": null,
+                "fill": "#C8102EFF",
+                "opacity": 1
+            },
+            "content": {},
+            "props": {},
+            "behaviors": [],
+            "children": []
+        },
+        {
+            "id": "el_1767388800000_2",
+            "name": "金色分隔条",
+            "type": "container",
+            "visible": true,
+            "locked": false,
+            "transform": {
+                "x": 0,
+                "y": 10,
+                "width": 40,
+                "height": 1.2,
+                "rotation": 0,
+                "scale_x": 1,
+                "scale_y": 1
+            },
+            "style": {
+                "stroke": "transparent",
+                "stroke_width": 0,
+                "stroke_dash_array": null,
+                "fill": "#D4AF37FF",
+                "opacity": 1
+            },
+            "content": {},
+            "props": {},
+            "behaviors": [],
+            "children": []
+        },
+        {
+            "id": "el_1767388800000_3",
+            "name": "金色双线边框",
+            "type": "border",
+            "visible": true,
+            "locked": false,
+            "transform": {
+                "x": 0.7,
+                "y": 0.7,
+                "width": 38.6,
+                "height": 28.6,
+                "rotation": 0,
+                "scale_x": 1,
+                "scale_y": 1
+            },
+            "style": {
+                "color": "#D4AF37FF",
+                "fill": "transparent"
+            },
+            "content": {
+                "url": "<svg xmlns="http://www.w3.org/2000/svg\" viewBox="0 0 386 286" preserveAspectRatio="none"><rect x="3" y="3" width="380" height="280" fill="none" stroke="{C}" stroke-width="4"/><rect x="10" y="10" width="366" height="266" fill="none" stroke="{C}" stroke-width="1.5"/>",
+                "fit": "fill"
+            },
+            "props": {
+                "material_id": "bd_double",
+                "material_name": "双线框",
+                "format": "svg",
+                "colorable": true,
+                "ratio": 1.35
+            },
+            "behaviors": [],
+            "children": []
+        },
+        {
+            "id": "el_1767388800000_4",
+            "name": "标题·国庆大促",
+            "type": "text",
+            "visible": true,
+            "locked": false,
+            "transform": {
+                "x": 7,
+                "y": 2,
+                "width": 26,
+                "height": 6,
+                "rotation": 0,
+                "scale_x": 1,
+                "scale_y": 1
+            },
+            "style": {
+                "color": "#FFFFFFFF",
+                "font_size": 20,
+                "font_weight": 700,
+                "font_style": "normal",
+                "text_decoration": "none",
+                "font_family": "songti",
+                "letter_spacing": 0.5,
+                "line_height": 1.2,
+                "text_align": "center",
+                "vertical_align": "middle",
+                "fill": "transparent",
+                "stroke": "transparent",
+                "stroke_width": 0,
+                "opacity": 1
+            },
+            "content": {
+                "text": "国庆大促",
+                "direction": "horizontal",
+                "rich_text": null
+            },
+            "props": {
+                "editable": true,
+                "auto_fit": false
+            },
+            "behaviors": [],
+            "children": []
+        },
+        {
+            "id": "el_1767388800000_5",
+            "name": "装饰星·左",
+            "type": "sticker",
+            "visible": true,
+            "locked": false,
+            "transform": {
+                "x": 2,
+                "y": 3.2,
+                "width": 4.5,
+                "height": 4.5,
+                "rotation": 0,
+                "scale_x": 1,
+                "scale_y": 1
+            },
+            "style": {
+                "color": "#D4AF37FF",
+                "stroke": "transparent",
+                "fill": "transparent"
+            },
+            "content": {
+                "url": "<svg xmlns="http://www.w3.org/2000/svg\" viewBox="0 0 100 100"><path d="M50 5 L61 38 L96 38 L68 59 L79 92 L50 71 L21 92 L32 59 L4 38 L39 38 Z" fill="{C}"/>",
+                "fit": "contain"
+            },
+            "props": {
+                "material_id": "st_国庆_star_1",
+                "material_name": "五角星",
+                "glyph": "star",
+                "vip": false,
+                "format": "svg",
+                "colorable": true,
+                "asset": "",
+                "ratio": 1
+            },
+            "behaviors": [],
+            "children": []
+        },
+        {
+            "id": "el_1767388800000_6",
+            "name": "装饰星·右",
+            "type": "sticker",
+            "visible": true,
+            "locked": false,
+            "transform": {
+                "x": 33.5,
+                "y": 3.2,
+                "width": 4.5,
+                "height": 4.5,
+                "rotation": 0,
+                "scale_x": 1,
+                "scale_y": 1
+            },
+            "style": {
+                "color": "#D4AF37FF",
+                "stroke": "transparent",
+                "fill": "transparent"
+            },
+            "content": {
+                "url": "<svg xmlns="http://www.w3.org/2000/svg\" viewBox="0 0 100 100"><path d="M50 5 L61 38 L96 38 L68 59 L79 92 L50 71 L21 92 L32 59 L4 38 L39 38 Z" fill="{C}"/>",
+                "fit": "contain"
+            },
+            "props": {
+                "material_id": "st_国庆_star_1",
+                "material_name": "五角星",
+                "glyph": "star",
+                "vip": false,
+                "format": "svg",
+                "colorable": true,
+                "asset": "",
+                "ratio": 1
+            },
+            "behaviors": [],
+            "children": []
+        },
+        {
+            "id": "el_1767388800000_7",
+            "name": "主促销·全场5折",
+            "type": "text",
+            "visible": true,
+            "locked": false,
+            "transform": {
+                "x": 1.5,
+                "y": 13,
+                "width": 28,
+                "height": 7,
+                "rotation": 0,
+                "scale_x": 1,
+                "scale_y": 1
+            },
+            "style": {
+                "color": "#C8102EFF",
+                "font_size": 22,
+                "font_weight": 700,
+                "font_style": "normal",
+                "text_decoration": "none",
+                "font_family": "default",
+                "letter_spacing": 0,
+                "line_height": 1.2,
+                "text_align": "center",
+                "vertical_align": "middle",
+                "fill": "transparent",
+                "stroke": "transparent",
+                "stroke_width": 0,
+                "opacity": 1
+            },
+            "content": {
+                "text": "全场 5 折",
+                "direction": "horizontal",
+                "rich_text": null
+            },
+            "props": {
+                "editable": true,
+                "auto_fit": false
+            },
+            "behaviors": [],
+            "children": []
+        },
+        {
+            "id": "el_1767388800000_8",
+            "name": "次促销·满减",
+            "type": "text",
+            "visible": true,
+            "locked": false,
+            "transform": {
+                "x": 1.5,
+                "y": 20.2,
+                "width": 28,
+                "height": 4,
+                "rotation": 0,
+                "scale_x": 1,
+                "scale_y": 1
+            },
+            "style": {
+                "color": "#17212BFF",
+                "font_size": 13,
+                "font_weight": 400,
+                "font_style": "normal",
+                "text_decoration": "none",
+                "font_family": "default",
+                "letter_spacing": 0,
+                "line_height": 1.2,
+                "text_align": "center",
+                "vertical_align": "middle",
+                "fill": "transparent",
+                "stroke": "transparent",
+                "stroke_width": 0,
+                "opacity": 1
+            },
+            "content": {
+                "text": "满300减50",
+                "direction": "horizontal",
+                "rich_text": null
+            },
+            "props": {
+                "editable": true,
+                "auto_fit": false
+            },
+            "behaviors": [],
+            "children": []
+        },
+        {
+            "id": "el_1767388800000_9",
+            "name": "活动时间",
+            "type": "text",
+            "visible": true,
+            "locked": false,
+            "transform": {
+                "x": 1.5,
+                "y": 24.5,
+                "width": 28,
+                "height": 3.2,
+                "rotation": 0,
+                "scale_x": 1,
+                "scale_y": 1
+            },
+            "style": {
+                "color": "#555F6BFF",
+                "font_size": 11,
+                "font_weight": 400,
+                "font_style": "normal",
+                "text_decoration": "none",
+                "font_family": "default",
+                "letter_spacing": 0,
+                "line_height": 1.2,
+                "text_align": "center",
+                "vertical_align": "middle",
+                "fill": "transparent",
+                "stroke": "transparent",
+                "stroke_width": 0,
+                "opacity": 1
+            },
+            "content": {
+                "text": "活动期 10.1-10.7",
+                "direction": "horizontal",
+                "rich_text": null
+            },
+            "props": {
+                "editable": true,
+                "auto_fit": false
+            },
+            "behaviors": [],
+            "children": []
+        },
+        {
+            "id": "el_1767388800000_10",
+            "name": "活动二维码",
+            "type": "qrcode",
+            "visible": true,
+            "locked": false,
+            "transform": {
+                "x": 30.5,
+                "y": 13,
+                "width": 8,
+                "height": 8,
+                "rotation": 0,
+                "scale_x": 1,
+                "scale_y": 1
+            },
+            "style": {
+                "color": "#17212BFF",
+                "fill": "#FFFFFFFF"
+            },
+            "content": {
+                "code_type": "QRCODE",
+                "value": "https://mall.example.com/national-day",
+                "error_correction": "M",
+                "icon_url": null
+            },
+            "props": {
+                "source": "manual",
+                "imported_file_name": ""
+            },
+            "behaviors": [],
+            "children": []
+        },
+        {
+            "id": "el_1767388800000_11",
+            "name": "二维码提示",
+            "type": "text",
+            "visible": true,
+            "locked": false,
+            "transform": {
+                "x": 29.5,
+                "y": 21.3,
+                "width": 10,
+                "height": 3,
+                "rotation": 0,
+                "scale_x": 1,
+                "scale_y": 1
+            },
+            "style": {
+                "color": "#555F6BFF",
+                "font_size": 8,
+                "font_weight": 400,
+                "font_style": "normal",
+                "text_decoration": "none",
+                "font_family": "default",
+                "letter_spacing": 0,
+                "line_height": 1.2,
+                "text_align": "center",
+                "vertical_align": "middle",
+                "fill": "transparent",
+                "stroke": "transparent",
+                "stroke_width": 0,
+                "opacity": 1
+            },
+            "content": {
+                "text": "扫码领券",
+                "direction": "horizontal",
+                "rich_text": null
+            },
+            "props": {
+                "editable": true,
+                "auto_fit": false
+            },
+            "behaviors": [],
+            "children": []
+        }
+    ]
+}
