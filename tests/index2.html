@@ -2,61 +2,1263 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>50×30mm 竖版标签</title>
-    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>纹身娱乐版块 Demo - 打印机物联 App</title>
     <style>
-        body { background:#f3f4f6; display:flex; justify-content:center; padding:20px; }
-        .label {
-            width: 30mm; height: 50mm;               /* 50×30mm 竖版 */
+        :root {
+            --bg: #0f0f0f;
+            --card: #1a1a1a;
+            --primary: #e63946;
+            --primary-dark: #c1121f;
+            --text: #f5f5f5;
+            --text-secondary: #a0a0a0;
+            --border: #2a2a2a;
+            --success: #2a9d8f;
+            --warning: #f4a261;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
             box-sizing: border-box;
-            border: 0.4mm solid #333;
-            border-radius: 2.5mm;                    /* 圆角边框 */
-            padding: 1.5mm;
-            background: #fff;
-            display: flex; flex-direction: column; align-items: center;
-            font-family: "PingFang SC","Microsoft YaHei",sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
-        .title { font-size: 3.6mm; font-weight: 700; margin-top: 0.6mm; }   /* 加粗标题 */
-        .price {                                   /* 中间价格：红底白字 */
-            margin: 3.5mm 0 auto;
-            background: #e02020; color: #fff;
-            font-size: 5mm; font-weight: 700;
-            padding: 1mm 3mm; border-radius: 1mm;
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
         }
-        .bottom { width: 100%; display: flex; align-items: flex-end; justify-content: space-between; }
-        #barcode { width: 19.5mm; height: auto; }              /* EAN13 */
-        #qr { width: 6.2mm; height: 6.2mm; }                   /* 右下角二维码 */
-        #qr img, #qr canvas { width: 100% !important; height: 100% !important; }
-        @media print {
-            body { background:#fff; padding:0; display:block; }
-            .label { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+
+        /* ========== 首页 ========== */
+        .home {
+            padding: 20px 16px 100px;
+        }
+
+        .home-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .home-header h1 {
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #e63946, #ff6b6b);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+
+        .section-title {
+            font-size: 15px;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 28px;
+        }
+
+        .feature-card {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 20px 16px;
+            border: 1px solid var(--border);
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card:active {
+            transform: scale(0.97);
+        }
+
+        .feature-card.highlight {
+            background: linear-gradient(145deg, #2a1215, #1a1a1a);
+            border-color: var(--primary);
+        }
+
+        .feature-card.highlight::after {
+            content: "NEW";
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--primary);
+            color: white;
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        .feature-icon {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .feature-name {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .feature-desc {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        /* 底部导航 */
+        .tab-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 64px;
+            background: #141414;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 100;
+        }
+
+        .tab-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            color: var(--text-secondary);
+            font-size: 11px;
+            cursor: pointer;
+        }
+
+        .tab-item.active {
+            color: var(--primary);
+        }
+
+        .tab-icon {
+            font-size: 22px;
+        }
+
+        /* ========== 通用页面 ========== */
+        .page {
+            display: none;
+            min-height: 100vh;
+            padding-bottom: 80px;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        .page-header {
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            background: var(--bg);
+            z-index: 50;
+        }
+
+        .back-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--card);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        .page-title {
+            font-size: 18px;
+            font-weight: 600;
+            flex: 1;
+        }
+
+        /* Banner */
+        .tattoo-banner {
+            margin: 16px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, #3d0a0f, #1a1a1a);
+            padding: 24px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tattoo-banner h2 {
+            font-size: 22px;
+            margin-bottom: 8px;
+        }
+
+        .tattoo-banner p {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+        }
+
+        .banner-btn {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        /* 功能入口 */
+        .func-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            padding: 0 16px 24px;
+        }
+
+        .func-item {
+            background: var(--card);
+            border-radius: 14px;
+            padding: 18px 8px;
+            text-align: center;
+            border: 1px solid var(--border);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .func-item:active {
+            transform: scale(0.96);
+            border-color: var(--primary);
+        }
+
+        .func-icon {
+            font-size: 26px;
+            margin-bottom: 8px;
+        }
+
+        .func-name {
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        /* 素材库 */
+        .filter-bar {
+            display: flex;
+            gap: 8px;
+            padding: 12px 16px;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .filter-bar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .filter-chip {
+            flex-shrink: 0;
+            padding: 6px 14px;
+            border-radius: 20px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+        .filter-chip.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+        }
+
+        .material-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            padding: 0 16px 24px;
+        }
+
+        .material-card {
+            background: var(--card);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            cursor: pointer;
+        }
+
+        .material-img {
+            height: 140px;
+            background: #222;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            position: relative;
+        }
+
+        .material-info {
+            padding: 10px;
+        }
+
+        .material-name {
+            font-size: 13px;
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        .material-meta {
+            font-size: 11px;
+            color: var(--text-secondary);
+        }
+
+        /* AI 生成页 */
+        .ai-upload-area {
+            margin: 20px 16px;
+            border: 2px dashed var(--border);
+            border-radius: 16px;
+            padding: 40px 20px;
+            text-align: center;
+            background: var(--card);
+            cursor: pointer;
+        }
+
+        .ai-upload-area:hover {
+            border-color: var(--primary);
+        }
+
+        .ai-upload-icon {
+            font-size: 40px;
+            margin-bottom: 12px;
+        }
+
+        .ai-result {
+            margin: 16px;
+            background: var(--card);
+            border-radius: 16px;
+            padding: 16px;
+            display: none;
+        }
+
+        .ai-result.show {
+            display: block;
+        }
+
+        .result-preview {
+            height: 200px;
+            background: #111;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 64px;
+            margin-bottom: 16px;
+            border: 1px solid var(--border);
+        }
+
+        .btn-row {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 12px;
+            border-radius: 12px;
+            border: none;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: var(--card);
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+
+        /* 编辑器页 */
+        .editor-canvas {
+            margin: 16px;
+            background: #111;
+            border-radius: 16px;
+            height: 280px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            border: 1px solid var(--border);
+            overflow: hidden;
+        }
+
+        .tattoo-preview {
+            font-size: 80px;
+            transition: all 0.3s;
+        }
+
+        .control-panel {
+            padding: 0 16px 24px;
+        }
+
+        .control-group {
+            background: var(--card);
+            border-radius: 14px;
+            padding: 16px;
+            margin-bottom: 12px;
+            border: 1px solid var(--border);
+        }
+
+        .control-label {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .slider {
+            width: 100%;
+            accent-color: var(--primary);
+        }
+
+        .toggle-row {
+            display: flex;
+            gap: 10px;
+        }
+
+        .toggle-btn {
+            flex: 1;
+            padding: 10px;
+            border-radius: 10px;
+            background: #222;
+            border: 1px solid var(--border);
+            color: var(--text);
+            font-size: 13px;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .toggle-btn.active {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+
+        /* 转印预览 */
+        .transfer-preview {
+            margin: 16px;
+            background: #f8f1e3;
+            border-radius: 12px;
+            height: 240px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            color: #333;
+            overflow: hidden;
+        }
+
+        .transfer-paper {
+            width: 70%;
+            height: 80%;
+            background: white;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+            transform: scaleX(-1);
+        }
+
+        .paper-label {
+            position: absolute;
+            bottom: 10px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 12px;
+            color: #666;
+        }
+
+        /* 一键打印 */
+        .print-status {
+            margin: 20px 16px;
+            background: var(--card);
+            border-radius: 16px;
+            padding: 24px;
+            text-align: center;
+            border: 1px solid var(--border);
+        }
+
+        .print-icon {
+            font-size: 48px;
+            margin-bottom: 12px;
+        }
+
+        .printer-list {
+            margin: 16px;
+        }
+
+        .printer-item {
+            background: var(--card);
+            border-radius: 12px;
+            padding: 14px 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 10px;
+            border: 1px solid var(--border);
+            cursor: pointer;
+        }
+
+        .printer-item.selected {
+            border-color: var(--primary);
+            background: #2a1215;
+        }
+
+        .printer-icon {
+            font-size: 24px;
+        }
+
+        .printer-info {
+            flex: 1;
+        }
+
+        .printer-name {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .printer-status {
+            font-size: 12px;
+            color: var(--success);
+        }
+
+        /* ========== 耗材商城 ========== */
+        .mall-banner {
+            margin: 16px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, #1a2a1a, #1a1a1a);
+            border: 1px solid #2a4a2a;
+            padding: 18px 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .mall-banner-icon {
+            font-size: 32px;
+        }
+
+        .mall-banner-text h3 {
+            font-size: 15px;
+            margin-bottom: 4px;
+        }
+
+        .mall-banner-text p {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .product-list {
+            padding: 0 16px 24px;
+        }
+
+        .product-card {
+            background: var(--card);
+            border-radius: 14px;
+            padding: 14px;
+            display: flex;
+            gap: 14px;
+            margin-bottom: 12px;
+            border: 1px solid var(--border);
+            cursor: pointer;
+        }
+
+        .product-img {
+            width: 80px;
+            height: 80px;
+            background: #222;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            flex-shrink: 0;
+        }
+
+        .product-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .product-name {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .product-desc {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+
+        .product-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .product-price {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .product-price span {
+            font-size: 12px;
+            font-weight: 400;
+        }
+
+        .buy-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 16px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .stock-tip {
+            font-size: 11px;
+            color: var(--warning);
+            margin-top: 4px;
+        }
+
+        /* 打印页耗材提示 */
+        .consumable-tip {
+            margin: 0 16px 16px;
+            background: #1a1a12;
+            border: 1px solid #3a3a20;
+            border-radius: 12px;
+            padding: 12px 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13px;
+        }
+
+        .consumable-tip .tip-btn {
+            margin-left: auto;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 5px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0,0,0,0.85);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            z-index: 999;
+            display: none;
+        }
+
+        .toast.show {
+            display: block;
+            animation: fadeInOut 2s forwards;
+        }
+
+        @keyframes fadeInOut {
+            0% { opacity: 0; }
+            15% { opacity: 1; }
+            85% { opacity: 1; }
+            100% { opacity: 0; }
         }
     </style>
 </head>
 <body>
-<div class="label">
-    <div class="title">有机草莓</div>
-    <div class="price">¥12.8</div>
-    <div class="bottom">
-        <svg id="barcode"></svg>
-        <div id="qr"></div>
+
+<!-- ========== 首页 ========== -->
+<div id="home" class="page active home">
+    <div class="home-header">
+        <h1>物联打印</h1>
+        <div class="avatar">我</div>
+    </div>
+
+    <div class="section-title">常用功能</div>
+    <div class="feature-grid">
+        <div class="feature-card" onclick="showToast('本地打印功能')">
+            <div class="feature-icon">🖨️</div>
+            <div class="feature-name">本地打印</div>
+            <div class="feature-desc">连接本地打印机</div>
+        </div>
+        <div class="feature-card" onclick="showToast('物联打印功能')">
+            <div class="feature-icon">☁️</div>
+            <div class="feature-name">物联打印</div>
+            <div class="feature-desc">远程云端打印</div>
+        </div>
+        <div class="feature-card" onclick="showToast('模板库功能')">
+            <div class="feature-icon">📑</div>
+            <div class="feature-name">模板库</div>
+            <div class="feature-desc">海量打印模板</div>
+        </div>
+        <div class="feature-card highlight" onclick="goTo('tattoo-home')">
+            <div class="feature-icon">🖤</div>
+            <div class="feature-name">纹身娱乐</div>
+            <div class="feature-desc">AI线稿 · 转印预览</div>
+        </div>
+    </div>
+
+    <div class="section-title">推荐素材</div>
+    <div class="material-grid">
+        <div class="material-card" onclick="goTo('tattoo-home')">
+            <div class="material-img">🐉</div>
+            <div class="material-info">
+                <div class="material-name">东方龙纹</div>
+                <div class="material-meta">热门 · 适合手臂</div>
+            </div>
+        </div>
+        <div class="material-card" onclick="goTo('tattoo-home')">
+            <div class="material-img">🌹</div>
+            <div class="material-info">
+                <div class="material-name">玫瑰线稿</div>
+                <div class="material-meta">清新 · 适合手腕</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ========== 纹身娱乐主页 ========== -->
+<div id="tattoo-home" class="page">
+    <div class="page-header">
+        <div class="back-btn" onclick="goTo('home')">←</div>
+        <div class="page-title">纹身娱乐</div>
+    </div>
+
+    <div class="tattoo-banner">
+        <h2>AI 纹身线稿工坊</h2>
+        <p>上传照片一键生成专业线稿，支持镜像、尺寸调整与转印预览</p>
+        <div class="banner-btn" onclick="goTo('ai-generate')">立即体验 AI 生成</div>
+    </div>
+
+    <div class="func-grid">
+        <div class="func-item" onclick="goTo('material-lib')">
+            <div class="func-icon">📚</div>
+            <div class="func-name">纹身素材库</div>
+        </div>
+        <div class="func-item" onclick="goTo('ai-generate')">
+            <div class="func-icon">✨</div>
+            <div class="func-name">AI线稿生成</div>
+        </div>
+        <div class="func-item" onclick="goTo('editor')">
+            <div class="func-icon">🪞</div>
+            <div class="func-name">图案镜像</div>
+        </div>
+        <div class="func-item" onclick="goTo('editor')">
+            <div class="func-icon">📏</div>
+            <div class="func-name">尺寸调整</div>
+        </div>
+        <div class="func-item" onclick="goTo('transfer')">
+            <div class="func-icon">📄</div>
+            <div class="func-name">转印预览</div>
+        </div>
+        <div class="func-item" onclick="goTo('print')">
+            <div class="func-icon">🖨️</div>
+            <div class="func-name">一键打印</div>
+        </div>
+        <div class="func-item" onclick="goTo('mall')" style="grid-column: span 3;">
+            <div class="func-icon">🛒</div>
+            <div class="func-name">耗材商城</div>
+        </div>
+    </div>
+
+    <div class="section-title" style="padding:0 16px;margin-top:8px">热门推荐</div>
+    <div class="material-grid">
+        <div class="material-card" onclick="selectMaterial('龙纹')">
+            <div class="material-img">🐉</div>
+            <div class="material-info">
+                <div class="material-name">东方龙纹</div>
+                <div class="material-meta">适合手臂 · 已打印 1.2k</div>
+            </div>
+        </div>
+        <div class="material-card" onclick="selectMaterial('玫瑰')">
+            <div class="material-img">🌹</div>
+            <div class="material-info">
+                <div class="material-name">玫瑰线稿</div>
+                <div class="material-meta">适合手腕 · 已打印 890</div>
+            </div>
+        </div>
+        <div class="material-card" onclick="selectMaterial('几何')">
+            <div class="material-img">⬡</div>
+            <div class="material-info">
+                <div class="material-name">几何图腾</div>
+                <div class="material-meta">适合背部 · 已打印 650</div>
+            </div>
+        </div>
+        <div class="material-card" onclick="selectMaterial('文字')">
+            <div class="material-img">✍️</div>
+            <div class="material-info">
+                <div class="material-name">个性文字</div>
+                <div class="material-meta">适合前臂 · 已打印 1.5k</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ========== 纹身素材库 ========== -->
+<div id="material-lib" class="page">
+    <div class="page-header">
+        <div class="back-btn" onclick="goTo('tattoo-home')">←</div>
+        <div class="page-title">纹身素材库</div>
+    </div>
+
+    <div class="filter-bar">
+        <div class="filter-chip active" onclick="filterChip(this)">全部</div>
+        <div class="filter-chip" onclick="filterChip(this)">动物</div>
+        <div class="filter-chip" onclick="filterChip(this)">花卉</div>
+        <div class="filter-chip" onclick="filterChip(this)">几何</div>
+        <div class="filter-chip" onclick="filterChip(this)">文字</div>
+        <div class="filter-chip" onclick="filterChip(this)">图腾</div>
+    </div>
+
+    <div class="material-grid">
+        <div class="material-card" onclick="selectMaterial('龙')">
+            <div class="material-img">🐉</div>
+            <div class="material-info"><div class="material-name">东方龙</div><div class="material-meta">热门</div></div>
+        </div>
+        <div class="material-card" onclick="selectMaterial('虎')">
+            <div class="material-img">🐯</div>
+            <div class="material-info"><div class="material-name">猛虎</div><div class="material-meta">热门</div></div>
+        </div>
+        <div class="material-card" onclick="selectMaterial('玫瑰')">
+            <div class="material-img">🌹</div>
+            <div class="material-info"><div class="material-name">玫瑰</div><div class="material-meta">清新</div></div>
+        </div>
+        <div class="material-card" onclick="selectMaterial('莲花')">
+            <div class="material-img">🪷</div>
+            <div class="material-info"><div class="material-name">莲花</div><div class="material-meta">清新</div></div>
+        </div>
+        <div class="material-card" onclick="selectMaterial('几何')">
+            <div class="material-img">⬡</div>
+            <div class="material-info"><div class="material-name">几何</div><div class="material-meta">简约</div></div>
+        </div>
+        <div class="material-card" onclick="selectMaterial('月亮')">
+            <div class="material-img">🌙</div>
+            <div class="material-info"><div class="material-name">月亮图腾</div><div class="material-meta">图腾</div></div>
+        </div>
+    </div>
+</div>
+
+<!-- ========== AI线稿生成 ========== -->
+<div id="ai-generate" class="page">
+    <div class="page-header">
+        <div class="back-btn" onclick="goTo('tattoo-home')">←</div>
+        <div class="page-title">AI 线稿生成</div>
+    </div>
+
+    <div class="ai-upload-area" onclick="simulateAI()">
+        <div class="ai-upload-icon">📷</div>
+        <div style="font-size:15px;font-weight:500;margin-bottom:6px">点击上传照片</div>
+        <div style="font-size:12px;color:var(--text-secondary)">支持人像、风景、物体，AI 自动生成纹身线稿</div>
+    </div>
+
+    <div class="ai-result" id="aiResult">
+        <div class="result-preview" id="aiPreview">🎨</div>
+        <div class="btn-row">
+            <button class="btn btn-secondary" onclick="simulateAI()">重新生成</button>
+            <button class="btn btn-primary" onclick="goTo('editor')">进入编辑</button>
+        </div>
+    </div>
+</div>
+
+<!-- ========== 编辑器（镜像 + 尺寸） ========== -->
+<div id="editor" class="page">
+    <div class="page-header">
+        <div class="back-btn" onclick="goTo('tattoo-home')">←</div>
+        <div class="page-title">图案编辑</div>
+        <div style="font-size:14px;color:var(--primary);cursor:pointer" onclick="goTo('transfer')">下一步</div>
+    </div>
+
+    <div class="editor-canvas">
+        <div class="tattoo-preview" id="tattooPreview">🐉</div>
+    </div>
+
+    <div class="control-panel">
+        <div class="control-group">
+            <div class="control-label">
+                <span>图案镜像</span>
+                <span id="mirrorStatus">正常</span>
+            </div>
+            <div class="toggle-row">
+                <div class="toggle-btn active" id="mirrorNormal" onclick="setMirror(false)">正常</div>
+                <div class="toggle-btn" id="mirrorFlip" onclick="setMirror(true)">水平镜像</div>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <div class="control-label">
+                <span>尺寸调整</span>
+                <span id="sizeValue">100%</span>
+            </div>
+            <input type="range" class="slider" min="40" max="160" value="100" oninput="setSize(this.value)">
+        </div>
+
+        <div class="control-group">
+            <div class="control-label">
+                <span>线稿粗细</span>
+                <span id="strokeValue">中</span>
+            </div>
+            <input type="range" class="slider" min="1" max="3" value="2" step="1" oninput="setStroke(this.value)">
+        </div>
+
+        <div class="btn-row" style="margin-top:8px">
+            <button class="btn btn-secondary" onclick="goTo('ai-generate')">重新生成</button>
+            <button class="btn btn-primary" onclick="goTo('transfer')">转印预览</button>
+        </div>
+    </div>
+</div>
+
+<!-- ========== 转印预览 ========== -->
+<div id="transfer" class="page">
+    <div class="page-header">
+        <div class="back-btn" onclick="goTo('editor')">←</div>
+        <div class="page-title">转印预览</div>
+        <div style="font-size:14px;color:var(--primary);cursor:pointer" onclick="goTo('print')">打印</div>
+    </div>
+
+    <div style="padding:12px 16px;font-size:13px;color:var(--text-secondary)">
+        专属转印处理 · 图案已自动水平镜像，适配转印纸
+    </div>
+
+    <div class="transfer-preview">
+        <div class="transfer-paper" id="transferPaper">🐉</div>
+        <div class="paper-label">转印纸效果预览（已镜像）</div>
+    </div>
+
+    <div class="control-panel">
+        <div class="control-group">
+            <div class="control-label">转印模式</div>
+            <div class="toggle-row">
+                <div class="toggle-btn active">标准转印</div>
+                <div class="toggle-btn">高清转印</div>
+            </div>
+        </div>
+
+        <div class="btn-row">
+            <button class="btn btn-secondary" onclick="goTo('editor')">返回编辑</button>
+            <button class="btn btn-primary" onclick="goTo('print')">一键打印</button>
+        </div>
+    </div>
+</div>
+
+<!-- ========== 一键打印 ========== -->
+<div id="print" class="page">
+    <div class="page-header">
+        <div class="back-btn" onclick="goTo('transfer')">←</div>
+        <div class="page-title">一键打印</div>
+    </div>
+
+    <div class="print-status">
+        <div class="print-icon">🖨️</div>
+        <div style="font-size:16px;font-weight:600;margin-bottom:6px">准备打印纹身线稿</div>
+        <div style="font-size:13px;color:var(--text-secondary)">已应用专属转印处理</div>
+    </div>
+
+    <!-- 耗材提示 -->
+    <div class="consumable-tip">
+        <span>📄</span>
+        <span>建议使用专用转印纸，打印效果更佳</span>
+        <button class="tip-btn" onclick="goTo('mall')">去购买</button>
+    </div>
+
+    <div class="section-title" style="padding:0 16px">选择打印机</div>
+    <div class="printer-list">
+        <div class="printer-item selected" onclick="selectPrinter(this)">
+            <div class="printer-icon">🖨️</div>
+            <div class="printer-info">
+                <div class="printer-name">工作室 专业转印打印机</div>
+                <div class="printer-status">在线 · 墨量充足</div>
+            </div>
+        </div>
+        <div class="printer-item" onclick="selectPrinter(this)">
+            <div class="printer-icon">☁️</div>
+            <div class="printer-info">
+                <div class="printer-name">工作室 云打印机 - 工作室</div>
+                <div class="printer-status">在线 · 排队 2 人</div>
+            </div>
+        </div>
+        <div class="printer-item" onclick="selectPrinter(this)">
+            <div class="printer-icon">📱</div>
+            <div class="printer-info">
+                <div class="printer-name">本地蓝牙打印机</div>
+                <div class="printer-status">已连接</div>
+            </div>
+        </div>
+    </div>
+
+    <div style="padding:0 16px;margin-top:20px">
+        <button class="btn btn-primary" style="width:100%" onclick="doPrint()">确认打印</button>
+    </div>
+</div>
+
+<!-- ========== 耗材商城 ========== -->
+<div id="mall" class="page">
+    <div class="page-header">
+        <div class="back-btn" onclick="goTo('tattoo-home')">←</div>
+        <div class="page-title">耗材商城</div>
+    </div>
+
+    <div class="mall-banner">
+        <div class="mall-banner-icon">🛒</div>
+        <div class="mall-banner-text">
+            <h3>纹身打印专用耗材</h3>
+            <p>转印纸 · 专用墨水 · 清洁套装，官方品质保障</p>
+        </div>
+    </div>
+
+    <div class="filter-bar">
+        <div class="filter-chip active" onclick="filterChip(this)">全部</div>
+        <div class="filter-chip" onclick="filterChip(this)">转印纸</div>
+        <div class="filter-chip" onclick="filterChip(this)">墨水</div>
+        <div class="filter-chip" onclick="filterChip(this)">清洁套装</div>
+        <div class="filter-chip" onclick="filterChip(this)">其他</div>
+    </div>
+
+    <div class="product-list">
+        <div class="product-card" onclick="buyProduct('专业转印纸 A4')">
+            <div class="product-img">📄</div>
+            <div class="product-info">
+                <div>
+                    <div class="product-name">专业转印纸 A4（50张）</div>
+                    <div class="product-desc">高清转印 · 不易褪色 · 适合各类皮肤</div>
+                </div>
+                <div class="product-bottom">
+                    <div class="product-price">¥68 <span>/包</span></div>
+                    <button class="buy-btn" onclick="event.stopPropagation();buyProduct('专业转印纸 A4')">购买</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-card" onclick="buyProduct('高清转印纸 A4')">
+            <div class="product-img">📑</div>
+            <div class="product-info">
+                <div>
+                    <div class="product-name">高清转印纸 A4（100张）</div>
+                    <div class="product-desc">加厚升级版 · 细节更清晰 · 推荐门店使用</div>
+                    <div class="stock-tip">热销中</div>
+                </div>
+                <div class="product-bottom">
+                    <div class="product-price">¥118 <span>/包</span></div>
+                    <button class="buy-btn" onclick="event.stopPropagation();buyProduct('高清转印纸 A4')">购买</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-card" onclick="buyProduct('纹身专用黑色墨水')">
+            <div class="product-img">🖋️</div>
+            <div class="product-info">
+                <div>
+                    <div class="product-name">纹身专用黑色墨水</div>
+                    <div class="product-desc">高浓度 · 防水速干 · 兼容主流转印打印机</div>
+                </div>
+                <div class="product-bottom">
+                    <div class="product-price">¥89 <span>/瓶</span></div>
+                    <button class="buy-btn" onclick="event.stopPropagation();buyProduct('纹身专用黑色墨水')">购买</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-card" onclick="buyProduct('彩色墨水套装')">
+            <div class="product-img">🎨</div>
+            <div class="product-info">
+                <div>
+                    <div class="product-name">彩色墨水套装（4色）</div>
+                    <div class="product-desc">红 / 蓝 / 绿 / 黄 · 适合彩色线稿打印</div>
+                </div>
+                <div class="product-bottom">
+                    <div class="product-price">¥159 <span>/套</span></div>
+                    <button class="buy-btn" onclick="event.stopPropagation();buyProduct('彩色墨水套装')">购买</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-card" onclick="buyProduct('打印机清洁套装')">
+            <div class="product-img">🧽</div>
+            <div class="product-info">
+                <div>
+                    <div class="product-name">打印机清洁套装</div>
+                    <div class="product-desc">喷头清洁液 + 擦拭布 + 维护工具</div>
+                </div>
+                <div class="product-bottom">
+                    <div class="product-price">¥45 <span>/套</span></div>
+                    <button class="buy-btn" onclick="event.stopPropagation();buyProduct('打印机清洁套装')">购买</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-card" onclick="buyProduct('转印纸切割垫')">
+            <div class="product-img">✂️</div>
+            <div class="product-info">
+                <div>
+                    <div class="product-name">转印纸切割垫 + 美工刀</div>
+                    <div class="product-desc">精确裁剪 · 保护桌面 · 门店必备</div>
+                </div>
+                <div class="product-bottom">
+                    <div class="product-price">¥32 <span>/套</span></div>
+                    <button class="buy-btn" onclick="event.stopPropagation();buyProduct('转印纸切割垫')">购买</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<!-- 底部导航（仅首页显示） -->
+<div class="tab-bar" id="tabBar">
+    <div class="tab-item active">
+        <div class="tab-icon">🏠</div>
+        <div>首页</div>
+    </div>
+    <div class="tab-item">
+        <div class="tab-icon">📂</div>
+        <div>文件</div>
+    </div>
+    <div class="tab-item">
+        <div class="tab-icon">🖨️</div>
+        <div>打印</div>
+    </div>
+    <div class="tab-item">
+        <div class="tab-icon">👤</div>
+        <div>我的</div>
     </div>
 </div>
 
 <script>
-    // EAN13 条码（6901234567892 校验位已验证正确）
-    JsBarcode("#barcode", "6901234567892", {
-        format: "EAN13", width: 2, height: 44,
-        fontSize: 12, margin: 0, displayValue: true
-    });
+    let currentMirror = false;
+    let currentSize = 100;
 
-    // 右下角二维码 → https://example.com
-    new QRCode(document.getElementById("qr"), {
-        text: "https://example.com",
-        width: 120, height: 120,   // 高分辨率生成，再由 CSS 缩放到实际尺寸
-        correctLevel: QRCode.CorrectLevel.M
-    });
+    function goTo(pageId) {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.getElementById(pageId).classList.add('active');
+        document.getElementById('tabBar').style.display = pageId === 'home' ? 'flex' : 'none';
+
+        if (pageId === 'transfer') {
+            const paper = document.getElementById('transferPaper');
+            paper.style.transform = currentMirror ? 'scaleX(1)' : 'scaleX(-1)';
+        }
+    }
+
+    function showToast(msg) {
+        const t = document.getElementById('toast');
+        t.textContent = msg;
+        t.classList.remove('show');
+        void t.offsetWidth;
+        t.classList.add('show');
+    }
+
+    function filterChip(el) {
+        document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+        el.classList.add('active');
+    }
+
+    function selectMaterial(name) {
+        document.getElementById('tattooPreview').textContent =
+            name.includes('龙') ? '🐉' :
+                name.includes('玫瑰') ? '🌹' :
+                    name.includes('几何') ? '⬡' :
+                        name.includes('文字') ? '✍️' :
+                            name.includes('虎') ? '🐯' :
+                                name.includes('莲') ? '🪷' :
+                                    name.includes('月亮') ? '🌙' : '🎨';
+        document.getElementById('transferPaper').textContent = document.getElementById('tattooPreview').textContent;
+        goTo('editor');
+        showToast('已选择素材：' + name);
+    }
+
+    function simulateAI() {
+        const result = document.getElementById('aiResult');
+        result.classList.add('show');
+        const icons = ['🐉', '🌹', '⬡', '🌙', '✍️', '🐯', '🪷'];
+        document.getElementById('aiPreview').textContent = icons[Math.floor(Math.random() * icons.length)];
+        document.getElementById('tattooPreview').textContent = document.getElementById('aiPreview').textContent;
+        document.getElementById('transferPaper').textContent = document.getElementById('aiPreview').textContent;
+        showToast('AI 线稿生成成功');
+    }
+
+    function setMirror(flip) {
+        currentMirror = flip;
+        document.getElementById('mirrorNormal').classList.toggle('active', !flip);
+        document.getElementById('mirrorFlip').classList.toggle('active', flip);
+        document.getElementById('mirrorStatus').textContent = flip ? '已镜像' : '正常';
+        document.getElementById('tattooPreview').style.transform = flip ? 'scaleX(-1)' : 'scaleX(1)';
+    }
+
+    function setSize(val) {
+        currentSize = val;
+        document.getElementById('sizeValue').textContent = val + '%';
+        document.getElementById('tattooPreview').style.fontSize = (80 * val / 100) + 'px';
+    }
+
+    function setStroke(val) {
+        const labels = ['细', '中', '粗'];
+        document.getElementById('strokeValue').textContent = labels[val - 1];
+    }
+
+    function selectPrinter(el) {
+        document.querySelectorAll('.printer-item').forEach(p => p.classList.remove('selected'));
+        el.classList.add('selected');
+    }
+
+    function doPrint() {
+        showToast('正在发送至打印机…');
+        setTimeout(() => showToast('打印任务已提交 ✓'), 1200);
+    }
+
+    function buyProduct(name) {
+        showToast('已加入购物车：' + name);
+    }
 </script>
 </body>
 </html>

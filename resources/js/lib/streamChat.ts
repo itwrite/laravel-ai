@@ -56,12 +56,13 @@ function normalizeHistory(history: ChatMessage[]): ChatMessage[] {
 }
 
 /**
- * Read the XSRF-TOKEN cookie so the streaming request passes CSRF validation.
+ * Read the XSRF-TOKEN cookie so JSON requests to the AI endpoints pass CSRF
+ * validation.
  *
  * Laravel accepts the (encrypted) cookie value via the X-XSRF-TOKEN header and
  * decrypts it server-side, so the raw cookie value can be forwarded as-is.
  */
-function xsrfToken(): string {
+export function xsrfToken(): string {
     const match = document.cookie.match(/(?:^|;\s*)XSRF-TOKEN=([^;]*)/);
 
     return match?.[1] ? decodeURIComponent(match[1]) : '';
@@ -245,7 +246,9 @@ function consumeServerSentEvent(
  * Prefer the JSON "message" of error responses (validation, throttling),
  * falling back to the HTTP status for HTML error pages.
  */
-async function responseErrorMessage(response: Response): Promise<string> {
+export async function responseErrorMessage(
+    response: Response,
+): Promise<string> {
     try {
         const data = JSON.parse(await response.text()) as { message?: string };
 

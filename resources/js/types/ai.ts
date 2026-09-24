@@ -28,3 +28,22 @@ export interface ChatAgentOption {
     description: string;
     suggestions: string[];
 }
+
+/** Form payload for the article assistant generator. */
+export interface ArticleAssistantForm {
+    topic: string;
+    content: string;
+    audience: string;
+    /** Style key from ArticleGenerateRequest ('auto' lets the AI decide). */
+    tone: string;
+    /** Length key: 'short' | 'medium' | 'long'. */
+    length: string;
+    extras: string;
+}
+
+/** Generated article returned by the article assistant endpoint. */
+export interface GeneratedArticle {
+    html: string;
+    /** Document title, used as the download filename suggestion. */
+    title: string | null;
+}

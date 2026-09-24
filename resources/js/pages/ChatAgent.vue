@@ -7,6 +7,7 @@ import {
     Check,
     ChevronDown,
     Copy,
+    FileText,
     History,
     ImagePlus,
     RotateCcw,
@@ -25,6 +26,7 @@ import {
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuLabel,
+    DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Spinner } from '@/components/ui/spinner';
@@ -35,6 +37,7 @@ import {
     SheetTitle,
 } from '@/components/ui/sheet';
 import { destroy as destroyConversationAction } from '@/actions/App/Http/Controllers/Ai/ChatConversationController';
+import articleAssistant from '@/routes/article-assistant';
 import { chat } from '@/routes';
 import type {
     ChatAgentOption,
@@ -369,6 +372,15 @@ function switchAgent(key: string): void {
     focusInput();
 }
 
+/**
+ * Open the standalone article assistant tool from the agent switcher. It is
+ * not a chat agent, so stop any in-flight stream before navigating away.
+ */
+function openArticleAssistant(): void {
+    abortController.value?.abort();
+    router.visit(articleAssistant.show());
+}
+
 function isAbortError(error: unknown): boolean {
     return error instanceof DOMException && error.name === 'AbortError';
 }
@@ -693,6 +705,24 @@ function deleteConversation(id: string): void {
                             </span>
                             <span class="text-muted-foreground text-xs">
                                 {{ catalogAgent.description }}
+                            </span>
+                        </DropdownMenuItem>
+
+                        <DropdownMenuSeparator />
+
+                        <!-- Standalone tool, not a chat agent: navigates away. -->
+                        <DropdownMenuItem
+                            class="flex flex-col items-start gap-0.5"
+                            @click="openArticleAssistant()"
+                        >
+                            <span
+                                class="flex items-center gap-1.5 text-sm font-medium"
+                            >
+                                <FileText class="text-primary size-3.5" />
+                                文章助手
+                            </span>
+                            <span class="text-muted-foreground text-xs">
+                                整理素材生成响应式 HTML 文章，支持预览与下载
                             </span>
                         </DropdownMenuItem>
                     </DropdownMenuContent>

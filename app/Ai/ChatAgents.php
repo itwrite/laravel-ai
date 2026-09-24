@@ -3,6 +3,7 @@
 namespace App\Ai;
 
 use App\Ai\Agents\ChatAgent\ChatAgent;
+use App\Ai\Agents\KnowledgeAgent\KnowledgeAgent;
 use App\Ai\Agents\PrintTemplateAgent\PrintTemplateAgent;
 use App\Ai\Agents\TeacherAgent\TeacherAgent;
 use Laravel\Ai\Contracts\Agent;
@@ -15,6 +16,7 @@ enum ChatAgents: string
 {
     case PrintTemplate = 'print-template';
     case General = 'general';
+    case Knowledge = 'knowledge';
     case Teacher = 'teacher';
 
     /**
@@ -35,6 +37,7 @@ enum ChatAgents: string
             self::General => '通用助手',
             self::Teacher => '职业教师',
             self::PrintTemplate => '打印模板助手',
+            self::Knowledge => '知识检索助手',
         };
     }
 
@@ -47,6 +50,7 @@ enum ChatAgents: string
             self::General => '问答、写作与编程的通用助手',
             self::Teacher => '出试卷、练习题册与解析的教研专家',
             self::PrintTemplate => '设计与输出标签、证书、请柬等可打印模板的排版专家',
+            self::Knowledge => '先查知识库再查历史聊天，基于数据库检索结果回答问题',
         };
     }
 
@@ -61,6 +65,7 @@ enum ChatAgents: string
             self::General => ChatAgent::suggestions(),
             self::Teacher => TeacherAgent::suggestions(),
             self::PrintTemplate => PrintTemplateAgent::suggestions(),
+            self::Knowledge => KnowledgeAgent::suggestions(),
         };
     }
 
@@ -69,12 +74,13 @@ enum ChatAgents: string
      *
      * @param  Message[]  $messages
      */
-    public function newAgent(array $messages): ChatAgent|TeacherAgent|PrintTemplateAgent
+    public function newAgent(array $messages): ChatAgent|TeacherAgent|PrintTemplateAgent|KnowledgeAgent
     {
         return match ($this) {
             self::General => new ChatAgent($messages),
             self::Teacher => new TeacherAgent($messages),
             self::PrintTemplate => new PrintTemplateAgent($messages),
+            self::Knowledge => new KnowledgeAgent($messages),
         };
     }
 
@@ -89,6 +95,7 @@ enum ChatAgents: string
             self::General => ChatAgent::class,
             self::Teacher => TeacherAgent::class,
             self::PrintTemplate => PrintTemplateAgent::class,
+            self::Knowledge => KnowledgeAgent::class,
         };
     }
 

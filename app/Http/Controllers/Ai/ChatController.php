@@ -4,10 +4,10 @@ namespace App\Http\Controllers\Ai;
 
 use App\Ai\Agents\ChatAgent\ChatAgent;
 use App\Ai\ChatAgents;
+use App\Concerns\ExplainsProviderFailures;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Ai\ChatRequest;
 use App\Models\User;
-use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Inertia\Inertia;
@@ -19,6 +19,8 @@ use Throwable;
 
 class ChatController extends Controller
 {
+    use ExplainsProviderFailures;
+
     /**
      * Render the standalone chat page with the user's recent conversations.
      */
@@ -100,7 +102,7 @@ class ChatController extends Controller
 
                 echo 'data: '.json_encode([
                     'type' => 'stream_error',
-                    'message' => self::streamErrorMessage($e),
+                    'message' => self::providerFailureMessage($e),
                 ])."\n\n";
 
                 flush();
@@ -229,38 +231,5 @@ class ChatController extends Controller
             ->where('participant_type', $user->getMorphClass())
             ->where('participant_id', $user->getKey())
             ->firstOrFail();
-    }
-
-    /**
-     * Build the user-facing message for a failed stream, appending the
-     * provider's own error detail when available. SDK exceptions such as
-     * RateLimitedException repackage the HTTP failure and only say "rate
-     * limited", while the chained RequestException still carries the
-     * provider's response body (e.g. zhipu's 1113 "insufficient credits"
-     * is also sent as HTTP 429).
-     */
-    private static function streamErrorMessage(Throwable $e): string
-    {
-        $message = $e->getMessage();
-
-        $root = $e;
-
-        while ($root->getPrevious() instanceof Throwable) {
-            $root = $root->getPrevious();
-
-            if ($root instanceof RequestException) {
-                break;
-            }
-        }
-
-        if ($root instanceof RequestException) {
-            $detail = $root->response->json('error.message') ?? $root->response->body();
-
-            if (is_string($detail) && $detail !== '') {
-                $message .= ' — '.mb_substr($detail, 0, 300);
-            }
-        }
-
-        return $message;
     }
 }
