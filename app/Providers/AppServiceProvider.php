@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Ai\Providers\PollinationsProvider;
 use App\Ai\Providers\ZhipuProvider;
 use Carbon\CarbonImmutable;
 use Illuminate\Contracts\Events\Dispatcher;
@@ -23,6 +24,13 @@ class AppServiceProvider extends ServiceProvider
         // chain-of-thought (reasoning_content) as reasoning_* stream events,
         // which the stock openai-compatible driver would discard.
         Ai::extend('zhipu', fn ($app, array $config): ZhipuProvider => new ZhipuProvider(
+            $config,
+            $app->make(Dispatcher::class),
+        ));
+
+        // Pollinations uses a custom AI driver so its free text-to-image API
+        // can join the "image_providers" failover chain (see config/ai.php).
+        Ai::extend('pollinations', fn ($app, array $config): PollinationsProvider => new PollinationsProvider(
             $config,
             $app->make(Dispatcher::class),
         ));

@@ -37,6 +37,21 @@ return [
 
     /*
     |----------------------------------------------------------------------
+    | Pollinations (Free Image Generation)
+    |----------------------------------------------------------------------
+    |
+    | Free text-to-image API used by App\Services\ImageGenerationService.
+    | No API key is required for the anonymous tier.
+    |
+    */
+
+    'pollinations' => [
+        'url' => env('POLLINATIONS_URL', 'https://image.pollinations.ai'),
+        'model' => env('POLLINATIONS_MODEL', 'flux'),
+    ],
+
+    /*
+    |----------------------------------------------------------------------
     | Outbound HTTP Proxy
     |----------------------------------------------------------------------
     |

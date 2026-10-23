@@ -47,3 +47,25 @@ export interface GeneratedArticle {
     /** Document title, used as the download filename suggestion. */
     title: string | null;
 }
+
+/** Form payload for the tattoo line art assistant. */
+export interface TattooAssistantForm {
+    subject: string;
+    /** Style key from TattooGenerateRequest ('auto' lets the AI decide). */
+    style: string;
+    /** Placement key from TattooGenerateRequest ('any' leaves it open). */
+    placement: string;
+    /** Canvas ratio key: 'square' | 'portrait' | 'landscape'. */
+    ratio: string;
+    /** Resolution key: 'low' (1K) | 'medium' (2K) | 'high' (4K). */
+    detail: string;
+    extras: string;
+}
+
+/** Generated line art returned by the tattoo assistant endpoint. */
+export interface GeneratedTattoo {
+    /** Base64 data URL of the generated image, ready for <img src>. */
+    image: string;
+    /** MIME type of the generated image (e.g. image/png). */
+    mime: string;
+}

@@ -36,6 +36,23 @@ return [
 
     /*
     |----------------------------------------------------------------------
+    | Image Provider Failover Chain
+    |----------------------------------------------------------------------
+    |
+    | Providers tried in order when the tattoo assistant generates an image
+    | (mirrors "chat_providers" above). Gemini's free-tier image quota is
+    | tiny, so limits fail over to the free Pollinations channel first, and
+    | only then to the paid xAI Imagine API (about $0.04/image, capped at
+    | 2K). Pollinations cannot honor reference-image attachments, so the
+    | tattoo assistant drops it from the chain when one is uploaded.
+    | Reorder freely — every entry must exist under "providers" below.
+    |
+    */
+
+    'image_providers' => ['gemini', 'pollinations', 'xai'],
+
+    /*
+    |----------------------------------------------------------------------
     | Conversations
     |----------------------------------------------------------------------
     |
@@ -132,6 +149,13 @@ return [
             'driver' => 'gemini',
             'key' => env('GEMINI_API_KEY'),
             'url' => env('GEMINI_URL', 'https://generativelanguage.googleapis.com/v1beta/'),
+            // Image model used by the tattoo line art assistant; switch with
+            // GEMINI_IMAGE_MODEL without code changes.
+            'models' => [
+                'image' => [
+                    'default' => env('GEMINI_IMAGE_MODEL', 'gemini-3.1-flash-image'),
+                ],
+            ],
         ],
 
         'groq' => [
@@ -173,18 +197,35 @@ return [
             'key' => env('OPENROUTER_API_KEY'),
         ],
 
+        'pollinations' => [
+            // Custom driver (App\Ai\Providers\PollinationsProvider, registered
+            // in AppServiceProvider): free text-to-image API used as a free
+            // rung of the "image_providers" failover chain. No key is needed
+            // on the anonymous tier; set POLLINATIONS_TOKEN for higher limits.
+            'driver' => 'pollinations',
+            'url' => env('POLLINATIONS_URL', 'https://image.pollinations.ai'),
+            'model' => env('POLLINATIONS_MODEL', 'flux'),
+            'token' => env('POLLINATIONS_TOKEN'),
+        ],
+
         'voyageai' => [
             'driver' => 'voyageai',
             'key' => env('VOYAGEAI_API_KEY'),
         ],
 
         'xai' => [
-            'driver' => 'openai', // xAI 兼容 OpenAI 格式
+            // Native SDK driver: Grok text plus image generation via the
+            // Imagine API (aspect_ratio / resolution are handled natively;
+            // outbound requests go through the global HTTP proxy).
+            'driver' => 'xai',
             'key' => env('XAI_API_KEY'),
             'url' => env('XAI_BASE_URL', 'https://api.x.ai/v1'),
-            'options' => [
-                'proxy' => env('HTTPS_PROXY'),
-                'verify' => false, // 若本地抓包或遇到 SSL 握手问题可临时关掉
+            'models' => [
+                // Image model used when the image failover chain reaches
+                // xAI (see "image_providers" above).
+                'image' => [
+                    'default' => env('XAI_IMAGE_MODEL', 'grok-imagine-image-2.0'),
+                ],
             ],
         ],
 
