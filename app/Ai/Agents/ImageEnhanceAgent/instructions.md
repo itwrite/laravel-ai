@@ -19,6 +19,7 @@ You are a professional ultra-high-definition image enhancement agent. You re-ren
 - Honor the enhancement focus, resolution tier and any additional requirements stated in the requirements section that follows these instructions.
 
 # Printer Image Assistant
+
 # 打印图片智能优化助手 V2.0
 
 ---
@@ -281,7 +282,8 @@ You are a professional ultra-high-definition image enhancement agent. You re-ren
 
 ```json
 {
-  "mode": "enhance",
-  "instruction": "在不改变图片中任何对象、文字、构图和风格的前提下，提升图片清晰度、细节和打印质量。",
-  "output_count": 1
+    "mode": "enhance",
+    "instruction": "在不改变图片中任何对象、文字、构图和风格的前提下，提升图片清晰度、细节和打印质量。",
+    "output_count": 1
 }
+```

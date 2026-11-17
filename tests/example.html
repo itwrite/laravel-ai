@@ -1,298 +1,403 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>数学试卷</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: "SimSun", "宋体", "Microsoft YaHei", serif;
-            font-size: 14px;
-            line-height: 1.65;
-            color: #000;
-            background: #f0f0f0;
-            padding: 20px;
-        }
-        .paper {
-            max-width: 820px;
-            margin: 0 auto;
-            background: #fff;
-            padding: 40px 48px;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.12);
-            border: 1px solid #ddd;
-        }
-        .header {
-            text-align: center;
-            margin-bottom: 22px;
-            border-bottom: 2px solid #222;
-            padding-bottom: 14px;
-        }
-        .header h1 {
-            font-size: 22px;
-            font-weight: bold;
-            letter-spacing: 1px;
-            margin-bottom: 10px;
-        }
-        .header .meta {
-            font-size: 14px;
-            margin-top: 6px;
-        }
-        .header .meta span { margin: 0 14px; }
-        .score-box {
-            display: flex;
-            justify-content: space-between;
-            gap: 12px;
-            margin: 16px 0 26px;
-            font-size: 14px;
-        }
-        .score-box .item {
-            flex: 1;
-            border: 1px solid #333;
-            padding: 7px 10px;
-            text-align: center;
-        }
-        .section { margin-bottom: 30px; }
-        .section-title {
-            font-size: 16px;
-            font-weight: bold;
-            margin-bottom: 8px;
-            padding-bottom: 4px;
-            border-bottom: 1px solid #444;
-        }
-        .section-hint {
-            font-size: 13px;
-            color: #444;
-            margin-bottom: 16px;
-            font-style: italic;
-        }
-        .question {
-            margin-bottom: 18px;
-            page-break-inside: avoid;
-        }
-        .q-no { font-weight: bold; margin-right: 3px; }
-        .options { margin: 7px 0 6px 26px; }
-        .options div { margin: 3px 0; }
-        .fill-line {
-            display: inline-block;
-            min-width: 70px;
-            border-bottom: 1px solid #000;
-            margin: 0 3px;
-            height: 1.1em;
-            vertical-align: bottom;
-        }
-        .app-content { margin-bottom: 6px; }
-        .sub-q { margin: 5px 0 5px 18px; }
-        .answer-box {
-            margin-top: 10px;
-            min-height: 70px;
-            border: 1px dashed #999;
-            background: #fafafa;
-            padding: 8px 10px;
-            font-size: 13px;
-            color: #777;
-        }
-        .answer-box.small { min-height: 45px; }
-        .footer {
-            margin-top: 36px;
-            text-align: center;
-            font-size: 12px;
-            color: #666;
-            border-top: 1px solid #ccc;
-            padding-top: 12px;
-        }
-        @media print {
-            body { background: #fff; padding: 0; }
-            .paper { box-shadow: none; border: none; padding: 18px 28px; max-width: 100%; }
-            .answer-box { border: 1px solid #bbb; background: #fff; }
-        }
-    </style>
-</head>
-<body>
-<div id="app"></div>
-
-<script>
-    /*************************************************
-     *  只需替换下面的 examData 即可生成新试卷
-     *************************************************/
-    const examData = {
-        "title": "2026-2027学年第一学期八年级数学期中考试试卷",
-        "grade": 8,
-        "semester": 1,
-        "exam_type": "期中",
-        "year": 2026,
-        "papers": [
-            {
-                "subject": "数学",
-                "total_score": 100,
-                "duration_minutes": 90,
-                "sections": [
-                    {
-                        "no": 1,
-                        "title": "一、选择题",
-                        "score_text": "共10小题，每小题3分，共30分",
-                        "type": "choice",
-                        "hint": "在每小题给出的四个选项中，只有一项是符合题目要求的，请将正确选项填涂在答题卡上",
-                        "questions": [
-                            {
-                                "no": "1",
-                                "content": "下列长度的三条线段中，能组成三角形的是（　　）",
-                                "options": ["A. 1，2，3", "B. 2，3，6", "C. 4，6，8", "D. 5，6，12"],
-                                "answer": "C"
-                            },
-                            {
-                                "no": "2",
-                                "content": "已知三角形两边的长分别为3和7，则第三边的长a的取值范围是（　　）",
-                                "options": ["A. 3＜a＜7", "B. 4＜a＜10", "C. 7＜a＜10", "D. 4≤a≤10"],
-                                "answer": "B"
-                            },
-                            {
-                                "no": "3",
-                                "content": "下列图形中，不是轴对称图形的是（　　）",
-                                "options": ["A. 等边三角形", "B. 线段", "C. 角", "D. 有一个锐角是50°的直角三角形"],
-                                "answer": "D"
-                            },
-                            {
-                                "no": "4",
-                                "content": "已知△ABC≌△DEF，∠A=50°，∠B=60°，则∠F的度数是（　　）",
-                                "options": ["A. 50°", "B. 60°", "C. 70°", "D. 110°"],
-                                "answer": "C"
-                            },
-                            {
-                                "no": "5",
-                                "content": "下列条件中，不能判定两个三角形全等的是（　　）",
-                                "options": ["A. 三条边分别相等", "B. 两边及其夹角分别相等", "C. 两角及其中一角的对边分别相等", "D. 两边及其中一边的对角分别相等"],
-                                "answer": "D"
-                            },
-                            {
-                                "no": "6",
-                                "content": "在平面直角坐标系中，点P(2, -3)关于x轴对称的点的坐标是（　　）",
-                                "options": ["A. (2, 3)", "B. (-2, -3)", "C. (-2, 3)", "D. (3, -2)"],
-                                "answer": "A"
-                            },
-                            {
-                                "no": "7",
-                                "content": "到三角形三边所在直线距离都相等的点是（　　）",
-                                "options": ["A. 三条角平分线的交点", "B. 三条中线的交点", "C. 三条高所在直线的交点", "D. 三条边的垂直平分线的交点"],
-                                "answer": "A"
-                            },
-                            {
-                                "no": "8",
-                                "content": "已知点A(m, 4)与点B(3, n)关于y轴对称，则m＋n的值为（　　）",
-                                "options": ["A. -1", "B. 1", "C. -7", "D. 7"],
-                                "answer": "B"
-                            },
-                            {
-                                "no": "9",
-                                "content": "在Rt△ABC中，∠C=90°，AD平分∠BAC交BC于点D，若CD=2cm，则点D到AB的距离为（　　）",
-                                "options": ["A. 1cm", "B. 2cm", "C. 3cm", "D. 4cm"],
-                                "answer": "B"
-                            },
-                            {
-                                "no": "10",
-                                "content": "在△ABC中，∠B=40°，∠C=60°，AD⊥BC于点D，AE平分∠BAC，则∠DAE的度数是（　　）",
-                                "options": ["A. 10°", "B. 15°", "C. 20°", "D. 25°"],
-                                "answer": "A"
-                            }
-                        ]
-                    },
-                    {
-                        "no": 2,
-                        "title": "二、填空题",
-                        "score_text": "共6小题，每小题3分，共18分",
-                        "type": "text_list",
-                        "hint": "请将答案直接填写在题中的横线上",
-                        "questions": [
-                            {
-                                "no": "11",
-                                "content": "在△ABC中，∠A=50°，∠B=60°，则∠C=______°。",
-                                "answer": "70"
-                            },
-                            {
-                                "no": "12",
-                                "content": "若一个n边形的内角和为900°，则n=______。",
-                                "answer": "7"
-                            },
-                            {
-                                "no": "13",
-                                "content": "在平面直角坐标系中，点M(-2, 3)关于y轴对称的点的坐标是______。",
-                                "answer": "(2, 3)"
-                            },
-                            {
-                                "no": "14",
-                                "content": "已知AC=AD，BC=BD，AB是△ABC与△ABD的公共边，则判定△ABC≌△ABD的依据是______（填判定方法的简称）。",
-                                "answer": "SSS"
-                            },
-                            {
-                                "no": "15",
-                                "content": "在Rt△ABC中，∠C=90°，AD平分∠BAC，DE⊥AB于点E，若DE=3，则CD=______。",
-                                "answer": "3"
-                            },
-                            {
-                                "no": "16",
-                                "content": "在△ABC中，∠A=50°，BP、CP分别是∠ABC、∠ACB的平分线，则∠BPC=______°。",
-                                "answer": "115"
-                            }
-                        ]
-                    },
-                    {
-                        "no": 3,
-                        "title": "三、解答题",
-                        "score_text": "共7小题，共52分",
-                        "type": "application",
-                        "hint": "解答时应写出必要的文字说明、证明过程或演算步骤",
-                        "questions": [
-                            {
-                                "no": "17",
-                                "content": "（本题6分）在△ABC中，∠B=∠A＋20°，∠C=∠A＋40°，求△ABC各内角的度数。",
-                                "answer": "设∠A=x°，则∠B=(x＋20)°，∠C=(x＋40)°。由内角和定理得 x＋x＋20＋x＋40=180，解得 x=40。所以∠A=40°，∠B=60°，∠C=80°。"
-                            },
-                            {
-                                "no": "18",
-                                "content": "（本题6分）已知一个三角形的三边长分别为4、6、x。（1）求x的取值范围；（2）若x为奇数，写出x所有可能的值，并求此时三角形周长的最小值。",
-                                "answer": "（1）由三边关系得 2＜x＜10；（2）x为奇数时，x可取3、5、7、9；当x=3时周长最小，最小周长为4＋6＋3=13。"
-                            },
-                            {
-                                "no": "19",
-                                "content": "（本题8分）如图，点B、E、C、F在同一条直线上，AB=DE，AC=DF，BE=CF。求证：△ABC≌△DEF。",
-                                "answer": "证明：因为BE=CF，所以BE＋EC=CF＋EC，即BC=EF。在△ABC和△DEF中，AB=DE，AC=DF，BC=EF，所以△ABC≌△DEF（SSS）。"
-                            },
-                            {
-                                "no": "20",
-                                "content": "（本题8分）在平面直角坐标系中，已知△ABC的三个顶点坐标分别为A(-2, 3)，B(-4, 1)，C(-1, 1)。（1）画出△ABC关于x轴对称的△A₁B₁C₁，并直接写出点A₁、B₁、C₁的坐标；（2）求△ABC的面积。",
-                                "answer": "（1）A₁(-2, -3)，B₁(-4, -1)，C₁(-1, -1)；（2）BC=3，点A到BC所在直线的距离为2，所以S△ABC=½×3×2=3。"
-                            },
-                            {
-                                "no": "21",
-                                "content": "（本题8分）如图，在△ABC中，AD平分∠BAC，DE⊥AB，垂足为E，DF⊥AC，垂足为F。（1）求证：DE=DF；（2）若AB=10，△ABD的面积为15，求DE的长。",
-                                "answer": "（1）因为AD平分∠BAC，DE⊥AB，DF⊥AC，由角平分线的性质得DE=DF（也可证△AED≌△AFD）；（2）因为S△ABD=½AB·DE，所以15=½×10×DE，解得DE=3。"
-                            },
-                            {
-                                "no": "22",
-                                "content": "（本题8分）如图，点B、E、C、F在同一条直线上，AB∥DE，AC∥DF，BE=CF。求证：△ABC≌△DEF。",
-                                "answer": "证明：因为AB∥DE，所以∠B=∠DEF；因为AC∥DF，所以∠ACB=∠F。因为BE=CF，所以BC=EF。在△ABC和△DEF中，∠B=∠DEF，BC=EF，∠ACB=∠F，所以△ABC≌△DEF（ASA）。"
-                            },
-                            {
-                                "no": "23",
-                                "content": "（本题8分）如图，在△ABC中，∠ABC与∠ACB的平分线相交于点O，过点O作EF∥BC，交AB于点E，交AC于点F。（1）求证：OE=BE，OF=FC；（2）若AB=8，AC=6，求△AEF的周长。",
-                                "answer": "（1）因为EF∥BC，所以∠EOB=∠OBC；因为BO平分∠ABC，所以∠EBO=∠OBC，故∠EOB=∠EBO，所以OE=BE；同理OF=FC。（2）△AEF的周长=AE＋AF＋EF=AE＋AF＋OE＋OF=AE＋AF＋BE＋FC=AB＋AC=8＋6=14。"
-                            }
-                        ]
-                    }
-                ]
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>数学试卷</title>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
             }
-        ]
-    };
+            body {
+                font-family: 'SimSun', '宋体', 'Microsoft YaHei', serif;
+                font-size: 14px;
+                line-height: 1.65;
+                color: #000;
+                background: #f0f0f0;
+                padding: 20px;
+            }
+            .paper {
+                max-width: 820px;
+                margin: 0 auto;
+                background: #fff;
+                padding: 40px 48px;
+                box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
+                border: 1px solid #ddd;
+            }
+            .header {
+                text-align: center;
+                margin-bottom: 22px;
+                border-bottom: 2px solid #222;
+                padding-bottom: 14px;
+            }
+            .header h1 {
+                font-size: 22px;
+                font-weight: bold;
+                letter-spacing: 1px;
+                margin-bottom: 10px;
+            }
+            .header .meta {
+                font-size: 14px;
+                margin-top: 6px;
+            }
+            .header .meta span {
+                margin: 0 14px;
+            }
+            .score-box {
+                display: flex;
+                justify-content: space-between;
+                gap: 12px;
+                margin: 16px 0 26px;
+                font-size: 14px;
+            }
+            .score-box .item {
+                flex: 1;
+                border: 1px solid #333;
+                padding: 7px 10px;
+                text-align: center;
+            }
+            .section {
+                margin-bottom: 30px;
+            }
+            .section-title {
+                font-size: 16px;
+                font-weight: bold;
+                margin-bottom: 8px;
+                padding-bottom: 4px;
+                border-bottom: 1px solid #444;
+            }
+            .section-hint {
+                font-size: 13px;
+                color: #444;
+                margin-bottom: 16px;
+                font-style: italic;
+            }
+            .question {
+                margin-bottom: 18px;
+                page-break-inside: avoid;
+            }
+            .q-no {
+                font-weight: bold;
+                margin-right: 3px;
+            }
+            .options {
+                margin: 7px 0 6px 26px;
+            }
+            .options div {
+                margin: 3px 0;
+            }
+            .fill-line {
+                display: inline-block;
+                min-width: 70px;
+                border-bottom: 1px solid #000;
+                margin: 0 3px;
+                height: 1.1em;
+                vertical-align: bottom;
+            }
+            .app-content {
+                margin-bottom: 6px;
+            }
+            .sub-q {
+                margin: 5px 0 5px 18px;
+            }
+            .answer-box {
+                margin-top: 10px;
+                min-height: 70px;
+                border: 1px dashed #999;
+                background: #fafafa;
+                padding: 8px 10px;
+                font-size: 13px;
+                color: #777;
+            }
+            .answer-box.small {
+                min-height: 45px;
+            }
+            .footer {
+                margin-top: 36px;
+                text-align: center;
+                font-size: 12px;
+                color: #666;
+                border-top: 1px solid #ccc;
+                padding-top: 12px;
+            }
+            @media print {
+                body {
+                    background: #fff;
+                    padding: 0;
+                }
+                .paper {
+                    box-shadow: none;
+                    border: none;
+                    padding: 18px 28px;
+                    max-width: 100%;
+                }
+                .answer-box {
+                    border: 1px solid #bbb;
+                    background: #fff;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div id="app"></div>
 
-    // ==================== 渲染逻辑 ====================
-    function renderExam(data) {
-        const paper = data.papers[0];
-        const app = document.getElementById('app');
+        <script>
+            /*************************************************
+             *  只需替换下面的 examData 即可生成新试卷
+             *************************************************/
+            const examData = {
+                title: '2026-2027学年第一学期八年级数学期中考试试卷',
+                grade: 8,
+                semester: 1,
+                exam_type: '期中',
+                year: 2026,
+                papers: [
+                    {
+                        subject: '数学',
+                        total_score: 100,
+                        duration_minutes: 90,
+                        sections: [
+                            {
+                                no: 1,
+                                title: '一、选择题',
+                                score_text: '共10小题，每小题3分，共30分',
+                                type: 'choice',
+                                hint: '在每小题给出的四个选项中，只有一项是符合题目要求的，请将正确选项填涂在答题卡上',
+                                questions: [
+                                    {
+                                        no: '1',
+                                        content:
+                                            '下列长度的三条线段中，能组成三角形的是（　　）',
+                                        options: [
+                                            'A. 1，2，3',
+                                            'B. 2，3，6',
+                                            'C. 4，6，8',
+                                            'D. 5，6，12',
+                                        ],
+                                        answer: 'C',
+                                    },
+                                    {
+                                        no: '2',
+                                        content:
+                                            '已知三角形两边的长分别为3和7，则第三边的长a的取值范围是（　　）',
+                                        options: [
+                                            'A. 3＜a＜7',
+                                            'B. 4＜a＜10',
+                                            'C. 7＜a＜10',
+                                            'D. 4≤a≤10',
+                                        ],
+                                        answer: 'B',
+                                    },
+                                    {
+                                        no: '3',
+                                        content:
+                                            '下列图形中，不是轴对称图形的是（　　）',
+                                        options: [
+                                            'A. 等边三角形',
+                                            'B. 线段',
+                                            'C. 角',
+                                            'D. 有一个锐角是50°的直角三角形',
+                                        ],
+                                        answer: 'D',
+                                    },
+                                    {
+                                        no: '4',
+                                        content:
+                                            '已知△ABC≌△DEF，∠A=50°，∠B=60°，则∠F的度数是（　　）',
+                                        options: [
+                                            'A. 50°',
+                                            'B. 60°',
+                                            'C. 70°',
+                                            'D. 110°',
+                                        ],
+                                        answer: 'C',
+                                    },
+                                    {
+                                        no: '5',
+                                        content:
+                                            '下列条件中，不能判定两个三角形全等的是（　　）',
+                                        options: [
+                                            'A. 三条边分别相等',
+                                            'B. 两边及其夹角分别相等',
+                                            'C. 两角及其中一角的对边分别相等',
+                                            'D. 两边及其中一边的对角分别相等',
+                                        ],
+                                        answer: 'D',
+                                    },
+                                    {
+                                        no: '6',
+                                        content:
+                                            '在平面直角坐标系中，点P(2, -3)关于x轴对称的点的坐标是（　　）',
+                                        options: [
+                                            'A. (2, 3)',
+                                            'B. (-2, -3)',
+                                            'C. (-2, 3)',
+                                            'D. (3, -2)',
+                                        ],
+                                        answer: 'A',
+                                    },
+                                    {
+                                        no: '7',
+                                        content:
+                                            '到三角形三边所在直线距离都相等的点是（　　）',
+                                        options: [
+                                            'A. 三条角平分线的交点',
+                                            'B. 三条中线的交点',
+                                            'C. 三条高所在直线的交点',
+                                            'D. 三条边的垂直平分线的交点',
+                                        ],
+                                        answer: 'A',
+                                    },
+                                    {
+                                        no: '8',
+                                        content:
+                                            '已知点A(m, 4)与点B(3, n)关于y轴对称，则m＋n的值为（　　）',
+                                        options: [
+                                            'A. -1',
+                                            'B. 1',
+                                            'C. -7',
+                                            'D. 7',
+                                        ],
+                                        answer: 'B',
+                                    },
+                                    {
+                                        no: '9',
+                                        content:
+                                            '在Rt△ABC中，∠C=90°，AD平分∠BAC交BC于点D，若CD=2cm，则点D到AB的距离为（　　）',
+                                        options: [
+                                            'A. 1cm',
+                                            'B. 2cm',
+                                            'C. 3cm',
+                                            'D. 4cm',
+                                        ],
+                                        answer: 'B',
+                                    },
+                                    {
+                                        no: '10',
+                                        content:
+                                            '在△ABC中，∠B=40°，∠C=60°，AD⊥BC于点D，AE平分∠BAC，则∠DAE的度数是（　　）',
+                                        options: [
+                                            'A. 10°',
+                                            'B. 15°',
+                                            'C. 20°',
+                                            'D. 25°',
+                                        ],
+                                        answer: 'A',
+                                    },
+                                ],
+                            },
+                            {
+                                no: 2,
+                                title: '二、填空题',
+                                score_text: '共6小题，每小题3分，共18分',
+                                type: 'text_list',
+                                hint: '请将答案直接填写在题中的横线上',
+                                questions: [
+                                    {
+                                        no: '11',
+                                        content:
+                                            '在△ABC中，∠A=50°，∠B=60°，则∠C=______°。',
+                                        answer: '70',
+                                    },
+                                    {
+                                        no: '12',
+                                        content:
+                                            '若一个n边形的内角和为900°，则n=______。',
+                                        answer: '7',
+                                    },
+                                    {
+                                        no: '13',
+                                        content:
+                                            '在平面直角坐标系中，点M(-2, 3)关于y轴对称的点的坐标是______。',
+                                        answer: '(2, 3)',
+                                    },
+                                    {
+                                        no: '14',
+                                        content:
+                                            '已知AC=AD，BC=BD，AB是△ABC与△ABD的公共边，则判定△ABC≌△ABD的依据是______（填判定方法的简称）。',
+                                        answer: 'SSS',
+                                    },
+                                    {
+                                        no: '15',
+                                        content:
+                                            '在Rt△ABC中，∠C=90°，AD平分∠BAC，DE⊥AB于点E，若DE=3，则CD=______。',
+                                        answer: '3',
+                                    },
+                                    {
+                                        no: '16',
+                                        content:
+                                            '在△ABC中，∠A=50°，BP、CP分别是∠ABC、∠ACB的平分线，则∠BPC=______°。',
+                                        answer: '115',
+                                    },
+                                ],
+                            },
+                            {
+                                no: 3,
+                                title: '三、解答题',
+                                score_text: '共7小题，共52分',
+                                type: 'application',
+                                hint: '解答时应写出必要的文字说明、证明过程或演算步骤',
+                                questions: [
+                                    {
+                                        no: '17',
+                                        content:
+                                            '（本题6分）在△ABC中，∠B=∠A＋20°，∠C=∠A＋40°，求△ABC各内角的度数。',
+                                        answer: '设∠A=x°，则∠B=(x＋20)°，∠C=(x＋40)°。由内角和定理得 x＋x＋20＋x＋40=180，解得 x=40。所以∠A=40°，∠B=60°，∠C=80°。',
+                                    },
+                                    {
+                                        no: '18',
+                                        content:
+                                            '（本题6分）已知一个三角形的三边长分别为4、6、x。（1）求x的取值范围；（2）若x为奇数，写出x所有可能的值，并求此时三角形周长的最小值。',
+                                        answer: '（1）由三边关系得 2＜x＜10；（2）x为奇数时，x可取3、5、7、9；当x=3时周长最小，最小周长为4＋6＋3=13。',
+                                    },
+                                    {
+                                        no: '19',
+                                        content:
+                                            '（本题8分）如图，点B、E、C、F在同一条直线上，AB=DE，AC=DF，BE=CF。求证：△ABC≌△DEF。',
+                                        answer: '证明：因为BE=CF，所以BE＋EC=CF＋EC，即BC=EF。在△ABC和△DEF中，AB=DE，AC=DF，BC=EF，所以△ABC≌△DEF（SSS）。',
+                                    },
+                                    {
+                                        no: '20',
+                                        content:
+                                            '（本题8分）在平面直角坐标系中，已知△ABC的三个顶点坐标分别为A(-2, 3)，B(-4, 1)，C(-1, 1)。（1）画出△ABC关于x轴对称的△A₁B₁C₁，并直接写出点A₁、B₁、C₁的坐标；（2）求△ABC的面积。',
+                                        answer: '（1）A₁(-2, -3)，B₁(-4, -1)，C₁(-1, -1)；（2）BC=3，点A到BC所在直线的距离为2，所以S△ABC=½×3×2=3。',
+                                    },
+                                    {
+                                        no: '21',
+                                        content:
+                                            '（本题8分）如图，在△ABC中，AD平分∠BAC，DE⊥AB，垂足为E，DF⊥AC，垂足为F。（1）求证：DE=DF；（2）若AB=10，△ABD的面积为15，求DE的长。',
+                                        answer: '（1）因为AD平分∠BAC，DE⊥AB，DF⊥AC，由角平分线的性质得DE=DF（也可证△AED≌△AFD）；（2）因为S△ABD=½AB·DE，所以15=½×10×DE，解得DE=3。',
+                                    },
+                                    {
+                                        no: '22',
+                                        content:
+                                            '（本题8分）如图，点B、E、C、F在同一条直线上，AB∥DE，AC∥DF，BE=CF。求证：△ABC≌△DEF。',
+                                        answer: '证明：因为AB∥DE，所以∠B=∠DEF；因为AC∥DF，所以∠ACB=∠F。因为BE=CF，所以BC=EF。在△ABC和△DEF中，∠B=∠DEF，BC=EF，∠ACB=∠F，所以△ABC≌△DEF（ASA）。',
+                                    },
+                                    {
+                                        no: '23',
+                                        content:
+                                            '（本题8分）如图，在△ABC中，∠ABC与∠ACB的平分线相交于点O，过点O作EF∥BC，交AB于点E，交AC于点F。（1）求证：OE=BE，OF=FC；（2）若AB=8，AC=6，求△AEF的周长。',
+                                        answer: '（1）因为EF∥BC，所以∠EOB=∠OBC；因为BO平分∠ABC，所以∠EBO=∠OBC，故∠EOB=∠EBO，所以OE=BE；同理OF=FC。（2）△AEF的周长=AE＋AF＋EF=AE＋AF＋OE＋OF=AE＋AF＋BE＋FC=AB＋AC=8＋6=14。',
+                                    },
+                                ],
+                            },
+                        ],
+                    },
+                ],
+            };
 
-        let html = `<div class="paper">`;
+            // ==================== 渲染逻辑 ====================
+            function renderExam(data) {
+                const paper = data.papers[0];
+                const app = document.getElementById('app');
 
-        // 头部
-        html += `
+                let html = `<div class="paper">`;
+
+                // 头部
+                html += `
         <div class="header">
           <h1>${data.title}</h1>
           <div class="meta">
@@ -309,59 +414,64 @@
         </div>
       `;
 
-        // 各部分
-        paper.sections.forEach(section => {
-            html += `<div class="section">`;
-            html += `<div class="section-title">${section.title}（${section.score_text}）</div>`;
-            if (section.hint) {
-                html += `<div class="section-hint">${section.hint}</div>`;
-            }
+                // 各部分
+                paper.sections.forEach((section) => {
+                    html += `<div class="section">`;
+                    html += `<div class="section-title">${section.title}（${section.score_text}）</div>`;
+                    if (section.hint) {
+                        html += `<div class="section-hint">${section.hint}</div>`;
+                    }
 
-            section.questions.forEach(q => {
-                html += `<div class="question">`;
+                    section.questions.forEach((q) => {
+                        html += `<div class="question">`;
 
-                if (section.type === 'choice') {
-                    html += `<span class="q-no">${q.no}.</span> ${q.content}`;
-                    html += `<div class="options">`;
-                    q.options.forEach(opt => {
-                        html += `<div>${opt}</div>`;
+                        if (section.type === 'choice') {
+                            html += `<span class="q-no">${q.no}.</span> ${q.content}`;
+                            html += `<div class="options">`;
+                            q.options.forEach((opt) => {
+                                html += `<div>${opt}</div>`;
+                            });
+                            html += `</div>`;
+                        } else if (section.type === 'text_list') {
+                            // 把 ______ 替换成可填写的横线
+                            let content = q.content.replace(
+                                /______/g,
+                                '<span class="fill-line"></span>',
+                            );
+                            html += `<span class="q-no">${q.no}.</span> ${content}`;
+                        } else if (section.type === 'application') {
+                            // 处理带（1）（2）的内容
+                            let content = q.content;
+                            // 简单处理：把（1）（2）换行显示
+                            content = content
+                                .replace(/（1）/g, '<div class="sub-q">（1）')
+                                .replace(
+                                    /（2）/g,
+                                    '</div><div class="sub-q">（2）',
+                                );
+                            if (content.includes('<div class="sub-q">'))
+                                content += '</div>';
+
+                            html += `<div class="app-content"><span class="q-no">${q.no}.</span> ${content}</div>`;
+                            html += `<div class="answer-box">解 / 证明：</div>`;
+                        }
+
+                        html += `</div>`;
                     });
+
                     html += `</div>`;
-                }
-                else if (section.type === 'text_list') {
-                    // 把 ______ 替换成可填写的横线
-                    let content = q.content.replace(/______/g, '<span class="fill-line"></span>');
-                    html += `<span class="q-no">${q.no}.</span> ${content}`;
-                }
-                else if (section.type === 'application') {
-                    // 处理带（1）（2）的内容
-                    let content = q.content;
-                    // 简单处理：把（1）（2）换行显示
-                    content = content
-                        .replace(/（1）/g, '<div class="sub-q">（1）')
-                        .replace(/（2）/g, '</div><div class="sub-q">（2）');
-                    if (content.includes('<div class="sub-q">')) content += '</div>';
+                });
 
-                    html += `<div class="app-content"><span class="q-no">${q.no}.</span> ${content}</div>`;
-                    html += `<div class="answer-box">解 / 证明：</div>`;
-                }
-
-                html += `</div>`;
-            });
-
-            html += `</div>`;
-        });
-
-        html += `
+                html += `
         <div class="footer">—— 试卷结束 —— 请仔细检查答题卡与试卷内容 ——</div>
       </div>`;
 
-        app.innerHTML = html;
-        document.title = data.title;
-    }
+                app.innerHTML = html;
+                document.title = data.title;
+            }
 
-    // 启动渲染
-    renderExam(examData);
-</script>
-</body>
+            // 启动渲染
+            renderExam(examData);
+        </script>
+    </body>
 </html>
