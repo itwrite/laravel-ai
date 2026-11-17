@@ -55,11 +55,12 @@ return [
     | Outbound HTTP Proxy
     |----------------------------------------------------------------------
     |
-    | Proxy used by the HTTP client (and thus the AI SDK) for outbound
-    | requests. Set HTTP_PROXY to an empty string to disable proxying.
+    | Optional proxy for outbound requests (the HTTP client and thus the AI
+    | SDK). Disabled by default — set HTTP_PROXY (e.g. http://127.0.0.1:1080)
+    | when your network requires one to reach foreign AI providers.
     |
     */
 
-    'http_proxy' => env('HTTP_PROXY', 'http://127.0.0.1:1080'),
+    'http_proxy' => env('HTTP_PROXY'),
 
 ];

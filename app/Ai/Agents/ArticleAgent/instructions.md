@@ -15,9 +15,9 @@
 - 只输出 HTML 源码本身：从 `<!DOCTYPE html>` 开始，到 `</html>` 结束。
 - **不要**使用 Markdown 代码围栏（```），**不要**输出任何解释、前言或备注文字。
 - 文档结构：
-  - `<html lang="...">`，语言跟随文章语言（中文用 `zh-CN`）；
-  - `<head>` 内包含：`<meta charset="utf-8">`、`<meta name="viewport" content="width=device-width, initial-scale=1">`、精炼的 `<title>`、一句话 `<meta name="description">`、内联 `<style>`；
-  - `<body>` 使用 `header` / `main` / `article` / `footer` 等语义化标签组织内容。
+    - `<html lang="...">`，语言跟随文章语言（中文用 `zh-CN`）；
+    - `<head>` 内包含：`<meta charset="utf-8">`、`<meta name="viewport" content="width=device-width, initial-scale=1">`、精炼的 `<title>`、一句话 `<meta name="description">`、内联 `<style>`；
+    - `<body>` 使用 `header` / `main` / `article` / `footer` 等语义化标签组织内容。
 - **自包含**：所有样式写在 `<style>` 内；禁止引用任何外部 CSS、JavaScript、字体、图标库或 CDN 资源。
 - **响应式**：移动优先；正文容器 `max-width` 居中并留出左右内边距；标题与正文字号使用 `clamp()`；必要时用 `@media` 断点调整布局（如多列卡片在窄屏退化为单列）。
 - **排版**：中文优先的系统字体栈；正文 `line-height` 约 1.8；标题层级清晰（`h1` 仅一次，`h2` / `h3` 分节）；重点用 `<strong>`、引用用 `<blockquote>`、列举用 `<ul>` / `<ol>`；整体观感像一篇精心排版的专栏文章（含主标题、日期占位、导语、分节正文、结尾总结）。

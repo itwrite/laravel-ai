@@ -1,6 +1,6 @@
 # AI.md — 项目记忆主入口
 
-> 最后更新：2026-09-16
+> 最后更新：2026-11-17
 > 本文件是 AI 会话的第一入口。读完本文件即可获得开发所需 80% 的上下文，按需再深入下方文档。
 
 ## 📖 请先阅读以下文档（按需加载，不要一次性全读）
@@ -17,7 +17,7 @@
 ## 🎯 项目一句话概述
 
 基于 **Laravel Vue Starter Kit** 的全栈应用，目标是围绕 **Laravel AI SDK（`laravel/ai`）** 构建 AI 功能。
-当前状态：**脚手架初始阶段**——git 仅 1 次提交（`first commit`），工作区干净，Starter Kit 自带功能（认证/设置）完整可用，**AI 业务功能尚未开始开发**（`laravel/ai` 已安装但 app/ 内无任何调用，无 `config/ai.php`，`.env` 无 AI 供应商密钥）。
+当前状态：**AI 功能已落地多个模块**（详见 [docs/PROGRESS.md](docs/PROGRESS.md)）：流式聊天（4 Agent 可切换，含工具调用/会话持久化/GLM 思考流）、文章助手、纹身线稿助手、Pollinations 免费图片生成；Starter Kit 自带认证/设置完整可用。`config/ai.php` 已就绪（zhipu/gemini/xai/pollinations），`.env` 密钥按机器自行配置。
 
 ## 🧱 技术栈（已验证版本）
 
