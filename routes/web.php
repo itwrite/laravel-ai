@@ -3,6 +3,7 @@
 use App\Http\Controllers\Ai\ArticleAssistantController;
 use App\Http\Controllers\Ai\ChatController;
 use App\Http\Controllers\Ai\ChatConversationController;
+use App\Http\Controllers\Ai\ImageEnhancerController;
 use App\Http\Controllers\Ai\PollinationsImageController;
 use App\Http\Controllers\Ai\TattooAssistantController;
 use Illuminate\Support\Facades\Route;
@@ -32,6 +33,13 @@ Route::middleware('auth')->group(function () {
     Route::post('tattoo-assistant', [TattooAssistantController::class, 'generate'])
         ->middleware('throttle:6,1')
         ->name('tattoo-assistant.generate');
+
+    Route::get('image-enhancer', [ImageEnhancerController::class, 'index'])
+        ->name('image-enhancer.show');
+
+    Route::post('image-enhancer', [ImageEnhancerController::class, 'generate'])
+        ->middleware('throttle:6,1')
+        ->name('image-enhancer.generate');
 
     Route::post('pollinations-image', [PollinationsImageController::class, 'generate'])
         ->middleware('throttle:6,1')

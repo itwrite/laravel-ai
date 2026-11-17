@@ -10,6 +10,7 @@ import {
     FileText,
     History,
     ImagePlus,
+    Maximize2,
     PenTool,
     RotateCcw,
     Sparkles,
@@ -39,6 +40,7 @@ import {
 } from '@/components/ui/sheet';
 import { destroy as destroyConversationAction } from '@/actions/App/Http/Controllers/Ai/ChatConversationController';
 import articleAssistant from '@/routes/article-assistant';
+import imageEnhancer from '@/routes/image-enhancer';
 import tattooAssistant from '@/routes/tattoo-assistant';
 import { chat } from '@/routes';
 import type {
@@ -390,6 +392,15 @@ function openArticleAssistant(): void {
 function openTattooAssistant(): void {
     abortController.value?.abort();
     router.visit(tattooAssistant.show());
+}
+
+/**
+ * Navigate to the standalone image ultra-HD enhancer. The enhancer is
+ * not a chat agent, so stop any in-flight stream before navigating away.
+ */
+function openImageEnhancer(): void {
+    abortController.value?.abort();
+    router.visit(imageEnhancer.show());
 }
 
 function isAbortError(error: unknown): boolean {
@@ -750,6 +761,22 @@ function deleteConversation(id: string): void {
                             </span>
                             <span class="text-muted-foreground text-xs">
                                 Gemini 生成纹身黑白线稿，支持参考图与下载
+                            </span>
+                        </DropdownMenuItem>
+
+                        <!-- Standalone tool, not a chat agent: navigates away. -->
+                        <DropdownMenuItem
+                            class="flex flex-col items-start gap-0.5"
+                            @click="openImageEnhancer()"
+                        >
+                            <span
+                                class="flex items-center gap-1.5 text-sm font-medium"
+                            >
+                                <Maximize2 class="text-primary size-3.5" />
+                                图片超清助手
+                            </span>
+                            <span class="text-muted-foreground text-xs">
+                                上传图片重绘为超高清版本，支持多场景与下载
                             </span>
                         </DropdownMenuItem>
                     </DropdownMenuContent>

@@ -69,3 +69,20 @@ export interface GeneratedTattoo {
     /** MIME type of the generated image (e.g. image/png). */
     mime: string;
 }
+
+/** Form payload for the image ultra-HD enhancer. */
+export interface ImageEnhancerForm {
+    /** Goal key from ImageEnhanceRequest ('auto' lets the AI decide). */
+    goal: string;
+    /** Resolution key: 'medium' (2K) | 'high' (4K). */
+    detail: string;
+    extras: string;
+}
+
+/** Enhanced image returned by the image enhancer endpoint. */
+export interface EnhancedImage {
+    /** Base64 data URL of the enhanced image, ready for <img src>. */
+    image: string;
+    /** MIME type of the enhanced image (e.g. image/png). */
+    mime: string;
+}
